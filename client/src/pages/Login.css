@@ -1,0 +1,223 @@
+.login-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+.back-box{
+    position: fixed;
+    top: 0;
+    width: 98%;
+    height: 100%;
+    z-index: 1000;
+    /* margin-left: 20px; */
+    /* margin-right: 20px; */
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../assets/Login-page-background.png');
+    background-size: cover;
+    background-position: center;
+    
+}
+.inbox-div{
+    width:700px;
+    height:80%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 15px 15px 15px 60px;
+}
+.sector1{
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../assets/sector-1Background.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px 60px 15px 60px;
+
+    /* border-right: 1px solid #e0e0e0; */
+}
+.sector1-job-img{
+    height: 300px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(https://d8it4huxumps7.cloudfront.net/uploads/images/login/login-img-5.png?d=734x734);
+    background-size: cover;
+    background-position: center;
+}
+.sector2-login{
+    width: 55%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:start;
+    align-items:start;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* background-color: #f9f9f9; */
+}
+.sector2-job-img-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* input sector */
+.email-input-dev{
+    outline-style: none;
+    display: flex;
+    
+}
+/* ...your existing styles... */
+
+.input-group {
+  position: relative;
+  margin-bottom: 2.7rem;
+  width: 100%;
+}
+#login-text{
+    padding-bottom: 20px;
+}
+.input-group input {
+  width: 100%;
+  padding: 1.1rem 2.2rem 1.1rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #fff;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.input-group label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  color: #888;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.2s;
+  padding: 0 0.3rem;
+}
+
+.input-group.focused input,
+.input-group input:focus {
+  border-color: #a020f0;
+}
+
+.input-group.focused label,
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -0.7rem;
+  left: 0.8rem;
+  font-size: 0.85rem;
+  color: #a020f0;
+  background: #fff;
+  padding: 0 0.3rem;
+  border-radius: 6px;
+}
+
+.eye-btn {
+  position: absolute;
+  right: -3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #a020f0;
+  outline: none;
+}
+
+.login-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1.2rem;
+}
+
+.forgot-link {
+  color: #a020f0;
+  text-decoration: none;
+  font-size: 0.97rem;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  color: #ff69b4;
+  text-decoration: underline;
+}
+
+.login-btn-s2 {
+  width: 120%;
+  padding: 0.9rem;
+  background: linear-gradient(90deg, #a020f0, #ff69b4);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1.1rem;
+  transition: background 0.2s;
+}
+
+.login-btn-s2:hover {
+  background: linear-gradient(90deg, #ff69b4, #a020f0);
+}
+
+.signup-text {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+
+.signup-text a {
+  color: #a020f0;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 0.2rem;
+}
+
+.signup-text a:hover {
+  color: #ff69b4;
+  text-decoration: underline;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+    .inbox-div {
+        width: 90%;
+        height: 90%;
+        /* flex-direction: column; */
+        border-radius: 15px;
+    }
+    .sector1{
+        display: none;
+    }
+    .sector2-login{
+        width: 100%;
+        height: 100%;
+        /* border-right: none; */
+    }
+}
