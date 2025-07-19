@@ -1,9 +1,10 @@
 //./components/Navbar.jsx
-import React,{useState} from 'react';
+import React,{useRef,useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css'; 
 
 function Navbar() {
+  const sidebarRef = useRef(null);
   // function to open and close the sidebar
    const [sidebarOpen, setSidebarOpen] = useState(false);
   const handleSidebarToggle = () => {
@@ -12,6 +13,41 @@ function Navbar() {
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
+  // close the sidebar by hover on body
+  useEffect(() => {
+  function handleClickOutside(event) {
+    if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+      handleSidebarClose();
+    }
+  }
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [sidebarOpen]);
+
+  // login check
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  setIsLoggedIn(!!token);
+}, []);
+
+// update the user name
+
+const [userInfo, setUserInfo] = useState(null);  // 🆕 New state
+
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+
+  setIsLoggedIn(!!token);
+  if (user) {
+    setUserInfo(JSON.parse(user));
+  }
+}, []);
+
   return (
     <nav >
       <div className="logo">
@@ -64,10 +100,11 @@ function Navbar() {
       </ul>
       <div className="log-div">
         <div className="line"></div>
+        {!isLoggedIn && (
         <div className="login-link">
           <Link to="/login" className="login-btn">Login</Link>
         </div>
-       
+       )}
         
         <div className="log-icon-div">
           <div className="login-img"onClick={handleSidebarToggle}></div>
@@ -75,28 +112,47 @@ function Navbar() {
 
       </div>
     {/* Sidebar */}
+    
       {sidebarOpen && (
-        <div className="sidebar">
-          <div className="sidebar-header">
-            <span className="sidebar-user">User</span>
-            <button className="close-btn" onClick={handleSidebarClose}>×</button>
-          </div>
-          {/* <div className="sidebar-divider"></div> */}
-          
-          <ul>
-            <div className="sidebar-divider"></div>
-            <li><Link to="/profile" onClick={handleSidebarClose}>Profile</Link></li>
-            <div className="sidebar-divider"></div>
-            
-            <li><Link to="/register" onClick={handleSidebarClose}>Register</Link></li>
-            <div className="sidebar-divider"></div>
-            <li><Link to="/settings" onClick={handleSidebarClose}>Settings</Link></li>
-            <div className="sidebar-divider"></div>
-            <li><button onClick={() => { /* handle logout logic */ handleSidebarClose(); }}>Logout</button></li>
-            <div className="sidebar-divider"></div>
-          </ul>
-        </div>
-      )}
+  <div className="sidebar-overlay"> {/* optional: click area to close */}
+    <div className="sidebar" ref={sidebarRef}>
+      <div className="sidebar-header">
+        <span className="sidebar-user">{userInfo?.name || userInfo?.email|| 'User'}</span>
+        <button className="close-btn" onClick={handleSidebarClose}>×</button>
+      </div>
+
+      <ul>
+        <div className="sidebar-divider"></div>
+        <li><Link to="/profile" onClick={handleSidebarClose}>Profile</Link></li>
+        <div className="sidebar-divider"></div>
+        <li><Link to="/register" onClick={handleSidebarClose}>Register</Link></li>
+        <div className="sidebar-divider"></div>
+        <li><Link to="/settings" onClick={handleSidebarClose}>Settings</Link></li>
+        <div className="sidebar-divider"></div>
+        <li>
+          <button onClick={() => {
+             // 🔐 Clear auth data
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+
+                // 🔄 Optional: update login state
+                setIsLoggedIn(false);
+                setUserInfo(null);
+
+                // ❌ Close sidebar
+                handleSidebarClose();
+
+                // 🔁 Redirect to login or homepage
+            window.location.href = '/login';
+          }}>
+            Logout
+          </button>
+        </li>
+        <div className="sidebar-divider"></div>
+      </ul>
+    </div>
+  </div>
+)}
     </nav>
   );
 }

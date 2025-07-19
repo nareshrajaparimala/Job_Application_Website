@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -19,8 +19,6 @@ import Profile from './pages/Profile';
 
 
 function App() {
-  
-
   return (
     <Router >
       <Navbar /> {/* Navbar component for navigation */}
