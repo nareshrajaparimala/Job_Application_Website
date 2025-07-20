@@ -51,14 +51,14 @@ const [showPassword, setShowPassword] = useState(false);
   // out click to close the file
   const handlePageClick = (e) => {
     if (!e.target.closest('.inbox-div')) {
-      // Clicked outside .inbox-div → stay on same page 
-     // ✅ Redirect to previous page
-    window.history.back();
+      // Clicked outside .inbox-div → stay on same page (you can skip this or just avoid redirect)
+      window.history.back();
+
     }
   };
 
   return (
-      <div className='login-page' onClick={handlePageClick}>
+      <div className='login-page'onClick={handlePageClick}>
       <div className="back-box">
         <div className="inbox-div" onClick={(e) => e.stopPropagation()}>
           <div className="sector1">

@@ -10,6 +10,10 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
   const collegesPerPage = 6;
   const navigate = useNavigate();
 
+  // Popup state
+  const [selectedCollege, setSelectedCollege] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   // 🔍 Filter & Sort Function
   const applyFilters = () => {
     let filtered = [...collegeData];
@@ -111,6 +115,24 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
     }
   };
 
+  // Open popup on card click except apply button
+  const handleCardClick = (college, e) => {
+    // Prevent popup if apply button clicked
+    if (e.target.classList.contains('collegeApply')) {
+      return;
+    }
+    setSelectedCollege(college);
+    setIsPopupOpen(true);
+  };
+
+  // Close popup on outside click
+  const handlePopupClose = (e) => {
+    if (e.target.classList.contains('popup-overlay')) {
+      setIsPopupOpen(false);
+      setSelectedCollege(null);
+    }
+  };
+
   return (
     <section className="admissions-container-section">
       {/* Filters */}
@@ -159,7 +181,7 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
           <p>No colleges found for selected filters.</p>
         ) : (
           colleges.map((college, index) => (
-            <div key={index} className="outerCard">
+            <div key={index} className="outerCard" onClick={(e) => handleCardClick(college, e)}>
               <h3 className="collegeHead">{college.name}</h3>
               <p>Rating: {college.rating}</p>
               <p>Courses: {college.courses.join(', ')}</p>
@@ -180,8 +202,68 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
           </button>
         </div>
       </div>
+
+      {/* Popup Modal */}
+      {isPopupOpen && selectedCollege && (
+        <div className="popup-overlay" onClick={handlePopupClose}>
+          <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+            <h2>{selectedCollege.name}</h2>
+            <p><strong>Rating:</strong> {selectedCollege.rating}</p>
+            <p><strong>Courses:</strong> {selectedCollege.courses.join(', ')}</p>
+            <p><strong>Details:</strong> {selectedCollege.details}</p>
+
+            <h3>Overview</h3>
+            <p>{selectedCollege.overview || 'No overview available.'}</p>
+
+            <h3>Placement</h3>
+            <ul>
+              <li><strong>Average Package:</strong> {selectedCollege.placement?.averagePackage || 'N/A'}</li>
+              <li><strong>Highest Package:</strong> {selectedCollege.placement?.highestPackage || 'N/A'}</li>
+              <li><strong>Top Recruiters:</strong> {selectedCollege.placement?.topRecruiters?.join(', ') || 'N/A'}</li>
+            </ul>
+
+            <h3>Recent Stats ({selectedCollege.recent?.year || 'N/A'})</h3>
+            <ul>
+              <li><strong>Placement Percentage:</strong> {selectedCollege.recent?.placementPercentage || 'N/A'}%</li>
+              <li><strong>Highest Internship Stipend:</strong> {selectedCollege.recent?.highestInternshipStipend || 'N/A'}</li>
+            </ul>
+
+            <h3>Courses & Fees</h3>
+            <ul>
+              {selectedCollege.coursesFees?.map((course, idx) => (
+                <li key={idx}>{course.name}: {course.fee}</li>
+              )) || <li>N/A</li>}
+            </ul>
+
+            <h3>Cutoffs</h3>
+            <ul>
+              {selectedCollege.cutoffs?.map((cutoff, idx) => (
+                <li key={idx}>{cutoff.course}: Rank {cutoff.cutoffRank}</li>
+              )) || <li>N/A</li>}
+            </ul>
+
+            <h3>Admissions</h3>
+            <p>{selectedCollege.admissions || 'No admissions info available.'}</p>
+
+            <h3>Reviews</h3>
+            <ul>
+              <li><strong>Students:</strong> {selectedCollege.reviews?.students || 'N/A'}</li>
+              <li><strong>Placements:</strong> {selectedCollege.reviews?.placements || 'N/A'}</li>
+              <li><strong>Infrastructure:</strong> {selectedCollege.reviews?.infrastructure || 'N/A'}</li>
+            </ul>
+
+            <h3>Facilities</h3>
+            <p>{selectedCollege.facilities?.join(', ') || 'N/A'}</p>
+
+            <button className="collegeApply" onClick={() => handleApply(selectedCollege)}>Apply</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
 
 export default FilterAndCards;
+
+
+// naresh

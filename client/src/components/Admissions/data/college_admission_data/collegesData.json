@@ -35,8 +35,8 @@
 
   {
     "id": "clg002",
-    "name": "MSEC Bangalore",
-    "rating": 4.0,
+    "name": "MS Engineering College",
+    "rating": 4.9,
     "courses": ["CSE", "EEE", "ISE"],
     "details": "Top private engineering college in Bangalore under VTU.",
     "placement": {

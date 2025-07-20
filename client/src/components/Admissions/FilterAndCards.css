@@ -98,8 +98,9 @@
     transition: background-color 0.3s ease;
 }
 
-
-
+.collegeApply:hover {
+  background-color: #2563eb; /* darker blue */
+}
 
 @media (max-width: 768px) {
   .admissions-container-section {
@@ -120,4 +121,47 @@
     /* background-color: #3b82f6; */
   }
  
+}
+
+/* Popup overlay with blur background */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup content box */
+.popup-content {
+  background-color: white;
+  width: 70vw;
+  height: 80vh;
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+/* Apply button inside popup */
+.popup-content .collegeApply {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-content .collegeApply:hover {
+  background-color: #0056b3;
 }
