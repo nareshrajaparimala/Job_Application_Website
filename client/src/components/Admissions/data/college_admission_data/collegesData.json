@@ -1,0 +1,137 @@
+[
+  {
+    "id": "clg001",
+    "name": "Galgotias College of Engineering and Technology",
+    "rating": 4.2,
+    "courses": ["CSE", "ECE", "ME", "IT"],
+    "details": "Affiliated to AKTU, known for strong academics and discipline.",
+    "placement": {
+      "averagePackage": "4.5 LPA",
+      "highestPackage": "12 LPA",
+      "topRecruiters": ["Wipro", "Infosys", "TCS", "Capgemini"]
+    },
+    "recent": {
+      "year": 2024,
+      "placementPercentage": 85,
+      "highestInternshipStipend": "₹50,000/month"
+    },
+    "overview": "Galgotias College, Greater Noida offers B.Tech, M.Tech, MBA. Approved by AICTE & affiliated to AKTU. NAAC accredited.",
+    "coursesFees": [
+      { "name": "B.Tech CSE", "fee": "₹1,25,000/year" },
+      { "name": "B.Tech ECE", "fee": "₹1,10,000/year" }
+    ],
+    "cutoffs": [
+      { "course": "CSE", "cutoffRank": 32000 },
+      { "course": "IT", "cutoffRank": 41000 }
+    ],
+    "admissions": "Admissions based on UPCET counselling and merit in 10+2.",
+    "reviews": {
+      "students": 4.1,
+      "placements": 4.0,
+      "infrastructure": 4.2
+    },
+    "facilities": ["Library", "Hostel", "Cafeteria", "Wi-Fi", "Labs"]
+  },
+
+  {
+    "id": "clg002",
+    "name": "MSEC Bangalore",
+    "rating": 4.0,
+    "courses": ["CSE", "EEE", "ISE"],
+    "details": "Top private engineering college in Bangalore under VTU.",
+    "placement": {
+      "averagePackage": "3.8 LPA",
+      "highestPackage": "9 LPA",
+      "topRecruiters": ["TCS", "Infosys", "Accenture"]
+    },
+    "recent": {
+      "year": 2024,
+      "placementPercentage": 80,
+      "highestInternshipStipend": "₹30,000/month"
+    },
+    "overview": "Affiliated to VTU and accredited by NBA/NAAC. Offers UG and PG courses in Engineering.",
+    "coursesFees": [
+      { "name": "B.E. CSE", "fee": "₹1,20,000/year" },
+      { "name": "B.E. EEE", "fee": "₹1,10,000/year" }
+    ],
+    "cutoffs": [
+      { "course": "CSE", "cutoffRank": 28000 },
+      { "course": "EEE", "cutoffRank": 39000 }
+    ],
+    "admissions": "Through KCET or COMEDK counselling.",
+    "reviews": {
+      "students": 3.9,
+      "placements": 3.8,
+      "infrastructure": 4.1
+    },
+    "facilities": ["Hostel", "Sports", "Library", "Wi-Fi", "Canteen"]
+  },
+
+  {
+    "id": "clg002",
+    "name": "MSEC Bangalore",
+    "rating": 4.0,
+    "courses": ["CSE", "EEE", "ISE"],
+    "details": "Top private engineering college in Bangalore under VTU.",
+    "placement": {
+      "averagePackage": "3.8 LPA",
+      "highestPackage": "9 LPA",
+      "topRecruiters": ["TCS", "Infosys", "Accenture"]
+    },
+    "recent": {
+      "year": 2024,
+      "placementPercentage": 80,
+      "highestInternshipStipend": "₹30,000/month"
+    },
+    "overview": "Affiliated to VTU and accredited by NBA/NAAC. Offers UG and PG courses in Engineering.",
+    "coursesFees": [
+      { "name": "B.E. CSE", "fee": "₹1,20,000/year" },
+      { "name": "B.E. EEE", "fee": "₹1,10,000/year" }
+    ],
+    "cutoffs": [
+      { "course": "CSE", "cutoffRank": 28000 },
+      { "course": "EEE", "cutoffRank": 39000 }
+    ],
+    "admissions": "Through KCET or COMEDK counselling.",
+    "reviews": {
+      "students": 3.9,
+      "placements": 3.8,
+      "infrastructure": 4.1
+    },
+    "facilities": ["Hostel", "Sports", "Library", "Wi-Fi", "Canteen"]
+  },
+
+  {
+    "id": "clg002",
+    "name": "MSEC Bangalore",
+    "rating": 4.0,
+    "courses": ["CSE", "EEE", "ISE"],
+    "details": "Top private engineering college in Bangalore under VTU.",
+    "placement": {
+      "averagePackage": "3.8 LPA",
+      "highestPackage": "9 LPA",
+      "topRecruiters": ["TCS", "Infosys", "Accenture"]
+    },
+    "recent": {
+      "year": 2024,
+      "placementPercentage": 80,
+      "highestInternshipStipend": "₹30,000/month"
+    },
+    "overview": "Affiliated to VTU and accredited by NBA/NAAC. Offers UG and PG courses in Engineering.",
+    "coursesFees": [
+      { "name": "B.E. CSE", "fee": "₹1,20,000/year" },
+      { "name": "B.E. EEE", "fee": "₹1,10,000/year" }
+    ],
+    "cutoffs": [
+      { "course": "CSE", "cutoffRank": 28000 },
+      { "course": "EEE", "cutoffRank": 39000 }
+    ],
+    "admissions": "Through KCET or COMEDK counselling.",
+    "reviews": {
+      "students": 3.9,
+      "placements": 3.8,
+      "infrastructure": 4.1
+    },
+    "facilities": ["Hostel", "Sports", "Library", "Wi-Fi", "Canteen"]
+  }
+]
