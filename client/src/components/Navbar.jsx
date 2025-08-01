@@ -5,14 +5,16 @@ import './Navbar.css';
 
 function Navbar() {
   const sidebarRef = useRef(null);
+
   // function to open and close the sidebar
-   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
+
   // close the sidebar by hover on body
   useEffect(() => {
   function handleClickOutside(event) {
@@ -23,39 +25,35 @@ function Navbar() {
   document.addEventListener("mousedown", handleClickOutside);
   return () => {
     document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [sidebarOpen]);
+    };
+  }, [sidebarOpen]);
 
   // login check
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
 
-useEffect(() => {
-  const token = localStorage.getItem('token');
-  setIsLoggedIn(!!token);
-}, []);
-
-// update the user name
-
-const [userInfo, setUserInfo] = useState(null);  // 🆕 New state
-
-useEffect(() => {
-  const token = localStorage.getItem('token');
-  const user = localStorage.getItem('user');
-
-  setIsLoggedIn(!!token);
-  if (user) {
-    setUserInfo(JSON.parse(user));
-  }
-}, []);
+  // update the user name
+  const [userInfo, setUserInfo] = useState(null);  // 🆕 New state
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    setIsLoggedIn(!!token);
+    if (user) {
+      setUserInfo(JSON.parse(user));
+    }
+  }, []);
 
   return (
     <nav >
       <div className="logo">
         {/* menu dev */}
         <div className="menu dropdown">
-          <div className="menu-icondiv color-nav-box">
-            <i class="ri-menu-2-line"></i>
-          </div>
+            <div className="menu-icondiv color-nav-box">
+              <i className="ri-menu-2-line"></i>
+            </div>
           {/* drop menu  */}
           <ul className="dropdown-content">
             <li className='color-subnav-box home-nav-h'><Link to="/">Home</Link></li>
@@ -112,8 +110,7 @@ useEffect(() => {
 
       </div>
     {/* Sidebar */}
-    
-      {sidebarOpen && (
+    {sidebarOpen && (
   <div className="sidebar-overlay"> {/* optional: click area to close */}
     <div className="sidebar" ref={sidebarRef}>
       <div className="sidebar-header">
@@ -152,7 +149,7 @@ useEffect(() => {
       </ul>
     </div>
   </div>
-)}
+  )}
     </nav>
   );
 }

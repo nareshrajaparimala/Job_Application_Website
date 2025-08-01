@@ -1,0 +1,72 @@
+/* Scroll Animations for moving elements from four directions */
+
+/* Move in from left */
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Move in from right */
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Move in from top */
+@keyframes moveInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Move in from bottom */
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation classes */
+.move-in-left {
+  animation: moveInLeft 0.8s ease forwards;
+}
+
+.move-in-right {
+  animation: moveInRight 0.8s ease forwards;
+}
+
+.move-in-top {
+  animation: moveInTop 0.8s ease forwards;
+}
+
+.move-in-bottom {
+  animation: moveInBottom 0.8s ease forwards;
+}
+
+/* Initial state before animation */
+.scroll-animate {
+  opacity: 0;
+  will-change: transform, opacity;
+}

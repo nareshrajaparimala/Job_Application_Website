@@ -1,33 +1,50 @@
+// Importing necessary modules
 import express from 'express';
 import dotenv from 'dotenv';
-import connectDB  from './config/db.js';
-import jobRoutes  from './routes/jobRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import collegeRoutes from './routes/collegeRoutes.js';
 import cors from 'cors';
 
+// Importing custom modules
+import connectDB from './config/db.js';
+import jobRoutes from './routes/jobRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import collegeRoutes from './routes/collegeRoutes.js';
+
+// Load environment variables from .env file
 dotenv.config();
+
+// Connect to MongoDB
 connectDB();
 
+// Initialize Express app
 const app = express();
+
+// Middleware configuration
 app.use(express.json());
 app.use(cors({
-  origin: '*', // Or specify your frontend ngrok domain for more security
+  origin: '*', // Replace '*' with specific frontend domain for better security
   credentials: true
 }));
-app.use(express.json()); // parse JSON
 
+// Basic route
 app.get('/', (req, res) => {
-    res.send('API is running...');
+  res.send('API is running...');
 });
-// app.use('/api/jobs', jobRoutes);
+
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/colleges', collegeRoutes);
+// app.use('/api/jobs', jobRoutes); // Uncomment if job routes are needed
 
+// Start the server
 const PORT = process.env.PORT || 5010;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 /*
-/api/auth/login
-/api/auth/register
+Available endpoints:
+- POST /api/auth/login
+- POST /api/auth/register
+- POST /api/colleges/apply
+
 */

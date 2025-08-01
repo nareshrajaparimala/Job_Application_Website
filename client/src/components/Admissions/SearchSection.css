@@ -6,7 +6,10 @@
     flex-direction: column;
     text-align: center;
     padding: 10px;
-    background:linear-gradient(135deg, #f172ff, #9c2df2);
+    background-image: url("../assets/Home_box1_img.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .search-bar {
   background-color: white;

@@ -1,18 +1,3 @@
-// // filepath: /Users/nareshraja/Desktop/job(project)/job-application-project/server/models/userModel.js
-// import mongoose from 'mongoose';
-
-// const userSchema = new mongoose.Schema({
-//   email: { type: String, required: true, unique: true },
-//   password: { type: String, required: true },
-//   // Add more fields as needed (name, etc.)
-// });
-
-// const User = mongoose.model('User', userSchema);
-
-// export default User;
-
-// filepath: /Users/nareshraja/Desktop/job(project)/job-application-project/server/models/userModel.js
-
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
@@ -27,6 +12,8 @@ const userSchema = new mongoose.Schema({
   gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
 
   password: { type: String, required: true },
+
+  role: { type: String, enum: ['user', 'admin'], default: 'user' },
 
   createdAt: { type: Date, default: Date.now }
 });

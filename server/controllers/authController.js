@@ -22,7 +22,8 @@ export const registerUser = async (req, res) => {
       phone,
       gender,
       password,
-      confirmPassword
+      confirmPassword,
+      role
     } = req.body;
 
     // 1. Validate required fields
@@ -51,11 +52,12 @@ export const registerUser = async (req, res) => {
       email,
       phone,
       gender,
-      password: hashedPassword
+      password: hashedPassword,
+      role: role || 'user'
     });
 
     // 6. Respond with success
-    res.status(201).json({ message: 'registered', user: { name: user.firstName, email: user.email } });
+    res.status(201).json({ message: 'registered', user: { name: user.firstName, email: user.email, role: user.role } });
 
   } catch (error) {
     console.error('Registration error:', error);
@@ -94,12 +96,14 @@ export const loginUser = async (req, res) => {
 
     // 🔑 Create JWT token
     const token = jwt.sign(
-      { id: user._id },
+      { id: user._id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
-
-    // ✅ Send response with combined name
+    console.log('User authenticated:', user.email);
+    console.log('Generated token:', token);
+    console.log('User role:', user.role);
+    // ✅ Send response with combined name and role
     res.status(200).json({
       message: 'Authenticated',
       token,
@@ -107,6 +111,7 @@ export const loginUser = async (req, res) => {
         id: user._id,
         name: `${user.firstName} ${user.lastName}`,  // 🔗 Combined name
         email: user.email,
+        role: user.role
       }
     });
   } catch (error) {

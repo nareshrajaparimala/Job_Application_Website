@@ -1,21 +1,9 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react';
 import axios from 'axios';
-import './Register.css'
+import './Register.css';
 
-
-function Register (){
-const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [focused, setFocused] = useState({
-    first: false,
-    last: false,
-    email: false,
-    phone: false,
-    password: false,
-    confirm: false,
-  });
-
- // 🔁 Form states
+function Register() {
+  // 👤 Form State
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -26,20 +14,29 @@ const [showPassword, setShowPassword] = useState(false);
     confirmPassword: '',
   });
 
-  // 🔁 Handle input changes
+  const [focused, setFocused] = useState({
+    first: false,
+    last: false,
+    email: false,
+    phone: false,
+    password: false,
+    confirm: false,
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  // 📥 Input Change Handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // 🔁 Handle form submission
+  // 📤 Submit Handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post('http://localhost:5010/api/auth/register', formData);
-      alert(response.data.message);
-
       if (response.data.message === 'registered') {
         window.location.href = '/login';
       }
@@ -48,17 +45,15 @@ const [showPassword, setShowPassword] = useState(false);
     }
   };
 
-  // out click to close the file
+  // 🖱️ Click Outside Handler
   const handlePageClick = (e) => {
     if (!e.target.closest('.inbox-div')) {
-      // Clicked outside .inbox-div → stay on same page (you can skip this or just avoid redirect)
       window.history.back();
-
     }
   };
 
   return (
-      <div className='login-page'onClick={handlePageClick}>
+    <div className='login-page' onClick={handlePageClick}>
       <div className="back-box">
         <div className="inbox-div" onClick={(e) => e.stopPropagation()}>
           <div className="sector1">
@@ -74,34 +69,28 @@ const [showPassword, setShowPassword] = useState(false);
             <form className="sector2-job-text register-form" onSubmit={handleSubmit}>
               <h1>Sign up as candidate</h1>
 
+              {/* 👤 Name Inputs */}
               <div className="input-row">
-                <div className={`inputR-group ${focused.first ? 'focused' : ''}`}>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    required
-                    onFocus={() => setFocused(f => ({ ...f, first: true }))}
-                    onBlur={e => setFocused(f => ({ ...f, first: !!e.target.value }))}
-                  />
-                  <label>First Name</label>
-                </div>
-
-                <div className={`inputR-group ${focused.last ? 'focused' : ''}`}>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    required
-                    onFocus={() => setFocused(f => ({ ...f, last: true }))}
-                    onBlur={e => setFocused(f => ({ ...f, last: !!e.target.value }))}
-                  />
-                  <label>Last Name</label>
-                </div>
+                {[['firstName', 'First Name'], ['lastName', 'Last Name']].map(([name, label]) => (
+                  <div
+                    key={name}
+                    className={`inputR-group ${focused[name.slice(0, 5)] ? 'focused' : ''}`}
+                  >
+                    <input
+                      type="text"
+                      name={name}
+                      value={formData[name]}
+                      onChange={handleChange}
+                      required
+                      onFocus={() => setFocused(f => ({ ...f, [name.slice(0, 5)]: true }))}
+                      onBlur={(e) => setFocused(f => ({ ...f, [name.slice(0, 5)]: !!e.target.value }))}
+                    />
+                    <label>{label}</label>
+                  </div>
+                ))}
               </div>
 
+              {/* 📧 Email */}
               <div className={`inputR-group ${focused.email ? 'focused' : ''}`}>
                 <input
                   type="email"
@@ -110,11 +99,12 @@ const [showPassword, setShowPassword] = useState(false);
                   onChange={handleChange}
                   required
                   onFocus={() => setFocused(f => ({ ...f, email: true }))}
-                  onBlur={e => setFocused(f => ({ ...f, email: !!e.target.value }))}
+                  onBlur={(e) => setFocused(f => ({ ...f, email: !!e.target.value }))}
                 />
                 <label>Email</label>
               </div>
 
+              {/* ☎️ Phone */}
               <div className={`inputR-group ${focused.phone ? 'focused' : ''}`}>
                 <input
                   type="tel"
@@ -123,62 +113,47 @@ const [showPassword, setShowPassword] = useState(false);
                   onChange={handleChange}
                   required
                   onFocus={() => setFocused(f => ({ ...f, phone: true }))}
-                  onBlur={e => setFocused(f => ({ ...f, phone: !!e.target.value }))}
+                  onBlur={(e) => setFocused(f => ({ ...f, phone: !!e.target.value }))}
                 />
                 <label>Phone</label>
               </div>
 
+              {/* ⚧ Gender */}
               <div className="gender-row">
                 <label>Gender</label>
-                <label><input type="radio" name="gender" value="Male" onChange={handleChange} required /> Male</label>
-                <label><input type="radio" name="gender" value="Female" onChange={handleChange} /> Female</label>
-                <label><input type="radio" name="gender" value="Other" onChange={handleChange} /> Other</label>
+                {['Male', 'Female', 'Other'].map((g) => (
+                  <label key={g}>
+                    <input type="radio" name="gender" value={g} onChange={handleChange} required={g === 'Male'} /> {g}
+                  </label>
+                ))}
               </div>
 
-              <div className={`inputR-group ${focused.password ? 'focused' : ''}`}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  onFocus={() => setFocused(f => ({ ...f, password: true }))}
-                  onBlur={e => setFocused(f => ({ ...f, password: !!e.target.value }))}
-                />
-                <label>Password</label>
-                <button
-                  type="button"
-                  className="eyeR-btn"
-                  tabIndex={-1}
-                  onClick={() => setShowPassword(s => !s)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? "🙈" : "👁️"}
-                </button>
-              </div>
+              {/* 🔒 Password */}
+              {[['password', 'Password', showPassword, setShowPassword], ['confirmPassword', 'Confirm Password', showConfirm, setShowConfirm]].map(([name, label, show, toggle]) => (
+                <div key={name} className={`inputR-group ${focused[name.includes('confirm') ? 'confirm' : 'password'] ? 'focused' : ''}`}>
+                  <input
+                    type={show ? "text" : "password"}
+                    name={name}
+                    value={formData[name]}
+                    onChange={handleChange}
+                    required
+                    onFocus={() => setFocused(f => ({ ...f, [name.includes('confirm') ? 'confirm' : 'password']: true }))}
+                    onBlur={(e) => setFocused(f => ({ ...f, [name.includes('confirm') ? 'confirm' : 'password']: !!e.target.value }))}
+                  />
+                  <label>{label}</label>
+                  <button
+                    type="button"
+                    className="eyeR-btn"
+                    tabIndex={-1}
+                    onClick={() => toggle(s => !s)}
+                    aria-label={show ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`}
+                  >
+                    {show ? "🙈" : "👁️"}
+                  </button>
+                </div>
+              ))}
 
-              <div className={`inputR-group ${focused.confirm ? 'focused' : ''}`}>
-                <input
-                  type={showConfirm ? "text" : "password"}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                  onFocus={() => setFocused(f => ({ ...f, confirm: true }))}
-                  onBlur={e => setFocused(f => ({ ...f, confirm: !!e.target.value }))}
-                />
-                <label>Confirm Password</label>
-                <button
-                  type="button"
-                  className="eyeR-btn"
-                  tabIndex={-1}
-                  onClick={() => setShowConfirm(s => !s)}
-                  aria-label={showConfirm ? "Hide password" : "Show password"}
-                >
-                  {showConfirm ? "🙈" : "👁️"}
-                </button>
-              </div>
-
+              {/* ✅ Checkboxes */}
               <div className="checkbox-row">
                 <label>
                   <input type="checkbox" required /> I agree to the <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Use</a>
@@ -191,6 +166,7 @@ const [showPassword, setShowPassword] = useState(false);
                 </label>
               </div>
 
+              {/* 🚀 Submit */}
               <button className="loginR-btn" type="submit">Sign Up</button>
 
               <div className="signup-text">

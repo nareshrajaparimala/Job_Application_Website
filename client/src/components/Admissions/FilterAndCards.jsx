@@ -69,7 +69,7 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
   useEffect(() => {
     applyFilters();
   }, [searchQuery, filters, page]);
-
+// Handle Filter Changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({
@@ -82,6 +82,7 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
   const handlePrevPage = () => setPage(prev => Math.max(prev - 1, 1));
   const handleNextPage = () => setPage(prev => Math.min(prev + 1, totalPages));
 
+// Handle Apply Button
   const handleApply = async (college) => {
     const token = localStorage.getItem('token');
     if (!token) {

@@ -5,7 +5,12 @@
   justify-content: space-between;
   min-height: 350px;
   padding: 2rem 0;
-  background: linear-gradient(135deg, #f172ff, #c4c4c4);
+  /* background: linear-gradient(135deg, #f172ff, #c4c4c4); */
+  background-image:url("../assets/Home_box1_img.jpg");
+  background-size:cover;
+  background-position: center;
+  ;
+  /* background-size:cover; */
 }
 
 .hero-text {
@@ -19,7 +24,7 @@
 }
 
 .hero-text span {
-  color: #a020f0;
+  color: #a212fc;
 }
 
 .hero-subtext {
@@ -88,10 +93,10 @@
 /* ...Quick Links Section... */
 
 .quick-links-section {
-  margin: .5rem auto 0 auto;
+  margin: .1rem auto 0 auto;
   max-width: auto;
   background: #fff;
-  border-radius: 16px;
+  /* border-radius: 16px; */
   box-shadow: 0 2px 16px rgba(160,32,240,0.07);
   padding: 2rem 1.5rem;
   text-align: center;
@@ -160,10 +165,12 @@
 /* ...Featured Jobs Section... */
 
 .featured-jobs-section {
-  margin: .5rem auto 0 auto;
+  margin: .1rem auto 0 auto;
   max-width: auto;
-  background: #fff;
-  border-radius: 16px;
+  background-image: url("../assets/grad.png");
+  background-position: center;
+  background-size: cover;
+  /* border-radius: 16px; */
   box-shadow: 0 2px 16px rgba(160,32,240,0.07);
   padding: 2rem 1.5rem;
   text-align: center;
@@ -355,10 +362,10 @@
 
 
 .service-highlights-section {
-  margin: .5rem auto 0 auto;
+  margin: .1rem auto 0 auto;
   max-width: auto;
   background: #fff;
-  border-radius: 16px;
+  /* border-radius: 16px; */
   box-shadow: 0 2px 16px rgba(160,32,240,0.07);
   padding: 2rem 1.5rem;
   text-align: center;
@@ -430,13 +437,16 @@
 /* ...job sector... */
 
 .categories-section {
-  margin: -1rem auto 0 auto;
+  margin: -1.3rem auto 0 auto;
   max-width: auto;
-  background: #fff;
-  border-radius: 16px;
+  background-image: url("../assets/grad.png");
+  background-position: center;
+  background-size: cover;
+  /* border-radius: 16px; */
   box-shadow: 0 2px 16px rgba(160,32,240,0.07);
   padding: 0rem 1.5rem;
   text-align: center;
+  
 }
 
 .categories-title {
@@ -504,10 +514,10 @@
 
 
 .testimonials-section {
-  margin: .5rem auto 0 auto;
+  margin: .1rem auto 0 auto;
   max-width: auto;
   background: #fff;
-  border-radius: 16px;
+  /* border-radius: 16px; */
   box-shadow: 0 2px 16px rgba(160,32,240,0.07);
   padding: 2rem 1.5rem;
   text-align: center;
@@ -567,10 +577,10 @@
 
 
 .newsletter-section {
-  margin: 0.5rem auto 0.5rem auto;
+  margin: 0.1rem auto 0.1rem auto;
   max-width: auto;
   background: #fff;
-  border-radius: 16px;
+  /* border-radius: 16px; */
   box-shadow: 0 2px 16px rgba(160,32,240,0.07);
   padding: 2rem 1.5rem;
   text-align: center;
