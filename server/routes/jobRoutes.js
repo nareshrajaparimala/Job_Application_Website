@@ -1,10 +1,9 @@
 import express from 'express';
-// import { createJob, getJobs } from '../controllers/jobController.js';
-import  {protect}  from '../middleware/authMiddleware.js';
+import { applyForJob } from '../controllers/jobController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/create',protect );
-router.get('/list',protect );
+router.post('/apply', protect, applyForJob);
 
 export default router;

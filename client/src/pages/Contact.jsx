@@ -2,7 +2,7 @@ import React from 'react'
 
 function Contact () {
   return (
-    <div>Contact</div>
+    <div style={{display:'flex',height:"400px",justifyContent:'center',alignItems:'center',backgroundColor:"white",fontSize:'25px'}}>Contact page will be updated soon ....</div>
   )
 }
 

@@ -8,11 +8,27 @@ function Navbar() {
 
   // function to open and close the sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [jobDropdownOpen, setJobDropdownOpen] = useState(false);
+  
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
   const handleSidebarClose = () => {
     setSidebarOpen(false);
+  };
+  
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+  
+  const handleMobileMenuClose = () => {
+    setMobileMenuOpen(false);
+    setJobDropdownOpen(false);
+  };
+  
+  const handleJobDropdownToggle = () => {
+    setJobDropdownOpen(!jobDropdownOpen);
   };
 
   // close the sidebar by hover on body
@@ -51,27 +67,27 @@ function Navbar() {
       <div className="logo">
         {/* menu dev */}
         <div className="menu dropdown">
-            <div className="menu-icondiv color-nav-box">
+            <div className="menu-icondiv color-nav-box" onClick={handleMobileMenuToggle}>
               <i className="ri-menu-2-line"></i>
             </div>
           {/* drop menu  */}
-          <ul className="dropdown-content">
-            <li className='color-subnav-box home-nav-h'><Link to="/">Home</Link></li>
+          <ul className={`dropdown-content ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+            <li className='color-subnav-box home-nav-h'><Link to="/" onClick={handleMobileMenuClose}>Home</Link></li>
             <li className="dropdown-hidden color-subnav-box job-nav-h">
-              <span className="dropbtn-hidden  ">Jobs</span>
-              <ul className="dropdown-content-hidden">
-                <li className='color-subnav-box'><Link to="/jobs/private">Private Jobs</Link></li>
-                <li className='color-subnav-box'><Link to="/jobs/government">Government Jobs</Link></li>
+              <span className="dropbtn-hidden" onClick={handleJobDropdownToggle}>Jobs <i className="ri-arrow-down-s-line"></i></span>
+              <ul className={`dropdown-content-hidden ${jobDropdownOpen ? 'show' : ''}`}>
+                <li><Link to="/jobs/private" onClick={handleMobileMenuClose}><i className="ri-briefcase-line"></i> Private Jobs</Link></li>
+                <li><Link to="/jobs/government" onClick={handleMobileMenuClose}><i className="ri-government-line"></i> Government Jobs</Link></li>
               </ul>
             </li>
-            <li className='color-subnav-box admitcard-nav-h'><Link to="/admit-card">Admit Card</Link></li>
-            <li className='color-subnav-box result-nav-h'><Link to="/results">Results</Link></li>
-            <li className='color-subnav-box document-nav-h'><Link to="/documents">Documents</Link></li>
-            <li className='color-subnav-box admission-nav-h'><Link to="/admissions">Admissions</Link></li>
-            <li className='color-subnav-box webinar-nav-h'><Link to="/webinars">Webinars</Link></li>
-            <li className='color-subnav-box'><Link to="/internships">Internships</Link></li>
-            <li className='color-subnav-box'><Link to="/mentorship">Mentorship</Link></li>
-            <li className='color-subnav-box'><Link to="/contact">Contact</Link></li>
+            <li className='color-subnav-box admitcard-nav-h'><Link to="/admit-card" onClick={handleMobileMenuClose}>Admit Card</Link></li>
+            <li className='color-subnav-box result-nav-h'><Link to="/results" onClick={handleMobileMenuClose}>Results</Link></li>
+            <li className='color-subnav-box document-nav-h'><Link to="/documents" onClick={handleMobileMenuClose}>Documents</Link></li>
+            <li className='color-subnav-box admission-nav-h'><Link to="/admissions" onClick={handleMobileMenuClose}>Admissions</Link></li>
+            <li className='color-subnav-box webinar-nav-h'><Link to="/webinars" onClick={handleMobileMenuClose}>Webinars</Link></li>
+            <li className='color-subnav-box'><Link to="/internships" onClick={handleMobileMenuClose}>Internships</Link></li>
+            <li className='color-subnav-box'><Link to="/mentorship" onClick={handleMobileMenuClose}>Mentorship</Link></li>
+            <li className='color-subnav-box'><Link to="/contact" onClick={handleMobileMenuClose}>Contact</Link></li>
           </ul>
 
         </div>
@@ -114,17 +130,42 @@ function Navbar() {
   <div className="sidebar-overlay"> {/* optional: click area to close */}
     <div className="sidebar" ref={sidebarRef}>
       <div className="sidebar-header">
-        <span className="sidebar-user">{userInfo?.name || userInfo?.email|| 'User'}</span>
+        <div className="user-info">
+          <div className="user-avatar">
+            <i className="ri-user-line"></i>
+          </div>
+          <div className="user-details">
+            <span className="user-name">{userInfo?.name || 'User'}</span>
+            <span className="user-email">{userInfo?.email || 'user@example.com'}</span>
+          </div>
+        </div>
         <button className="close-btn" onClick={handleSidebarClose}>×</button>
       </div>
 
       <ul>
         <div className="sidebar-divider"></div>
-        <li><Link to="/profile" onClick={handleSidebarClose}>Profile</Link></li>
+        <li><Link to={userInfo?.role === 'admin' ? '/dashboard/admin' : '/dashboard/user'} onClick={handleSidebarClose}><i className="ri-dashboard-line"></i>Dashboard</Link></li>
         <div className="sidebar-divider"></div>
-        <li><Link to="/register" onClick={handleSidebarClose}>Register</Link></li>
-        <div className="sidebar-divider"></div>
-        <li><Link to="/settings" onClick={handleSidebarClose}>Settings</Link></li>
+        
+        {userInfo?.role === 'admin' ? (
+          <>
+            <li><Link to="/admin/jobs" onClick={handleSidebarClose}><i className="ri-briefcase-line"></i>Manage Jobs</Link></li>
+            <div className="sidebar-divider"></div>
+            <li><Link to="/admin/admissions" onClick={handleSidebarClose}><i className="ri-school-line"></i>Manage Admissions</Link></li>
+            <div className="sidebar-divider"></div>
+            <li><Link to="/admin/users" onClick={handleSidebarClose}><i className="ri-group-line"></i>Manage Users</Link></li>
+            <div className="sidebar-divider"></div>
+          </>
+        ) : (
+          <>
+            <li><Link to="/profile" onClick={handleSidebarClose}><i className="ri-user-line"></i>Profile</Link></li>
+            <div className="sidebar-divider"></div>
+            <li><Link to="/applications" onClick={handleSidebarClose}><i className="ri-file-list-line"></i>My Applications</Link></li>
+            <div className="sidebar-divider"></div>
+          </>
+        )}
+        
+        <li><Link to="/settings" onClick={handleSidebarClose}><i className="ri-settings-line"></i>Settings</Link></li>
         <div className="sidebar-divider"></div>
         <li>
           <button onClick={() => {

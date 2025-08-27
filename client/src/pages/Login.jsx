@@ -6,6 +6,7 @@ function Login() {
   // 🔐 State for form fields and UI control
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user');
   const [showPassword, setShowPassword] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
@@ -14,9 +15,10 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5010/api/auth/login', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, {
         email,
-        password
+        password,
+        role
       });
 
       // alert(response.data.message);
@@ -25,7 +27,13 @@ function Login() {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         console.log('Login successful:', response.data.user);
-        window.location.href = '/';
+        
+        // Redirect based on role
+        if (response.data.user.role === 'admin') {
+          window.location.href = '/dashboard/admin';
+        } else {
+          window.location.href = '/dashboard/user';
+        }
       }
 
     } catch (error) {
@@ -59,6 +67,31 @@ function Login() {
 
             <form className="sector2-job-text" onSubmit={handleSubmit}>
               <h1 id="login-text">Log in</h1>
+
+              {/* Role selection */}
+              <div className="role-selection">
+                <label className="role-label">Login as:</label>
+                <div className="role-options">
+                  <label className={`role-option ${role === 'user' ? 'selected' : ''}`}>
+                    <input
+                      type="radio"
+                      value="user"
+                      checked={role === 'user'}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span>User</span>
+                  </label>
+                  <label className={`role-option ${role === 'admin' ? 'selected' : ''}`}>
+                    <input
+                      type="radio"
+                      value="admin"
+                      checked={role === 'admin'}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                    <span>Admin</span>
+                  </label>
+                </div>
+              </div>
 
               {/* Email input */}
               <div className={`input-group ${emailFocused ? 'focused' : ''}`}>

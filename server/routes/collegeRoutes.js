@@ -1,10 +1,9 @@
 import express from 'express';
-import { getColleges, applyToCollege } from '../controllers/collegeController.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { applyToCollege } from '../controllers/collegeController.js';
+import { authenticateToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', getColleges);
-router.post('/apply', protect, applyToCollege);
+router.post('/apply', authenticateToken, applyToCollege);
 
 export default router;

@@ -11,7 +11,7 @@ function SearchSection({ searchQuery, setSearchQuery }) {
           <input
             type="text"
             placeholder="Search by name, place or course..."
-            className="search-input"
+            className="search-input-add"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

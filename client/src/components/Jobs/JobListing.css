@@ -1,0 +1,136 @@
+.job-listing-container {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.job-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
+.filters-section {
+  position: relative;
+}
+
+.jobs-section {
+  min-height: 500px;
+}
+
+.jobs-header {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.jobs-header h2 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.jobs-header p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+}
+
+.jobs-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+  align-items: start;
+}
+
+.no-jobs {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.no-jobs i {
+  font-size: 4rem;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.no-jobs h3 {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 1.4rem;
+}
+
+.no-jobs p {
+  margin: 0;
+  color: #999;
+  font-size: 1rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1300px) {
+  .jobs-list {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .job-content {
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .job-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px 30px;
+  }
+  
+  .jobs-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .jobs-header {
+    padding: 20px;
+  }
+  
+  .jobs-header h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .job-content {
+    padding: 0 10px 20px;
+  }
+  
+  .jobs-header {
+    padding: 15px;
+  }
+  
+  .jobs-header h2 {
+    font-size: 1.2rem;
+  }
+}

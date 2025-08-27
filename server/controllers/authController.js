@@ -53,7 +53,7 @@ export const registerUser = async (req, res) => {
       phone,
       gender,
       password: hashedPassword,
-      role: role || 'user'
+      role: 'user' // Only allow user registration
     });
 
     // 6. Respond with success
@@ -84,8 +84,33 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
+    console.log('Login attempt:', { email, role });
+    
+    // Check for default admin login
+    if (role === 'admin' && email === 'admin@hireloop.com' && password === 'admin123') {
+      const token = jwt.sign(
+        { id: 'admin', role: 'admin' },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+      return res.status(200).json({
+        message: 'Authenticated',
+        token,
+        user: {
+          id: 'admin',
+          name: 'Admin',
+          email: 'admin@hireloop.com',
+          role: 'admin'
+        }
+      });
+    }
 
+    // Only allow user role for regular users
+    if (role === 'admin') {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+    
     // 🔍 Check if user exists
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
@@ -115,6 +140,7 @@ export const loginUser = async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

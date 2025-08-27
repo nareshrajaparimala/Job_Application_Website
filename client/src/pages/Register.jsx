@@ -36,7 +36,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5010/api/auth/register', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/register`, formData);
       if (response.data.message === 'registered') {
         window.location.href = '/login';
       }

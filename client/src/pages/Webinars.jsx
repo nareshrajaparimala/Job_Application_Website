@@ -1,9 +1,8 @@
-import React from 'react'
+import React from 'react';
+import WebinarListing from '../components/Webinars/WebinarListing';
 
-function Webinars (){
-  return (
-    <div>Webinars</div>
-  )
+function Webinars() {
+  return <WebinarListing />;
 }
 
-export default Webinars
+export default Webinars;

@@ -1,54 +1,13 @@
 // src/pages/Home.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Home.css';
 import jobSearchImg from '../assets/searchJob.svg';
 import '../components/ScrollAnimations.css';
 import { useScrollAnimation } from '../components/useScrollAnimation';
+import JobCard from '../components/Jobs/JobCard';
+import { sampleJobs } from '../components/Jobs/jobData';
 
-const jobsData = [
-  {
-    title: "Software Engineer",
-    company: "TechNova Pvt Ltd",
-    location: "Bangalore, India",
-    industry: "IT & Software",
-    experience: "Mid",
-  },
-  {
-    title: "Assistant Professor",
-    company: "Bright Future College",
-    location: "Chennai, India",
-    industry: "Education",
-    experience: "Entry",
-  },
-  {
-    title: "Civil Engineer",
-    company: "UrbanBuild Infra",
-    location: "Delhi, India",
-    industry: "Engineering",
-    experience: "Mid",
-  },
-  {
-    title: "Staff Nurse",
-    company: "CarePlus Hospital",
-    location: "Hyderabad, India",
-    industry: "Healthcare",
-    experience: "Entry",
-  },
-  {
-    title: "Marketing Executive",
-    company: "MarketMinds",
-    location: "Mumbai, India",
-    industry: "Private",
-    experience: "Mid",
-  },
-  {
-    title: "Data Analyst",
-    company: "Govt. Data Center",
-    location: "Pune, India",
-    industry: "Government",
-    experience: "Entry",
-  },
-];
+
 
 const industries = ["All", "IT & Software", "Education", "Engineering", "Healthcare", "Private", "Government"];
 const experiences = ["All", "Entry", "Mid", "Senior"];
@@ -59,6 +18,60 @@ export default function Home() {
   const [experience, setExperience] = useState("All");
   const [location, setLocation] = useState("All");
   const [search, setSearch] = useState("");
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [globalSearch, setGlobalSearch] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  
+  const searchSuggestions = [
+    { title: "Government Jobs", url: "/jobs/government", type: "page", description: "Browse all government job openings" },
+    { title: "Private Jobs", url: "/jobs/private", type: "page", description: "Explore private sector opportunities" },
+    { title: "Software Developer", url: "/jobs/government", type: "job", description: "Government software development positions" },
+    { title: "Full Stack Developer", url: "/jobs/private", type: "job", description: "Private sector development roles" },
+    { title: "Data Analyst", url: "/jobs/government", type: "job", description: "Government data analysis positions" },
+    { title: "UI/UX Designer", url: "/jobs/private", type: "job", description: "Design roles in private companies" },
+    { title: "Results", url: "/results", type: "page", description: "Check exam results and notifications" },
+    { title: "Admit Cards", url: "/admit-card", type: "page", description: "Download admit cards for exams" },
+    { title: "Internships", url: "/internships", type: "page", description: "Find internship opportunities" },
+    { title: "College Admissions", url: "/admissions", type: "page", description: "College admission information" }
+  ];
+  
+  const filteredSuggestions = searchSuggestions.filter(item =>
+    item.title.toLowerCase().includes(globalSearch.toLowerCase()) ||
+    item.description.toLowerCase().includes(globalSearch.toLowerCase())
+  );
+  
+  const handleGlobalSearch = (value) => {
+    setGlobalSearch(value);
+    setShowSuggestions(value.length > 0);
+  };
+  
+  const handleSuggestionClick = (url) => {
+    window.location.href = url;
+    setShowSuggestions(false);
+    setGlobalSearch("");
+  };
+  useEffect(() => {
+    setLoading(true);
+    
+    // Combine government and private jobs, sort by datePosted (most recent first) and take only latest 6
+    const allJobs = [...sampleJobs.government, ...sampleJobs.private];
+    const sortedJobs = allJobs
+      .sort((a, b) => new Date(b.datePosted) - new Date(a.datePosted))
+      .slice(0, 6);
+    
+    setJobs(sortedJobs);
+    setLoading(false);
+  }, []);
+  
+  const handleJobClick = (job) => {
+    // Redirect to appropriate job section based on job company type
+    if (job.company?.toLowerCase().includes('government') || job.company?.toLowerCase().includes('ministry')) {
+      window.location.href = '/jobs/government';
+    } else {
+      window.location.href = '/jobs/private';
+    }
+  };
 
   const searchBarRef = useRef(null);
 
@@ -68,13 +81,13 @@ export default function Home() {
   const quickLinksRef = useScrollAnimation('move-in-bottom');
   const featuredJobsRef = useScrollAnimation('move-in-top');
 
-  const filteredJobs = jobsData.filter(job =>
-    (industry === "All" || job.industry === industry) &&
-    (experience === "All" || job.experience === experience) &&
-    (location === "All" || job.location === location) &&
+  const filteredJobs = jobs.filter(job =>
+    (industry === "All" || job.category === industry || job.type === industry) &&
+    (experience === "All" || job.experienceLevel === experience) &&
+    (location === "All" || job.location?.toLowerCase().includes(location.toLowerCase())) &&
     (search.trim() === "" ||
-      job.title.toLowerCase().includes(search.toLowerCase()) ||
-      job.company.toLowerCase().includes(search.toLowerCase()))
+      job.title?.toLowerCase().includes(search.toLowerCase()) ||
+      job.company?.toLowerCase().includes(search.toLowerCase()))
   );
 
   const handleScrollToSearch = () => {
@@ -86,6 +99,46 @@ export default function Home() {
 
   return (
     <div>
+      {/* Global Search Bar */}
+      <div className="global-search-section">
+        <div className="global-search-container">
+          <div className="global-search-wrapper">
+            <input
+              type="text"
+              className="global-search-input"
+              placeholder="Search for jobs, pages, results, admissions..."
+              value={globalSearch}
+              onChange={(e) => handleGlobalSearch(e.target.value)}
+              onFocus={() => setShowSuggestions(globalSearch.length > 0)}
+            />
+            <button className="global-search-btn">
+              <i className="ri-search-line"></i>
+            </button>
+            
+            {showSuggestions && filteredSuggestions.length > 0 && (
+              <div className="search-suggestions">
+                {filteredSuggestions.slice(0, 6).map((suggestion, index) => (
+                  <div 
+                    key={index} 
+                    className="suggestion-item"
+                    onClick={() => handleSuggestionClick(suggestion.url)}
+                  >
+                    <div className="suggestion-icon">
+                      {suggestion.type === 'job' ? '💼' : '📄'}
+                    </div>
+                    <div className="suggestion-content">
+                      <div className="suggestion-title">{suggestion.title}</div>
+                      <div className="suggestion-desc">{suggestion.description}</div>
+                    </div>
+                    <i className="ri-arrow-right-line suggestion-arrow"></i>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      
       {/* Hero Section */}
       <div className="hero-section">
         <div className="hero-text" ref={useScrollAnimation('move-in-left')}>
@@ -96,8 +149,8 @@ export default function Home() {
             Government & Private Jobs • Admit Cards • Results • Internships — All in One Place
           </p>
           <div className="hero-buttons">
-            <button className="search-btn" onClick={handleScrollToSearch}>🔍 Search Jobs</button>
             <button className="resume-btn">📩 Post Your Resume</button>
+            <button className="explore-btn" onClick={handleScrollToSearch}>🔍 Explore Jobs</button>
           </div>
         </div>
         <div className="hero-image" ref={useScrollAnimation('move-in-right')}>
@@ -120,7 +173,7 @@ export default function Home() {
             { href: "/mentorship", label: "Mentorship Programs", icon: "🤝" },
             { href: "/webinars", label: "Webinars & Workshops", icon: "🎓" },
             { href: "/internships", label: "Internship Listings", icon: "🌐" },
-          ].map(link => (
+          ].slice(0, window.innerWidth <= 768 ? 6 : 10).map(link => (
             <a href={link.href} className="quick-link-card" key={link.href}>
               {link.icon}<span>{link.label}</span>
             </a>
@@ -131,48 +184,50 @@ export default function Home() {
       {/* Featured Jobs Section */}
       <div className="featured-jobs-section " >
         <h2 className="featured-jobs-title">Latest Job Openings</h2>
-        <div className="job-filters-searchbar-wrap" ref={useScrollAnimation('move-in-top')} >
-          <div className="job-filters" ref={useScrollAnimation('move-in-top')}>
-            <select value={industry} onChange={e => setIndustry(e.target.value)}>
-              {industries.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-            </select>
-            <select value={experience} onChange={e => setExperience(e.target.value)}>
-              {experiences.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-            </select>
-            <select value={location} onChange={e => setLocation(e.target.value)}>
-              {locations.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-            </select>
+        <div className="integrated-search-section" ref={useScrollAnimation('move-in-top')}>
+          <div className="search-with-filters" ref={searchBarRef}>
+            <div className="search-input-container">
+              <input
+                type="text"
+                className="job-search-input"
+                placeholder="Search job title or company..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+              <button className="job-search-icon" tabIndex={-1} aria-label="Search">
+                <i className="ri-search-line"></i>
+              </button>
+            </div>
+            <div className="inline-filters">
+              <select value={industry} onChange={e => setIndustry(e.target.value)} className="filter-select">
+                <option value="All">All Industries</option>
+                {industries.slice(1).map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+              <select value={experience} onChange={e => setExperience(e.target.value)} className="filter-select">
+                <option value="All">All Experience</option>
+                {experiences.slice(1).map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+              <select value={location} onChange={e => setLocation(e.target.value)} className="filter-select">
+                <option value="All">All Locations</option>
+                {locations.slice(1).map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+            </div>
           </div>
         </div>
 
-        <center ref={useScrollAnimation('move-in-top')}>
-          <div className="job-searchbar" ref={searchBarRef}>
-            <input
-              type="text"
-              className="job-search-input"
-              placeholder="Search job title or company..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-            <button className="job-search-icon" tabIndex={-1} aria-label="Search">
-              <span role="img" aria-label="search">🔍</span>
-            </button>
-          </div>
-        </center>
-
-        <div className="job-cards-list" ref={useScrollAnimation('move-in-bottom')}>
-          {filteredJobs.slice(0, 6).map((job, idx) => (
-            <div className="job-card" key={idx}>
-              <div className="job-card-title">{job.title}</div>
-              <div className="job-card-company">{job.company}</div>
-              <div className="job-card-location">{job.location}</div>
-              <button className="apply-btn">Apply Now</button>
-            </div>
-          ))}
-          {filteredJobs.length === 0 && (
+        <div className="jobs-grid" ref={useScrollAnimation('move-in-bottom')}>
+          {loading ? (
+            <div className="loading-msg">Loading latest jobs...</div>
+          ) : filteredJobs.length > 0 ? (
+            filteredJobs.slice(0, window.innerWidth <= 768 ? 3 : 6).map((job) => (
+              <JobCard key={job.id} job={job} onClick={handleJobClick} />
+            ))
+          ) : (
             <div className="no-jobs-msg">No jobs found for selected filters.</div>
           )}
         </div>
+        
+
       </div>
 
       {/* Services Section */}

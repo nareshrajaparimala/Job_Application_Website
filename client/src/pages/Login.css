@@ -201,9 +201,49 @@
   text-decoration: underline;
 }
 
+.role-selection {
+  margin-bottom: 20px;
+}
 
+.role-label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
 
+.role-options {
+  display: flex;
+  gap: 20px;
+}
 
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.role-option.selected {
+  border-color: #ff00ff;
+  background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+  color: white;
+}
+
+.role-option input[type="radio"] {
+  display: none;
+}
+
+.role-option span {
+  font-weight: 500;
+  font-size: 14px;
+}
 
 @media (max-width: 768px) {
     .inbox-div {

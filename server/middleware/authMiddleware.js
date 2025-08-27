@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const protect = (req, res, next) => {
+export const authenticateToken = (req, res, next) => {
   let token;
 
   if (
@@ -15,13 +15,19 @@ export const protect = (req, res, next) => {
     } catch (error) {
       return res.status(401).json({ message: 'Not authorized, token failed' });
     }
-  }
-
-  if (!token) {
+  } else {
     return res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
 
+export const requireAdmin = (req, res, next) => {
+  if (req.user.role !== 'admin' && req.user.id !== 'admin') {
+    return res.status(403).json({ message: 'Admin access required' });
+  }
+  next();
+};
+
+export const protect = authenticateToken;
 export const authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

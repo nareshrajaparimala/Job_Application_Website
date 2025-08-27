@@ -1,9 +1,8 @@
-import React from 'react'
+import React from 'react';
+import InternshipListing from '../components/Internships/InternshipListing';
 
-function Internships () {
-  return (
-    <div>Internships</div>
-  )
+function Internships() {
+  return <InternshipListing />;
 }
 
-export default Internships
+export default Internships;

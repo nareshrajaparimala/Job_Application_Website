@@ -10,14 +10,16 @@ import Results from './pages/Results';
 import Documents from './pages/Documents';
 import Admissions from './pages/Admissions';
 import Webinars from './pages/Webinars';  
-import Internships from './pages/internships';
+import Internships from './pages/Internships';
 import Mentorship from './pages/Mentorship';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';  
 import Profile from './pages/Profile';
-
-
+import AdminDashboard from './pages/AdminDashboard';
+import UserDashboard from './pages/UserDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
+import LoginTest from './pages/LoginTest';
 function App() {
   return (
     <Router >
@@ -37,6 +39,17 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard/admin" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/dashboard/user" element={
+          <ProtectedRoute requiredRole="user">
+            <UserDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/test-login" element={<LoginTest />} />
         <Route path="/settings" element={<div>Settings Page</div>} />
       </Routes>
       <Footer /> {/* Footer component for additional information */}

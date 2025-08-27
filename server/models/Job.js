@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 const jobSchema = new mongoose.Schema({
   title: String,
   company: String,
@@ -6,4 +8,5 @@ const jobSchema = new mongoose.Schema({
   postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now }
 });
-module.exports = mongoose.model("Job", jobSchema);
+
+export default mongoose.model("Job", jobSchema);

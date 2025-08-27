@@ -8,7 +8,7 @@ export default defineConfig({
   // remover the following line if you don't need to use the proxy for mobile view
   server: {
     host: true,
-    allowedHosts: ['.ngrok-free.app'],
+    allowedHosts: ['.ngrok-free.app', '.ngrok.io', 'localhost'],
   },
   // Uncomment the following lines if you want to use the proxy for mobile view
 })

@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import JobListing from '../components/Jobs/JobListing';
 
-function JobsG (){
+function JobsG() {
   return (
-    <div>Jobs - Government sector </div>
-  )
+    <JobListing jobType="government" />
+  );
 }
 
-export default JobsG
+export default JobsG;

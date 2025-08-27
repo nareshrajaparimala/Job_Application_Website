@@ -97,7 +97,7 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
     }
 
     try {
-      const response = await fetch('http://localhost:5010/api/colleges/apply', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/colleges/apply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

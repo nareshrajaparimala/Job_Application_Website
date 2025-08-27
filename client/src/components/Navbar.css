@@ -11,6 +11,7 @@ a{
 /* sector 1 */
 .menu{
     margin-right: 15px;
+    position: relative;
 }
 nav{
     display: flex;
@@ -72,40 +73,94 @@ nav{
   font-weight: 500;
 }
 /* box design */
+.menu-icondiv{
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(255, 0, 255, 0.3);
+}
+
+.menu-icondiv:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 0, 255, 0.4);
+}
+
+.menu-icondiv i{
+    font-size: 16px;
+}
+
 .color-nav-box{
-    padding: 6px ;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 .color-nav-box:hover{
-    padding:6px ;
-    background-color: #e8e8e8;
-    border-radius: 20px;
+    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 0, 255, 0.2);
+    a{
+        color: white;
+    }
 }
+.color-subnav-box{
+    transition: all 0.2s ease;
+}
+
 .color-subnav-box:hover{
-    background-color: #e8e8e8;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    transform: translateX(4px);
+}
+
+.color-subnav-box:hover a{
+    color: white;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   background: #fff;
-  min-width: 160px;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  z-index: 1;
+  min-width: 180px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  z-index: 1000;
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 8px 0;
+  margin: 2px 0 0 0;
+  border: 1px solid #e1e5e9;
+  backdrop-filter: blur(10px);
 }
 
 .dropdown-content li {
-  padding: 8px 16px;
+  padding: 0;
+  margin: 2px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-content li:hover {
+  background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+  transform: translateX(4px);
 }
 
 .dropdown-content li a {
   color: #333;
   text-decoration: none;
   display: block;
+  padding: 12px 16px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.dropdown-content li:hover a {
+  color: white;
 }
 
 .dropdown:hover .dropdown-content {
@@ -118,6 +173,10 @@ nav{
 
 
 /* hidden job */
+.dropdown-hidden {
+  position: relative;
+}
+
 .dropdown-hidden:hover .dropdown-content-hidden {
   display: block;
 }
@@ -128,15 +187,17 @@ nav{
 .dropdown-content-hidden{
     display:none;
     position:absolute;
-    min-width: 160px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
+    min-width: 180px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 1000;
     list-style: none;
-    padding: 0;
-    margin: 0px 0px 0px 130px;
-    /* background-color: #ccc; */
+    padding: 8px 0;
+    margin: 8px 0 0 0;
+    left: 100%;
+    top: 0;
+    border: 1px solid #e1e5e9;
 }
 /* sector 3 */
 .log-div{
@@ -242,6 +303,85 @@ nav{
     .admitcard-nav-h,.job-nav-h,.home-nav-h{
         display: block !important;  
     }
+    
+    .menu .dropdown-content {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        right: auto;
+        width: 250px;
+        max-height: 70vh;
+        overflow-y: auto;
+        display: none;
+    }
+    
+    .menu .dropdown-content.mobile-open {
+        display: block;
+    }
+    
+    .dropdown-content-hidden {
+        position: static;
+        box-shadow: none;
+        margin: 8px 0 0 0;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e1e5e9;
+        padding: 8px 0;
+        display: none;
+    }
+    
+    .dropdown-content-hidden.show {
+        display: block;
+    }
+    
+    .dropdown-content-hidden li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .dropdown-content-hidden li a {
+        padding: 12px 20px;
+        font-size: 14px;
+        color: #667eea !important;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+    }
+    
+    .dropdown-content-hidden li a i {
+        font-size: 16px;
+        color: #667eea;
+    }
+    
+    .dropdown-content-hidden li:hover a i {
+        color: white;
+    }
+    
+    .dropbtn-hidden {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .dropbtn-hidden i {
+        font-size: 14px;
+        transition: transform 0.3s ease;
+    }
+    
+    .dropdown-hidden:hover .dropbtn-hidden i {
+        transform: rotate(180deg);
+    }
+    
+    .dropdown-content-hidden li:hover {
+        background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+        transform: none;
+    }
+    
+    .dropdown-content-hidden li:hover a {
+        color: white !important;
+    }
 }
 
 
@@ -249,9 +389,44 @@ nav{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+  color: white;
+  padding: 20px;
+  margin: -1rem -0rem 1rem -0rem;
+  border-radius: 0 0 15px 15px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
   font-weight: bold;
   font-size: 1.1rem;
-  margin-bottom: 0rem;
+  margin-bottom: 2px;
+}
+
+.user-email {
+  font-size: 0.85rem;
+  opacity: 0.9;
 }
 
 .sidebar-user {
@@ -294,11 +469,21 @@ nav{
 }
 .sidebar li {
     display: flex;
-    justify-content:start;
+    justify-content: start;
     align-items: center;
-    padding: 10px;
-    padding-left: 20px;
- 
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 0 10px;
+}
+
+.sidebar li:hover {
+    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    transform: translateX(5px);
+}
+
+.sidebar li:hover a {
+    color: white;
 }
 .sidebar a, .sidebar button {
   color: #333;
@@ -307,4 +492,14 @@ nav{
   border: none;
   font-size: 1rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.sidebar a i {
+  font-size: 18px;
+  width: 20px;
 }
