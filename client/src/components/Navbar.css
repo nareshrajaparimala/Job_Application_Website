@@ -32,10 +32,18 @@ nav{
 .logo-img{
     background-image: url();
 }
-.logo-img {
-  width: 40px;
+.logo-img-div-nav{
+  padding-left: 25px;
   height: 40px;
-  background-image: url('../assets/logo.png');
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-img {
+  /* width: 60px; */
+  height: 40px;
+  /* background-image: url('../assets/logo2.png'); */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -82,7 +90,7 @@ nav{
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    background: linear-gradient(135deg, #7fa3ff 0%, #2a42f8 100%);
     color: white;
     box-shadow: 0 2px 8px rgba(255, 0, 255, 0.3);
 }
@@ -97,7 +105,7 @@ nav{
 }
 
 .color-nav-box{
-    padding: 8px 16px;
+    padding: 8px 10px;
     border-radius: 8px;
     transition: all 0.3s ease;
 }

@@ -92,8 +92,10 @@ function Navbar() {
 
         </div>
         {/* img dev logo */}
-        <div className="logo-img"></div>
-        <h3 id="logo-text">Hireloop</h3>
+        <div className='logo-img-div-nav'>
+          <img src="../assets/logo2.png" alt="" className="logo-img"/>
+        </div>
+        {/* <h3 id="logo-text">Hireloop</h3> */}
       </div>
 
       <ul className="sector2">
