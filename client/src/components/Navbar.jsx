@@ -108,9 +108,9 @@ function Navbar() {
             <li className='color-subnav-box'><Link to="/jobs/government">Government Jobs</Link></li>
           </ul>
         </li>
-        <li className="color-nav-box admitcard-nav"><Link to="/admit-card">Admit Card</Link></li>
-        <li className="color-nav-box result-nav"><Link to="/results">Results</Link></li>
-        <li className="color-nav-box document-nav"><Link to="/documents">Documents</Link></li>
+        {/* <li className="color-nav-box admitcard-nav"><Link to="/admit-card">Admit Card</Link></li>
+        <li className="color-nav-box result-nav"><Link to="/results">Results</Link></li> */}
+        <li className="color-nav-box document-nav"><Link to="/documents">Resume</Link></li>
         <li className="color-nav-box admission-nav"><Link to="/admissions">Admissions</Link></li>
         <li className="color-nav-box webinar-nav"><Link to="/webinars">Webinars</Link></li>
       </ul>

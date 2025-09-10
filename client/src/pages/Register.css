@@ -3,7 +3,7 @@
   gap: 1rem;
 }
 .register-form{
-    margin-top: -20px;
+    margin-top: -30px;
 }
 .inputR-group {
   position: relative;
@@ -12,7 +12,7 @@
 }
 .inputR-group input {
   width: 100%;
-  padding: .3rem 0.2rem .3rem .3rem;
+  padding: .2rem 0.2rem .2rem .2rem;
   border: 2px solid #ccc;
   border-radius: 10px;
   font-size: 1rem;
@@ -63,6 +63,7 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  margin-top: -10px;
   margin-bottom: 1.3rem;
 }
 .checkbox-row {
@@ -72,7 +73,7 @@
 }
 .loginR-btn {
   width: 100%;
-  padding: 0.9rem 0;
+  padding: 0.5rem 0;
   background: linear-gradient(90deg, #a020f0, #ff69b4);
   color: #fff;
   border: none;
@@ -80,7 +81,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 1.1rem;
+  margin-bottom: .1rem;
   transition: background 0.2s;
 }
 .loginR-btn:hover {

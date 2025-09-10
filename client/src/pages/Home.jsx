@@ -143,7 +143,7 @@ export default function Home() {
       <div className="hero-section">
         <div className="hero-text" ref={useScrollAnimation('move-in-left')}>
           <h1>
-            Find the Right Job. Build Your Career with <span> Hire Loop</span>.
+            Find the Right Job. Build Your Career with <span> MytechZ</span>.
           </h1>
           <p className="hero-subtext">
             Government & Private Jobs • Admit Cards • Results • Internships — All in One Place
@@ -165,12 +165,12 @@ export default function Home() {
           {[
             { href: "/jobs/government", label: "Government Jobs", icon: "🏛️" },
             { href: "/jobs/private", label: "Private Jobs", icon: "🏢" },
-            { href: "/results", label: "Results", icon: "📢" },
-            { href: "/admit-card", label: "Admit Cards", icon: "📄" },
-            { href: "/answer-keys", label: "Answer Keys", icon: "✅" },
+            // { href: "/results", label: "Results", icon: "📢" },
+            // { href: "/admit-card", label: "Admit Cards", icon: "📄" },
+            // { href: "/answer-keys", label: "Answer Keys", icon: "✅" },
             { href: "/admissions", label: "College Admissions", icon: "🏫" },
-            { href: "/documents", label: "Document Verification", icon: "📑" },
-            { href: "/mentorship", label: "Mentorship Programs", icon: "🤝" },
+            { href: "/documents", label: "Resume Creation", icon: "📑" },
+            // { href: "/mentorship", label: "Mentorship Programs", icon: "🤝" },
             { href: "/webinars", label: "Webinars & Workshops", icon: "🎓" },
             { href: "/internships", label: "Internship Listings", icon: "🌐" },
           ].slice(0, window.innerWidth <= 768 ? 6 : 10).map(link => (
