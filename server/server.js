@@ -12,12 +12,17 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import internshipRoutes from './routes/internshipRoutes.js';
 import webinarRoutes from './routes/webinarRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import resumeRoutes from './routes/resumeRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
 
 // Connect to MongoDB
 connectDB();
+
+// Import and start cleanup scheduler
+import { startCleanupScheduler } from './utils/cleanupService.js';
+startCleanupScheduler();
 
 // Initialize Express app
 const app = express();
@@ -42,6 +47,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/internships', internshipRoutes);
 app.use('/api/webinars', webinarRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/resume', resumeRoutes);
 
 // Start the server
 const PORT = process.env.PORT ;

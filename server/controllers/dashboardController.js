@@ -1,5 +1,6 @@
 import User from '../models/userModel.js';
 import Application from '../models/applicationModel.js';
+import ResumeApplication from '../models/resumeApplicationModel.js';
 
 // Admin Dashboard Data
 export const getAdminDashboard = async (req, res) => {
@@ -10,11 +11,19 @@ export const getAdminDashboard = async (req, res) => {
     
     const users = await User.find({ role: 'user' }).select('-password');
     const applications = await Application.find().populate('userId', 'firstName lastName email phone');
+    const resumeApplications = await ResumeApplication.find()
+      .populate('userId', 'firstName lastName email phone')
+      .populate('templateId', 'name price');
 
     res.json({
-      stats: { totalUsers, totalApplications, pendingApplications },
+      stats: { 
+        totalUsers, 
+        totalApplications: totalApplications + await ResumeApplication.countDocuments(), 
+        pendingApplications: pendingApplications + await ResumeApplication.countDocuments({ status: 'pending' })
+      },
       users,
-      applications
+      applications,
+      resumeApplications
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

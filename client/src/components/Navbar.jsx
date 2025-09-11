@@ -1,10 +1,11 @@
 //./components/Navbar.jsx
 import React,{useRef,useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css'; 
 
 function Navbar() {
   const sidebarRef = useRef(null);
+  const location = useLocation();
 
   // function to open and close the sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -62,6 +63,12 @@ function Navbar() {
     }
   }, []);
 
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setJobDropdownOpen(false);
+  }, [location.pathname]);
+
   return (
     <nav >
       <div className="logo">
@@ -80,13 +87,13 @@ function Navbar() {
                 <li><Link to="/jobs/government" onClick={handleMobileMenuClose}><i className="ri-government-line"></i> Government Jobs</Link></li>
               </ul>
             </li>
-            <li className='color-subnav-box admitcard-nav-h'><Link to="/admit-card" onClick={handleMobileMenuClose}>Admit Card</Link></li>
-            <li className='color-subnav-box result-nav-h'><Link to="/results" onClick={handleMobileMenuClose}>Results</Link></li>
-            <li className='color-subnav-box document-nav-h'><Link to="/documents" onClick={handleMobileMenuClose}>Documents</Link></li>
+            {/* <li className='color-subnav-box admitcard-nav-h'><Link to="/admit-card" onClick={handleMobileMenuClose}>Admit Card</Link></li> */}
+            {/* <li className='color-subnav-box result-nav-h'><Link to="/results" onClick={handleMobileMenuClose}>Results</Link></li> */}
+            <li className='color-subnav-box document-nav-h'><Link to="/documents" onClick={handleMobileMenuClose}>Resume</Link></li>
             <li className='color-subnav-box admission-nav-h'><Link to="/admissions" onClick={handleMobileMenuClose}>Admissions</Link></li>
             <li className='color-subnav-box webinar-nav-h'><Link to="/webinars" onClick={handleMobileMenuClose}>Webinars</Link></li>
             <li className='color-subnav-box'><Link to="/internships" onClick={handleMobileMenuClose}>Internships</Link></li>
-            <li className='color-subnav-box'><Link to="/mentorship" onClick={handleMobileMenuClose}>Mentorship</Link></li>
+            {/* <li className='color-subnav-box'><Link to="/mentorship" onClick={handleMobileMenuClose}>Mentorship</Link></li> */}
             <li className='color-subnav-box'><Link to="/contact" onClick={handleMobileMenuClose}>Contact</Link></li>
           </ul>
 

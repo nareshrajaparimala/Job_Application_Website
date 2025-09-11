@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import ResumeTemplates from '../components/Resume/ResumeTemplates';
+import ResumeBuilder from '../components/Resume/ResumeBuilder';
+import './Documents.css';
 
-function Documents () {
+function Documents() {
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [showBuilder, setShowBuilder] = useState(false);
+
+  const handleTemplateSelect = (template) => {
+    setSelectedTemplate(template);
+    setShowBuilder(true);
+  };
+
+  const handleBackToTemplates = () => {
+    setShowBuilder(false);
+    setSelectedTemplate(null);
+  };
+
   return (
-    <div  style={{display:'flex',height:"400px",justifyContent:'center',alignItems:'center',backgroundColor:"white",fontSize:'25px'}}>Documents page will be updated soon ....</div>
-  )
+    <div className="documents-container">
+      {!showBuilder ? (
+        <ResumeTemplates onTemplateSelect={handleTemplateSelect} />
+      ) : (
+        <ResumeBuilder 
+          template={selectedTemplate} 
+          onBack={handleBackToTemplates}
+        />
+      )}
+    </div>
+  );
 }
 
-export default Documents
+export default Documents;

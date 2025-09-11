@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import './Home.css';
+import './ResumeSection.css';
 import jobSearchImg from '../assets/searchJob.svg';
 import '../components/ScrollAnimations.css';
 import { useScrollAnimation } from '../components/useScrollAnimation';
@@ -155,6 +156,37 @@ export default function Home() {
         </div>
         <div className="hero-image" ref={useScrollAnimation('move-in-right')}>
           <img src={jobSearchImg} alt="Job Search" />
+        </div>
+      </div>
+
+      {/* Resume Section */}
+      <div className="resume-section" ref={useScrollAnimation('move-in-left')}>
+        <div className="resume-content">
+          <h2 className="resume-title">Build Your Professional Resume</h2>
+          <p className="resume-description">
+            Create a standout resume with our professional templates and get noticed by top employers.
+          </p>
+          <div className="resume-features">
+            <div className="feature-icon">
+              <i className="ri-file-text-line"></i>
+              <span>Professional Templates</span>
+            </div>
+            <div className="feature-icon">
+              <i className="ri-palette-line"></i>
+              <span>Customizable Design</span>
+            </div>
+            <div className="feature-icon">
+              <i className="ri-download-line"></i>
+              <span>Best ATS score</span>
+            </div>
+          </div>
+          <button 
+            className="resume-cta-btn"
+            onClick={() => window.location.href = '/documents'}
+          >
+            <i className="ri-rocket-line"></i>
+            Get Ready My First Resume
+          </button>
         </div>
       </div>
 

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './AdminDashboard.css';
 import AddContentForm from '../components/Admin/AddContentForm';
+import TemplateEditModal from '../components/Admin/TemplateEditModal';
 
 function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [showAddForm, setShowAddForm] = useState(null);
+  const [applicationType, setApplicationType] = useState('general');
+  const [templates, setTemplates] = useState([]);
+  const [editingTemplate, setEditingTemplate] = useState(null);
 
   useEffect(() => {
     fetchDashboardData();
+    fetchTemplates();
   }, []);
 
   const fetchDashboardData = async () => {
@@ -38,6 +43,67 @@ function AdminDashboard() {
       fetchDashboardData();
     } catch (error) {
       console.error('Error updating status:', error);
+    }
+  };
+
+  const fetchTemplates = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/resume/templates`);
+      if (response.ok) {
+        const data = await response.json();
+        setTemplates(data);
+      }
+    } catch (error) {
+      console.error('Error fetching templates:', error);
+    }
+  };
+
+  const handleTemplateEdit = (template) => {
+    setEditingTemplate(template);
+  };
+
+  const handleTemplateSave = async (templateData) => {
+    try {
+      const token = localStorage.getItem('token');
+      const url = editingTemplate 
+        ? `${import.meta.env.VITE_API_BASE_URL}/api/resume/templates/${editingTemplate._id}`
+        : `${import.meta.env.VITE_API_BASE_URL}/api/resume/templates`;
+      
+      const response = await fetch(url, {
+        method: editingTemplate ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(templateData),
+      });
+
+      if (response.ok) {
+        fetchTemplates();
+        setEditingTemplate(null);
+        alert('Template saved successfully!');
+      }
+    } catch (error) {
+      alert('Error saving template');
+    }
+  };
+
+  const handleTemplateDelete = async (templateId) => {
+    if (!confirm('Are you sure you want to delete this template?')) return;
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/resume/templates/${templateId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        fetchTemplates();
+        alert('Template deleted successfully!');
+      }
+    } catch (error) {
+      alert('Error deleting template');
     }
   };
 
@@ -81,6 +147,12 @@ function AdminDashboard() {
           onClick={() => setActiveTab('applications')}
         >
           Applications
+        </button>
+        <button 
+          className={activeTab === 'templates' ? 'active' : ''} 
+          onClick={() => setActiveTab('templates')}
+        >
+          Resume Templates
         </button>
       </nav>
 
@@ -180,6 +252,9 @@ function AdminDashboard() {
               <button onClick={() => setShowAddForm('college')} className="add-btn">
                 <i className="ri-school-line"></i> Add College
               </button>
+              <button onClick={() => setShowAddForm('resume-template')} className="add-btn">
+                <i className="ri-file-text-line"></i> Add Resume Template
+              </button>
             </div>
             <div className="overview-grid">
               <div className="overview-card">
@@ -205,6 +280,57 @@ function AdminDashboard() {
             </div>
           </div>
         )}
+
+        {activeTab === 'templates' && (
+          <div className="templates-section">
+            <div className="section-header">
+              <h2>Resume Templates Management</h2>
+              <button 
+                className="add-template-btn"
+                onClick={() => setEditingTemplate({})}
+              >
+                <i className="ri-add-line"></i> Add New Template
+              </button>
+            </div>
+            
+            <div className="templates-grid">
+              {templates.map(template => (
+                <div key={template._id} className="template-admin-card">
+                  <div className="template-image">
+                    <img src={template.templateImage || '/api/placeholder/200/250'} alt={template.name} />
+                  </div>
+                  <div className="template-details">
+                    <h3>{template.name}</h3>
+                    <p>{template.description}</p>
+                    <div className="template-pricing">
+                      <span>Price: ₹{template.price}</span>
+                      <span>Customization: ₹{template.customizationPrice}</span>
+                    </div>
+                    <div className="template-status">
+                      <span className={`status ${template.isActive ? 'active' : 'inactive'}`}>
+                        {template.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+                    <div className="template-actions">
+                      <button 
+                        className="edit-btn"
+                        onClick={() => handleTemplateEdit(template)}
+                      >
+                        <i className="ri-edit-line"></i> Edit
+                      </button>
+                      <button 
+                        className="delete-btn"
+                        onClick={() => handleTemplateDelete(template._id)}
+                      >
+                        <i className="ri-delete-bin-line"></i> Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </main>
       
       {showAddForm && (
@@ -212,6 +338,14 @@ function AdminDashboard() {
           type={showAddForm} 
           onClose={() => setShowAddForm(null)}
           onSuccess={() => fetchDashboardData()}
+        />
+      )}
+      
+      {editingTemplate && (
+        <TemplateEditModal 
+          template={editingTemplate}
+          onSave={handleTemplateSave}
+          onClose={() => setEditingTemplate(null)}
         />
       )}
     </div>
