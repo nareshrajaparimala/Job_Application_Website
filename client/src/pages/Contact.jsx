@@ -67,12 +67,13 @@ function Contact() {
           <h2 className="section-title animate-slide-up">Meet Our Team</h2>
           <div className="team-grid">
             <div className="team-card animate-slide-up">
-              <div className="team-avatar">
-                <i className="ri-user-line"></i>
+              <div className="team-avatar" style={{borderRadius:"50%", overflow:"hidden"}}>
+                {/* <i className="ri-user-line"></i> */}
+                <img src="./assets/RaviKumar(img).png" alt="" style={{height:"100px", width:"100px"}}/>
               </div>
               <div className="team-info">
                 <h3>Ravi Kumar HS</h3>
-                <p className="team-role">Founder & CEO</p>
+                <p className="team-role">Founder & MD</p>
                 <div className="team-contact">
                   <a href="tel:6361718992" className="contact-link">
                     <i className="ri-phone-line"></i>
@@ -87,12 +88,13 @@ function Contact() {
             </div>
 
             <div className="team-card animate-slide-up delay-1">
-              <div className="team-avatar">
-                <i className="ri-user-line"></i>
+              <div className="team-avatar" style={{borderRadius:"50%", overflow:"hidden"}}>
+                {/* <i className="ri-user-line"></i> */}
+                <img src="./assets/Naresh(img).png" alt="" style={{height:"100px", width:"100px"}}/>
               </div>
               <div className="team-info">
                 <h3>Naresh R</h3>
-                <p className="team-role">Co-Founder & CTO</p>
+                <p className="team-role">Co-Founder & CEO</p>
                 <div className="team-contact">
                   <a href="tel:8884509528" className="contact-link">
                     <i className="ri-phone-line"></i>
@@ -107,16 +109,17 @@ function Contact() {
             </div>
 
             <div className="team-card animate-slide-up delay-2">
-              <div className="team-avatar">
-                <i className="ri-user-line"></i>
+              <div className="team-avatar" style={{borderRadius:"50%", overflow:"hidden"}}>
+                {/* <i className="ri-user-line"></i> */}
+                <img src="./assets/PrajwalGowda(img).png" alt="" style={{height:"80px", width:"90px"}}/>
               </div>
               <div className="team-info">
-                <h3>Prajwal Gowda</h3>
-                <p className="team-role">Leading AI Consultant</p>
+                <h3>Prajwal Gowda A</h3>
+                <p className="team-role">Leading AI Consultant & CMO</p>
                 <div className="team-contact">
                   <a href="mailto:contact@mytechz.com" className="contact-link">
                     <i className="ri-mail-line"></i>
-                    contact@mytechz.com
+                    prajwalgowdaa544@gmail.com
                   </a>
                 </div>
               </div>
@@ -250,7 +253,8 @@ function Contact() {
                     <h4>Phone Numbers</h4>
                     <p>
                       <a href="tel:6361718992">+91 6361718992</a> (Ravi Kumar)<br />
-                      <a href="tel:8884509528">+91 8884509528</a> (Naresh R)
+                      <a href="tel:8884509528">+91 8884509528</a> (Naresh R) <br/>
+                      <a href="tel:8310541180">+91 8310541180</a> (Prajwal Gowda)
                     </p>
                   </div>
                 </div>
