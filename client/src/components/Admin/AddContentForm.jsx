@@ -46,7 +46,7 @@ function AddContentForm({ type, onClose, onSuccess }) {
         processedData.skills = processedData.skills.split(',').map(item => item.trim());
       }
 
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/content`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/content`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

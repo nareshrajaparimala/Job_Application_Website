@@ -27,7 +27,7 @@ function WebinarListing() {
 
   const fetchWebinars = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/webinars`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/webinars`);
       if (response.ok) {
         const data = await response.json();
         setWebinars(data);

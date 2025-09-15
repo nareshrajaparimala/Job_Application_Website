@@ -28,7 +28,7 @@ function JobListing({ jobType }) {
   const fetchJobs = async () => {
     try {
       console.log('Fetching jobs for type:', jobType);
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/jobs`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/jobs`);
       if (response.ok) {
         const data = await response.json();
         console.log('All jobs from API:', data);

@@ -7,6 +7,11 @@ export const applyToCollege = async (req, res) => {
     const { college } = req.body;
     const userId = req.user.id;
 
+    // Handle admin user (string ID) vs regular user (ObjectId)
+    if (userId === 'admin') {
+      return res.status(403).json({ message: 'Admin cannot apply to colleges' });
+    }
+
     const existingApplication = await Application.findOne({
       userId,
       collegeName: college.name
@@ -17,6 +22,10 @@ export const applyToCollege = async (req, res) => {
     }
 
     const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     const application = new Application({
       userId,
       collegeName: college.name,
@@ -27,8 +36,10 @@ export const applyToCollege = async (req, res) => {
     
     try {
       await sendApplicationEmail(user, college, 'College');
+      console.log('Application email sent successfully');
     } catch (emailError) {
-      console.log('Email failed:', emailError.message);
+      console.error('Email failed:', emailError.message);
+      // Continue with success response even if email fails
     }
     
     res.json({ message: 'Application submitted successfully' });

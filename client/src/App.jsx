@@ -12,6 +12,7 @@ import Admissions from './pages/Admissions';
 import Webinars from './pages/Webinars';  
 import Internships from './pages/Internships';
 import Mentorship from './pages/Mentorship';
+import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';  
@@ -35,6 +36,7 @@ function App() {
         <Route path="/webinars" element={<Webinars />} />
         <Route path="/internships" element={<Internships />} />
         <Route path="/mentorship" element={<Mentorship />} />
+        <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

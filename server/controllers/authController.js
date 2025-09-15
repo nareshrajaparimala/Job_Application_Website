@@ -88,7 +88,7 @@ export const loginUser = async (req, res) => {
     console.log('Login attempt:', { email, role });
     
     // Check for default admin login
-    if (role === 'admin' && email === 'admin@hireloop.com' && password === 'admin123') {
+    if (role === 'admin' && email === 'admin@mytechz.com' && password === 'admin123') {
       const token = jwt.sign(
         { id: 'admin', role: 'admin' },
         process.env.JWT_SECRET,
@@ -100,7 +100,7 @@ export const loginUser = async (req, res) => {
         user: {
           id: 'admin',
           name: 'Admin',
-          email: 'admin@hireloop.com',
+          email: 'admin@mytechz.com',
           role: 'admin'
         }
       });

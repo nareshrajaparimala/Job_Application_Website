@@ -63,7 +63,7 @@ function Register() {
           <div className="sector2-login">
             <div className="sector2-job-img-div">
               <div className="logo-img"></div>
-              <h3 id="logo-text">Hireloop</h3>
+              <h3 id="logo-text">MytechZ</h3>
             </div>
 
             <form className="sector2-job-text register-form" onSubmit={handleSubmit}>

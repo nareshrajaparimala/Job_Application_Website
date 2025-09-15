@@ -13,6 +13,7 @@ import internshipRoutes from './routes/internshipRoutes.js';
 import webinarRoutes from './routes/webinarRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
+import portfolioRoutes from './routes/portfolioRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -48,6 +49,7 @@ app.use('/api/internships', internshipRoutes);
 app.use('/api/webinars', webinarRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/resume', resumeRoutes);
+app.use('/api/portfolio', portfolioRoutes);
 
 // Start the server
 const PORT = process.env.PORT ;

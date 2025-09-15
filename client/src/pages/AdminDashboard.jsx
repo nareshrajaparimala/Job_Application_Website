@@ -9,17 +9,19 @@ function AdminDashboard() {
   const [showAddForm, setShowAddForm] = useState(null);
   const [applicationType, setApplicationType] = useState('general');
   const [templates, setTemplates] = useState([]);
+  const [portfolioRequests, setPortfolioRequests] = useState([]);
   const [editingTemplate, setEditingTemplate] = useState(null);
 
   useEffect(() => {
     fetchDashboardData();
     fetchTemplates();
+    fetchPortfolioRequests();
   }, []);
 
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/admin`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/dashboard/admin`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -32,7 +34,7 @@ function AdminDashboard() {
   const updateApplicationStatus = async (applicationId, status) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/dashboard/application-status`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/dashboard/application-status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +50,7 @@ function AdminDashboard() {
 
   const fetchTemplates = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/resume/templates`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/resume/templates`);
       if (response.ok) {
         const data = await response.json();
         setTemplates(data);
@@ -93,7 +95,7 @@ function AdminDashboard() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/resume/templates/${templateId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/resume/templates/${templateId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -104,6 +106,38 @@ function AdminDashboard() {
       }
     } catch (error) {
       alert('Error deleting template');
+    }
+  };
+
+  const fetchPortfolioRequests = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/portfolio/admin/all-requests`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setPortfolioRequests(data.requests);
+      }
+    } catch (error) {
+      console.error('Error fetching portfolio requests:', error);
+    }
+  };
+
+  const updatePortfolioStatus = async (requestId, status) => {
+    try {
+      const token = localStorage.getItem('token');
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/portfolio/admin/update-status/${requestId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ status })
+      });
+      fetchPortfolioRequests();
+    } catch (error) {
+      console.error('Error updating portfolio status:', error);
     }
   };
 
@@ -125,6 +159,10 @@ function AdminDashboard() {
           <div className="stat-card">
             <h3>{dashboardData.stats.pendingApplications}</h3>
             <p>Pending Applications</p>
+          </div>
+          <div className="stat-card">
+            <h3>{portfolioRequests.length}</h3>
+            <p>Portfolio Requests</p>
           </div>
         </div>
       </header>
@@ -153,6 +191,12 @@ function AdminDashboard() {
           onClick={() => setActiveTab('templates')}
         >
           Resume Templates
+        </button>
+        <button 
+          className={activeTab === 'portfolio' ? 'active' : ''} 
+          onClick={() => setActiveTab('portfolio')}
+        >
+          Portfolio Requests
         </button>
       </nav>
 
@@ -328,6 +372,58 @@ function AdminDashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'portfolio' && (
+          <div className="portfolio-section">
+            <h2>Portfolio Requests Management</h2>
+            <div className="portfolio-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Template Type</th>
+                    <th>Theme</th>
+                    <th>Submitted</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {portfolioRequests.map(request => (
+                    <tr key={request._id}>
+                      <td>{request.name}</td>
+                      <td>{request.email}</td>
+                      <td>{request.mobile}</td>
+                      <td>
+                        <span className={`template-type ${request.templateType}`}>
+                          {request.templateType === 'predefined' ? 'Predefined (₹500)' : 'Customized (₹1500)'}
+                        </span>
+                      </td>
+                      <td>{request.theme}</td>
+                      <td>{new Date(request.submittedAt).toLocaleDateString()}</td>
+                      <td>
+                        <span className={`status ${request.status}`}>{request.status}</span>
+                      </td>
+                      <td>
+                        <select 
+                          value={request.status} 
+                          onChange={(e) => updatePortfolioStatus(request._id, e.target.value)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}

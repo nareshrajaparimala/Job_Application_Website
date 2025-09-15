@@ -27,7 +27,7 @@ function InternshipListing() {
 
   const fetchInternships = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/internships`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/internships`);
       if (response.ok) {
         const data = await response.json();
         setInternships(data);

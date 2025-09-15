@@ -7,6 +7,10 @@ export const registerForWebinar = async (req, res) => {
     const { webinar } = req.body;
     const userId = req.user.id;
 
+    if (userId === 'admin') {
+      return res.status(403).json({ message: 'Admin cannot register for webinars' });
+    }
+
     const existingRegistration = await Application.findOne({
       userId,
       collegeName: `${webinar.title} - ${webinar.speaker}`,
@@ -18,6 +22,10 @@ export const registerForWebinar = async (req, res) => {
     }
 
     const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     const registration = new Application({
       userId,
       collegeName: `${webinar.title} - ${webinar.speaker}`,

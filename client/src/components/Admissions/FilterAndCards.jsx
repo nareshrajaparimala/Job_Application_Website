@@ -97,6 +97,9 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
     }
 
     try {
+      console.log('Applying to college:', college.name);
+      console.log('API URL:', `${import.meta.env.VITE_API_BASE_URL}/api/colleges/apply`);
+      
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/colleges/apply`, {
         method: 'POST',
         headers: {
@@ -106,13 +109,17 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
         body: JSON.stringify({ college }),
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
-        alert('Apply is done');
+        alert('Application submitted successfully!');
       } else {
-        alert('Failed to apply');
+        console.error('Application failed:', data);
+        alert(data.message || 'Failed to apply');
       }
     } catch (error) {
-      alert('Error applying to college');
+      console.error('Error applying to college:', error);
+      alert('Network error. Please check your connection and try again.');
     }
   };
 

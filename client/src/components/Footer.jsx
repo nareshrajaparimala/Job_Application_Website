@@ -7,7 +7,7 @@ function Footer() {
      <footer className="footer">
       <div className="footer-main">
         <div className="footer-col">
-          <h3 className="footer-logo">Hire Loop</h3>
+          <h3 className="footer-logo">MytechZ</h3>
           <p className="footer-desc">
             Your one-stop portal for Government & Private Jobs, Admit Cards, Results, Internships, Mentorship, and more.
           </p>
@@ -29,7 +29,7 @@ function Footer() {
         <div className="footer-col">
           <h4>Contact</h4>
           <p>
-            <strong>Email:</strong> <a href="mailto:support@hireloop.com">support@hireloop.com</a><br />
+            <strong>Email:</strong> <a href="mailto:support@mytechz.com">support@mytechz.com</a><br />
             <strong>Phone:</strong> <a href="tel:+911234567890">+91 12345 67890</a><br />
             <strong>Address:</strong><br />
             2nd Floor, Tech Park,<br />
@@ -43,7 +43,7 @@ function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>&copy; {new Date().getFullYear()} Hire Loop. All rights reserved.</span>
+        <span>&copy; {new Date().getFullYear()} MytechZ. All rights reserved.</span>
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/terms" style={{ marginLeft: '15px' }}>Terms of Service</a>
       </div>

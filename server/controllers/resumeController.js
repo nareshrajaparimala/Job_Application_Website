@@ -19,9 +19,16 @@ export const submitResumeApplication = async (req, res) => {
     const { templateId, userDetails, totalAmount } = req.body;
     const userId = req.user.id;
 
-    const user = await User.findById(userId);
-    const template = await ResumeTemplate.findById(templateId);
+    if (userId === 'admin') {
+      return res.status(403).json({ message: 'Admin cannot submit resume applications' });
+    }
 
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const template = await ResumeTemplate.findById(templateId);
     if (!template) {
       return res.status(404).json({ message: 'Template not found' });
     }
@@ -37,7 +44,7 @@ export const submitResumeApplication = async (req, res) => {
 
     // Send email notification
     try {
-      await sendResumeApplicationEmail(user, template, userDetails, totalAmount);
+      await sendApplicationEmail(user, { name: template.name, ...userDetails, totalAmount }, 'Resume');
     } catch (emailError) {
       console.log('Email failed:', emailError.message);
     }
@@ -113,50 +120,3 @@ export const updateApplicationStatus = async (req, res) => {
   }
 };
 
-// Send resume application email
-const sendResumeApplicationEmail = async (user, template, userDetails, totalAmount) => {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: process.env.ADMIN_EMAIL,
-    subject: `New Resume Application - ${template.name}`,
-    html: `
-      <h2>New Resume Building Request</h2>
-      
-      <h3>User Details:</h3>
-      <ul>
-        <li><strong>Name:</strong> ${user.firstName} ${user.lastName}</li>
-        <li><strong>Email:</strong> ${user.email}</li>
-        <li><strong>Phone:</strong> ${user.phone}</li>
-      </ul>
-      
-      <h3>Resume Details:</h3>
-      <ul>
-        <li><strong>Template:</strong> ${template.name}</li>
-        <li><strong>Full Name:</strong> ${userDetails.fullName}</li>
-        <li><strong>Email:</strong> ${userDetails.email}</li>
-        <li><strong>Phone:</strong> ${userDetails.phone}</li>
-        <li><strong>Address:</strong> ${userDetails.address}</li>
-        <li><strong>Experience:</strong> ${userDetails.experience}</li>
-        <li><strong>Education:</strong> ${userDetails.education}</li>
-        <li><strong>Skills:</strong> ${userDetails.skills}</li>
-        <li><strong>Customizations:</strong> ${userDetails.customizations}</li>
-        <li><strong>Total Amount:</strong> ₹${totalAmount}</li>
-      </ul>
-      
-      <p><strong>Applied on:</strong> ${new Date().toLocaleString()}</p>
-    `
-  };
-
-  const nodemailer = await import('nodemailer');
-  const transporter = nodemailer.default.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  });
-
-  await transporter.sendMail(mailOptions);
-};

@@ -159,8 +159,27 @@ export default function Home() {
         </div>
       </div>
 
+      {/* portfolio maker */}
+      <div className='portfolio-maker-section' ref={useScrollAnimation('move-in-left')}>
+        <div className="portfolio-maker-content">
+          <div className="portfolio-maker-icon">
+            <i className="ri-briefcase-4-line animated-icon"></i>
+          </div>
+          <h2 className="portfolio-maker-title">Create Your Personal Portfolio</h2>
+          <p className="portfolio-maker-description">
+            Build a stunning personal portfolio or website to showcase your skills and achievements.
+          </p>
+          <button 
+            className="portfolio-cta-btn"
+            onClick={() => window.location.href = '/portfolio'}
+          >
+            <i className="ri-rocket-line"></i>
+            Get Your Own Portfolio
+          </button>
+        </div>
+      </div>
       {/* Resume Section */}
-      <div className="resume-section" ref={useScrollAnimation('move-in-left')}>
+      <div className="resume-section" ref={useScrollAnimation('move-in-right')}>
         <div className="resume-content">
           <h2 className="resume-title">Build Your Professional Resume</h2>
           <p className="resume-description">
@@ -294,7 +313,7 @@ export default function Home() {
         <h2 className="testimonials-title">What Our Users Say</h2>
         <div className="testimonials-list">
           <div className="testimonial-card">
-            <span className="testimonial-quote">“Hire Loop helped me find my first internship!”</span>
+            <span className="testimonial-quote">“MytechZ helped me find my first internship!”</span>
             <span className="testimonial-user">– Asha, Bangalore</span>
           </div>
           <div className="testimonial-card">

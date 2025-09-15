@@ -11,7 +11,7 @@ function WebinarModal({ webinar, isOpen, onClose }) {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/webinars/register`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/webinars/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

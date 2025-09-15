@@ -50,7 +50,7 @@ export const applyForJob = async (req, res) => {
         </div>
         
         <div style="background: #667eea; color: white; padding: 15px; text-align: center; border-radius: 0 0 10px 10px;">
-          <p style="margin: 0; font-size: 14px;">This application was submitted through Hireloop Job Portal</p>
+          <p style="margin: 0; font-size: 14px;">This application was submitted through MytechZ Job Portal</p>
         </div>
       </div>
     `;

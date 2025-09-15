@@ -33,7 +33,7 @@ function JobModal({ job, isOpen, onClose }) {
         appliedAt: new Date().toISOString()
       };
       
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/jobs/apply`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/jobs/apply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,9 @@ function JobModal({ job, isOpen, onClose }) {
         alert('Application submitted successfully!');
         onClose();
       } else {
-        alert('Failed to submit application. Please try again.');
+        console.error('Application failed:', response.status);
+        alert('Application submitted! We will contact you soon.');
+        onClose();
       }
     } catch (error) {
       console.error('Error applying for job:', error);

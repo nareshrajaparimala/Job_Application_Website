@@ -7,6 +7,10 @@ export const applyToInternship = async (req, res) => {
     const { internship } = req.body;
     const userId = req.user.id;
 
+    if (userId === 'admin') {
+      return res.status(403).json({ message: 'Admin cannot apply to internships' });
+    }
+
     const existingApplication = await Application.findOne({
       userId,
       collegeName: internship.title,
@@ -18,6 +22,10 @@ export const applyToInternship = async (req, res) => {
     }
 
     const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     const application = new Application({
       userId,
       collegeName: `${internship.title} - ${internship.company}`,

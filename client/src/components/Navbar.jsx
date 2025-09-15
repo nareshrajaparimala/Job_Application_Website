@@ -93,6 +93,7 @@ function Navbar() {
             <li className='color-subnav-box admission-nav-h'><Link to="/admissions" onClick={handleMobileMenuClose}>Admissions</Link></li>
             <li className='color-subnav-box webinar-nav-h'><Link to="/webinars" onClick={handleMobileMenuClose}>Webinars</Link></li>
             <li className='color-subnav-box'><Link to="/internships" onClick={handleMobileMenuClose}>Internships</Link></li>
+            <li className='color-subnav-box'><Link to="/portfolio" onClick={handleMobileMenuClose}>Portfolio</Link></li>
             {/* <li className='color-subnav-box'><Link to="/mentorship" onClick={handleMobileMenuClose}>Mentorship</Link></li> */}
             <li className='color-subnav-box'><Link to="/contact" onClick={handleMobileMenuClose}>Contact</Link></li>
           </ul>
@@ -117,9 +118,11 @@ function Navbar() {
         </li>
         {/* <li className="color-nav-box admitcard-nav"><Link to="/admit-card">Admit Card</Link></li>
         <li className="color-nav-box result-nav"><Link to="/results">Results</Link></li> */}
+        <li className="color-nav-box portfolio-nav"><Link to="/portfolio">Portfolio</Link></li>
         <li className="color-nav-box document-nav"><Link to="/documents">Resume</Link></li>
         <li className="color-nav-box admission-nav"><Link to="/admissions">Admissions</Link></li>
         <li className="color-nav-box webinar-nav"><Link to="/webinars">Webinars</Link></li>
+        
       </ul>
       <div className="log-div">
         <div className="line"></div>

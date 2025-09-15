@@ -11,7 +11,7 @@ function InternshipCard({ internship, onClick }) {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/internships/apply`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/internships/apply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
