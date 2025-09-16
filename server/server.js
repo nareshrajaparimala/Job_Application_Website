@@ -59,7 +59,7 @@ app.listen(PORT, () => {
 
 /*
 Available endpoints:
-id- admin@hireloop.com
+id- Naresh@mytechz.in
 pass- admin123
 
 - POST /api/auth/login

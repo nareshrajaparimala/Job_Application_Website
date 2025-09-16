@@ -9,7 +9,7 @@ function LoginTest() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: 'admin@hireloop.com',
+          email: 'Naresh@mytechz.in',
           password: 'admin123',
           role: 'admin'
         })
