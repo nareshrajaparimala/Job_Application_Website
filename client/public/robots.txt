@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://MytechZ.in/sitemap.xml
