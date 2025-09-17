@@ -1,11 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /dashboard
-Disallow: /login
-Disallow: /register
-Disallow: /profile
-Disallow: /test-login
-Disallow: /settings
 
 Sitemap: https://mytechz.in/sitemap.xml
