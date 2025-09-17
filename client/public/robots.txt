@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://MytechZ.in/sitemap.xml
+Sitemap: https://mytechz.in/sitemap.xml
+Sitemap: https://www.mytechz.in/sitemap.xml
