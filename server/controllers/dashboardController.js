@@ -9,23 +9,33 @@ export const getAdminDashboard = async (req, res) => {
     const totalApplications = await Application.countDocuments();
     const pendingApplications = await Application.countDocuments({ status: 'pending' });
     
-    const users = await User.find({ role: 'user' }).select('-password');
-    const applications = await Application.find().populate('userId', 'firstName lastName email phone');
-    const resumeApplications = await ResumeApplication.find()
+    const users = await User.find({ role: 'user' }).select('-password').sort({ createdAt: -1 });
+    const applications = await Application.find()
       .populate('userId', 'firstName lastName email phone')
-      .populate('templateId', 'name price');
+      .sort({ appliedDate: -1 });
+    
+    let resumeApplications = [];
+    try {
+      resumeApplications = await ResumeApplication.find()
+        .populate('userId', 'firstName lastName email phone')
+        .populate('templateId', 'name price')
+        .sort({ createdAt: -1 });
+    } catch (resumeError) {
+      console.log('Resume applications not available:', resumeError.message);
+    }
 
     res.json({
       stats: { 
         totalUsers, 
-        totalApplications: totalApplications + await ResumeApplication.countDocuments(), 
-        pendingApplications: pendingApplications + await ResumeApplication.countDocuments({ status: 'pending' })
+        totalApplications: totalApplications + resumeApplications.length, 
+        pendingApplications: pendingApplications + resumeApplications.filter(app => app.status === 'pending').length
       },
       users,
       applications,
       resumeApplications
     });
   } catch (error) {
+    console.error('Admin dashboard error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
@@ -34,17 +44,34 @@ export const getAdminDashboard = async (req, res) => {
 export const getUserDashboard = async (req, res) => {
   try {
     const userId = req.user.id;
-    const applications = await Application.find({ userId });
+    
+    // Get both college and job applications
+    const collegeApplications = await Application.find({ 
+      userId, 
+      applicationType: { $in: ['college', undefined] } // undefined for backward compatibility
+    });
+    
+    const jobApplications = await Application.find({ 
+      userId, 
+      applicationType: 'job'
+    });
+    
+    const allApplications = [...collegeApplications, ...jobApplications];
     
     const stats = {
-      total: applications.length,
-      pending: applications.filter(app => app.status === 'pending').length,
-      approved: applications.filter(app => app.status === 'approved').length,
-      rejected: applications.filter(app => app.status === 'rejected').length
+      total: allApplications.length,
+      pending: allApplications.filter(app => app.status === 'pending').length,
+      approved: allApplications.filter(app => app.status === 'approved').length,
+      rejected: allApplications.filter(app => app.status === 'rejected').length
     };
 
-    res.json({ applications, stats });
+    res.json({ 
+      applications: collegeApplications, // Keep college applications for backward compatibility
+      jobApplications,
+      stats 
+    });
   } catch (error) {
+    console.error('Dashboard error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

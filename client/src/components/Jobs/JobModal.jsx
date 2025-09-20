@@ -33,13 +33,19 @@ function JobModal({ job, isOpen, onClose }) {
         appliedAt: new Date().toISOString()
       };
       
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/jobs/apply`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/apply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(applicationData)
+        body: JSON.stringify({ 
+          jobId: job.id,
+          jobTitle: job.title,
+          company: job.company,
+          location: job.location,
+          salary: job.salary
+        })
       });
       
       if (response.ok) {

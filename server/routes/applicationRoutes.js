@@ -3,7 +3,8 @@ import {
   getMyApplications, 
   applyForJob, 
   updateApplicationStatus, 
-  getAllApplications 
+  getAllApplications,
+  deleteApplication
 } from '../controllers/applicationController.js';
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
@@ -16,5 +17,8 @@ router.post('/apply', protect, applyForJob);
 // Admin routes
 router.get('/all', protect, adminOnly, getAllApplications);
 router.put('/:applicationId/status', protect, adminOnly, updateApplicationStatus);
+
+// Delete route (both user and admin)
+router.delete('/:applicationId', protect, deleteApplication);
 
 export default router;

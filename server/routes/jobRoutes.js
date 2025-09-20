@@ -1,9 +1,8 @@
 import express from 'express';
-import { applyForJob } from '../controllers/jobController.js';
-import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/apply', protect, applyForJob);
+// Job routes are now handled by applicationRoutes
+// This file is kept for future job-specific routes
 
 export default router;

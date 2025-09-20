@@ -133,7 +133,24 @@ function Navbar() {
        )}
         
         <div className="log-icon-div">
-          <div className="login-img"onClick={handleSidebarToggle}></div>
+          <div className="login-img" onClick={handleSidebarToggle}>
+            {isLoggedIn && userInfo?.profilePhoto ? (
+              <>
+                <img 
+                  src={userInfo.profilePhoto} 
+                  alt="Profile" 
+                  className="profile-nav-img"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'block';
+                  }}
+                />
+                <i className="ri-user-line" style={{ display: 'none' }}></i>
+              </>
+            ) : (
+              <i className="ri-user-line"></i>
+            )}
+          </div>
         </div>
 
       </div>
@@ -144,7 +161,22 @@ function Navbar() {
       <div className="sidebar-header">
         <div className="user-info">
           <div className="user-avatar">
-            <i className="ri-user-line"></i>
+            {userInfo?.profilePhoto ? (
+              <>
+                <img 
+                  src={userInfo.profilePhoto} 
+                  alt="Profile" 
+                  className="sidebar-profile-img"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'block';
+                  }}
+                />
+                <i className="ri-user-line" style={{ display: 'none' }}></i>
+              </>
+            ) : (
+              <i className="ri-user-line"></i>
+            )}
           </div>
           <div className="user-details">
             <span className="user-name">{userInfo?.name || 'User'}</span>
@@ -177,8 +209,8 @@ function Navbar() {
           </>
         )}
         
-        <li><Link to="/settings" onClick={handleSidebarClose}><i className="ri-settings-line"></i>Settings</Link></li>
-        <div className="sidebar-divider"></div>
+        {/* <li><Link to="/settings" onClick={handleSidebarClose}><i className="ri-settings-line"></i>Settings</Link></li>
+        <div className="sidebar-divider"></div> */}
         <li>
           <button onClick={() => {
              // 🔐 Clear auth data

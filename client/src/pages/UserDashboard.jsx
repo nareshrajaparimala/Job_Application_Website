@@ -19,10 +19,24 @@ function UserDashboard() {
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/dashboard/user`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const data = await response.json();
-      setDashboardData(data);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setDashboardData(data);
+      } else {
+        // Fallback data if API fails
+        setDashboardData({
+          stats: { total: 0, pending: 0, approved: 0, rejected: 0 },
+          applications: []
+        });
+      }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
+      // Fallback data if API fails
+      setDashboardData({
+        stats: { total: 0, pending: 0, approved: 0, rejected: 0 },
+        applications: []
+      });
     }
   };
 
@@ -49,7 +63,42 @@ function UserDashboard() {
     }
   };
 
-  if (!dashboardData) return <div className="loading">Loading...</div>;
+  const deleteApplication = async (applicationId) => {
+    if (!confirm('Are you sure you want to delete this application?')) return;
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/${applicationId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        alert('Application deleted successfully');
+        fetchDashboardData();
+      } else {
+        alert('Failed to delete application');
+      }
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      alert('Error deleting application');
+    }
+  };
+
+  if (!dashboardData) {
+    return (
+      <div className="loading" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        fontSize: '18px',
+        color: '#667eea'
+      }}>
+        Loading Dashboard...
+      </div>
+    );
+  }
 
   return (
     <div className="user-dashboard">
@@ -120,28 +169,73 @@ function UserDashboard() {
 
         <section className="applications-list">
           <h2>Your Applications</h2>
-          {dashboardData.applications.length === 0 ? (
+          {(dashboardData.applications.length === 0 && (!dashboardData.jobApplications || dashboardData.jobApplications.length === 0)) ? (
             <div className="no-applications">
-              <p>No applications yet. Start applying to colleges!</p>
-              <a href="/admissions" className="apply-btn">Browse Colleges</a>
+              <p>No applications yet. Start applying!</p>
+              <a href="/jobs/private" className="apply-btn">Browse Jobs</a>
+              <a href="/admissions" className="apply-btn" style={{marginLeft: '10px'}}>Browse Colleges</a>
             </div>
           ) : (
             <div className="applications-grid">
+              {/* Job Applications */}
+              {dashboardData.jobApplications && dashboardData.jobApplications.map(app => (
+                <div key={app._id} className="application-card">
+                  <div className="card-header">
+                    <h3>{app.jobTitle || 'Job Application'}</h3>
+                    <div className="card-actions">
+                      <span 
+                        className={`status-badge ${app.status}`}
+                        style={{ backgroundColor: getStatusColor(app.status) }}
+                      >
+                        {app.status.toUpperCase()}
+                      </span>
+                      <button 
+                        className="delete-btn"
+                        onClick={() => deleteApplication(app._id)}
+                        title="Delete Application"
+                      >
+                        <i className="ri-delete-bin-line"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <p><strong>Company:</strong> {app.company || 'Not specified'}</p>
+                    <p><strong>Location:</strong> {app.location || 'Not specified'}</p>
+                    <p><strong>Salary:</strong> {app.salary || 'Not disclosed'}</p>
+                    <p><strong>Applied:</strong> {new Date(app.appliedDate).toLocaleDateString()}</p>
+                    <p><strong>Last Updated:</strong> {new Date(app.updatedAt).toLocaleDateString()}</p>
+                    {app.adminNote && (
+                      <p><strong>Admin Note:</strong> {app.adminNote}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+              
+              {/* College Applications */}
               {dashboardData.applications.map(app => (
                 <div key={app._id} className="application-card">
                   <div className="card-header">
                     <h3>{app.collegeName}</h3>
-                    <span 
-                      className={`status-badge ${app.status}`}
-                      style={{ backgroundColor: getStatusColor(app.status) }}
-                    >
-                      {app.status.toUpperCase()}
-                    </span>
+                    <div className="card-actions">
+                      <span 
+                        className={`status-badge ${app.status}`}
+                        style={{ backgroundColor: getStatusColor(app.status) }}
+                      >
+                        {app.status.toUpperCase()}
+                      </span>
+                      <button 
+                        className="delete-btn"
+                        onClick={() => deleteApplication(app._id)}
+                        title="Delete Application"
+                      >
+                        <i className="ri-delete-bin-line"></i>
+                      </button>
+                    </div>
                   </div>
                   <div className="card-body">
                     <p><strong>Applied:</strong> {new Date(app.appliedAt).toLocaleDateString()}</p>
                     <p><strong>Last Updated:</strong> {new Date(app.updatedAt).toLocaleDateString()}</p>
-                    {app.collegeData.courses && (
+                    {app.collegeData && app.collegeData.courses && (
                       <p><strong>Courses:</strong> {app.collegeData.courses.join(', ')}</p>
                     )}
                   </div>
@@ -182,9 +276,26 @@ function UserDashboard() {
         <section className="notifications">
           <h2>Notifications</h2>
           <div className="notification-list">
+            {/* Job Application Notifications */}
+            {dashboardData.jobApplications && dashboardData.jobApplications
+              .filter(app => app.status !== 'pending')
+              .slice(0, 2)
+              .map(app => (
+                <div key={app._id} className="notification-item">
+                  <div className="notification-icon">
+                    {app.status === 'approved' ? '✅' : app.status === 'interview' ? '📞' : '❌'}
+                  </div>
+                  <div className="notification-content">
+                    <p>Your job application for <strong>{app.jobTitle}</strong> at <strong>{app.company}</strong> has been {app.status}</p>
+                    <small>{new Date(app.updatedAt).toLocaleDateString()}</small>
+                  </div>
+                </div>
+              ))}
+            
+            {/* College Application Notifications */}
             {dashboardData.applications
               .filter(app => app.status !== 'pending')
-              .slice(0, 3)
+              .slice(0, 1)
               .map(app => (
                 <div key={app._id} className="notification-item">
                   <div className="notification-icon">
@@ -196,7 +307,9 @@ function UserDashboard() {
                   </div>
                 </div>
               ))}
-            {dashboardData.applications.filter(app => app.status !== 'pending').length === 0 && (
+            
+            {(!dashboardData.jobApplications || dashboardData.jobApplications.filter(app => app.status !== 'pending').length === 0) && 
+             dashboardData.applications.filter(app => app.status !== 'pending').length === 0 && (
               <p className="no-notifications">No notifications yet</p>
             )}
           </div>

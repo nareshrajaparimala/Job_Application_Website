@@ -26,6 +26,25 @@ function MyApplications() {
     }
   };
 
+  const deleteApplication = async (applicationId) => {
+    if (!confirm('Are you sure you want to delete this application?')) return;
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/applications/${applicationId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (response.status === 200) {
+        setMessage('Application deleted successfully!');
+        fetchApplications();
+      }
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      setMessage('Error deleting application');
+    }
+  };
+
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case 'pending': return '#f59e0b';
@@ -186,6 +205,13 @@ function MyApplications() {
                       Join Interview
                     </button>
                   )}
+                  <button 
+                    className="action-btn delete-btn"
+                    onClick={() => deleteApplication(application._id)}
+                    title="Delete Application"
+                  >
+                    <i className="ri-delete-bin-line"></i>
+                  </button>
                 </div>
               </div>
             </div>

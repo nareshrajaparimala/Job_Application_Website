@@ -257,3 +257,25 @@
   outline: none;
   border-color: #a020f0;
 }
+
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.delete-btn-admin {
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.delete-btn-admin:hover {
+  background: #cc0000;
+  transform: scale(1.05);
+}

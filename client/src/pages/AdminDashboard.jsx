@@ -24,10 +24,28 @@ function AdminDashboard() {
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/dashboard/admin`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const data = await response.json();
-      setDashboardData(data);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setDashboardData(data);
+      } else {
+        // Fallback data if API fails
+        setDashboardData({
+          stats: { totalUsers: 0, totalApplications: 0, pendingApplications: 0 },
+          users: [],
+          applications: [],
+          resumeApplications: []
+        });
+      }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
+      // Fallback data if API fails
+      setDashboardData({
+        stats: { totalUsers: 0, totalApplications: 0, pendingApplications: 0 },
+        users: [],
+        applications: [],
+        resumeApplications: []
+      });
     }
   };
 
@@ -141,7 +159,42 @@ function AdminDashboard() {
     }
   };
 
-  if (!dashboardData) return <div className="loading">Loading...</div>;
+  const deleteApplication = async (applicationId) => {
+    if (!confirm('Are you sure you want to delete this application?')) return;
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/${applicationId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        alert('Application deleted successfully');
+        fetchDashboardData();
+      } else {
+        alert('Failed to delete application');
+      }
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      alert('Error deleting application');
+    }
+  };
+
+  if (!dashboardData) {
+    return (
+      <div className="loading" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        fontSize: '18px',
+        color: '#667eea'
+      }}>
+        Loading Admin Dashboard...
+      </div>
+    );
+  }
 
   return (
     <div className="admin-dashboard">
@@ -263,14 +316,24 @@ function AdminDashboard() {
                         <span className={`status ${app.status}`}>{app.status}</span>
                       </td>
                       <td>
-                        <select 
-                          value={app.status} 
-                          onChange={(e) => updateApplicationStatus(app._id, e.target.value)}
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="approved">Approved</option>
-                          <option value="rejected">Rejected</option>
-                        </select>
+                        <div className="admin-actions">
+                          <select 
+                            value={app.status} 
+                            onChange={(e) => updateApplicationStatus(app._id, e.target.value)}
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="interview">Interview</option>
+                          </select>
+                          <button 
+                            className="delete-btn-admin"
+                            onClick={() => deleteApplication(app._id)}
+                            title="Delete Application"
+                          >
+                            <i className="ri-delete-bin-line"></i>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

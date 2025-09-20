@@ -272,3 +272,69 @@ const sendOTPEmail = async (email, otp, firstName) => {
   
   await transporter.sendMail(mailOptions);
 };
+
+// Get user profile
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Get profile error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Update user profile
+export const updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const updateData = req.body;
+    
+    // Remove sensitive fields that shouldn't be updated via this endpoint
+    delete updateData.password;
+    delete updateData._id;
+    delete updateData.role;
+    
+    const user = await User.findByIdAndUpdate(
+      userId,
+      updateData,
+      { new: true, runValidators: true }
+    ).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Upload profile photo
+export const uploadProfilePhoto = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    
+    // In a real application, you would upload to cloud storage (AWS S3, Cloudinary, etc.)
+    // For now, we'll simulate with a placeholder URL
+    const photoUrl = `/uploads/profiles/${req.file.filename}`;
+    
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { profilePhoto: photoUrl },
+      { new: true }
+    ).select('-password');
+    
+    res.status(200).json({ photoUrl, user });
+  } catch (error) {
+    console.error('Upload photo error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

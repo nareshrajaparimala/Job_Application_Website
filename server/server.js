@@ -31,6 +31,7 @@ const app = express();
 
 // Middleware configuration
 app.use(express.json());
+app.use('/uploads', express.static('uploads')); // Serve uploaded files
 app.use(cors({
   origin: ['https://mytechz.in', 'https://www.mytechz.in', 'http://localhost:3000', 'http://localhost:5173'],
   credentials: true,
