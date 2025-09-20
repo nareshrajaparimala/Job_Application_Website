@@ -28,6 +28,7 @@ export const requireAdmin = (req, res, next) => {
 };
 
 export const protect = authenticateToken;
+export const adminOnly = requireAdmin;
 export const authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

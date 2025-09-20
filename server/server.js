@@ -14,6 +14,7 @@ import webinarRoutes from './routes/webinarRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
 import portfolioRoutes from './routes/portfolioRoutes.js';
+import applicationRoutes from './routes/applicationRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -52,6 +53,7 @@ app.use('/api/webinars', webinarRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/applications', applicationRoutes);
 
 // Start the server
 const PORT = process.env.PORT ;

@@ -17,6 +17,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';  
 import ForgotPassword from './pages/ForgotPassword';
+import MyApplications from './pages/MyApplications';
 import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
@@ -42,6 +43,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/applications" element={
+          <ProtectedRoute requiredRole="user">
+            <MyApplications />
+          </ProtectedRoute>
+        } />
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard/admin" element={
           <ProtectedRoute requiredRole="admin">
