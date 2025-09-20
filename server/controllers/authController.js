@@ -1,6 +1,10 @@
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+
+// Store OTPs temporarily (in production, use Redis or database)
+const otpStore = new Map();
 
 // Register User (example)
 // export const registerUser = async (req, res) => {
@@ -143,4 +147,128 @@ export const loginUser = async (req, res) => {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
+};
+
+// Forgot Password - Generate OTP
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    // Generate 4-digit OTP
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    
+    // Store OTP with expiration (5 minutes)
+    otpStore.set(email, {
+      otp,
+      expires: Date.now() + 5 * 60 * 1000
+    });
+    
+    // Send OTP via email
+    await sendOTPEmail(email, otp, user.firstName);
+    
+    res.status(200).json({ message: 'OTP sent to your email' });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Reset Password
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    
+    // Check if OTP exists and is valid
+    const storedOTP = otpStore.get(email);
+    if (!storedOTP) {
+      return res.status(400).json({ message: 'OTP expired or invalid' });
+    }
+    
+    if (storedOTP.expires < Date.now()) {
+      otpStore.delete(email);
+      return res.status(400).json({ message: 'OTP expired' });
+    }
+    
+    if (storedOTP.otp !== otp) {
+      return res.status(400).json({ message: 'Invalid OTP' });
+    }
+    
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    // Update user password
+    await User.findOneAndUpdate(
+      { email },
+      { password: hashedPassword }
+    );
+    
+    // Remove OTP from store
+    otpStore.delete(email);
+    
+    res.status(200).json({ message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Email service function
+const sendOTPEmail = async (email, otp, firstName) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+  
+  const mailOptions = {
+    from: `"MytechZ.in" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: '🔐 Password Reset OTP - MytechZ.in',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+          <h1 style="color: white; margin: 0; font-size: 28px;">🚀 MytechZ.in</h1>
+          <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Your Tech Career Portal</p>
+        </div>
+        
+        <div style="background: white; padding: 40px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+          <h2 style="color: #333; margin-bottom: 20px;">Hello ${firstName}! 👋</h2>
+          
+          <p style="color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+            We received a request to reset your password. Use the OTP below to proceed:
+          </p>
+          
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px; text-align: center; margin: 30px 0;">
+            <h1 style="color: white; font-size: 36px; margin: 0; letter-spacing: 8px; font-weight: bold;">${otp}</h1>
+            <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">This OTP expires in 5 minutes</p>
+          </div>
+          
+          <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p style="color: #856404; margin: 0; font-size: 14px;">
+              ⚠️ <strong>Security Note:</strong> If you didn't request this password reset, please ignore this email and your password will remain unchanged.
+            </p>
+          </div>
+          
+          <p style="color: #666; font-size: 14px; line-height: 1.6; margin-top: 30px;">
+            Best regards,<br>
+            <strong>The MytechZ Team</strong> 💼
+          </p>
+        </div>
+        
+        <div style="text-align: center; padding: 20px; color: #999; font-size: 12px;">
+          <p>© 2024 MytechZ.in - Premier Technology Solutions & Job Portal</p>
+          <p>This is an automated message, please do not reply to this email.</p>
+        </div>
+      </div>
+    `
+  };
+  
+  await transporter.sendMail(mailOptions);
 };
