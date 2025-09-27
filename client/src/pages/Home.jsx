@@ -143,9 +143,8 @@ export default function Home() {
       {/* Hero Section */}
       <div className="hero-section">
         <div className="hero-text" ref={useScrollAnimation('move-in-left')}>
-          <h1>
-            Find the Right Job. Build Your Career with <span> MytechZ</span>.
-          </h1>
+          <h1>Find the Right Job. Build Your Career with <span> MytechZ</span>.</h1>
+
           <p className="hero-subtext">
             Government & Private Jobs • Admit Cards • Results • Internships — All in One Place
           </p>
