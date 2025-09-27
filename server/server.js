@@ -63,6 +63,8 @@ app.listen(PORT, () => {
 });
 
 /*
+
+/api/resume/templates
 Available endpoints:
 id- Naresh@mytechz.in
 pass- admin123
