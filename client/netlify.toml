@@ -18,6 +18,3 @@
   bundle = true
   minify = true
 
-# Enable prerendering for better SEO
-[[plugins]]
-  package = "@netlify/plugin-prerender-spa"
