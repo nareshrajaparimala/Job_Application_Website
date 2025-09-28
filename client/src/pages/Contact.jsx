@@ -69,7 +69,7 @@ function Contact() {
             <div className="team-card animate-slide-up">
               <div className="team-avatar" style={{borderRadius:"50%", overflow:"hidden"}}>
                 {/* <i className="ri-user-line"></i> */}
-                <img src="./assets/RaviKumar(img).png" alt="" style={{height:"100px", width:"100px"}}/>
+                <img src="./assets/RaviKumar(img).png" alt="Ravi Kumar HS - Founder & MD" style={{height:"100px", width:"100px"}}/>
               </div>
               <div className="team-info">
                 <h3>Ravi Kumar HS</h3>
@@ -90,7 +90,7 @@ function Contact() {
             <div className="team-card animate-slide-up delay-1">
               <div className="team-avatar" style={{borderRadius:"50%", overflow:"hidden"}}>
                 {/* <i className="ri-user-line"></i> */}
-                <img src="./assets/Naresh(img).png" alt="" style={{height:"100px", width:"100px"}}/>
+                <img src="./assets/Naresh(img).png" alt="Naresh R - Co-Founder & CEO" style={{height:"100px", width:"100px"}}/>
               </div>
               <div className="team-info">
                 <h3>Naresh R</h3>
@@ -111,7 +111,7 @@ function Contact() {
             <div className="team-card animate-slide-up delay-2">
               <div className="team-avatar" style={{borderRadius:"50%", overflow:"hidden"}}>
                 {/* <i className="ri-user-line"></i> */}
-                <img src="./assets/PrajwalGowda(img).png" alt="" style={{height:"80px", width:"90px"}}/>
+                <img src="./assets/PrajwalGowda(img).png" alt="Prajwal Gowda A - Leading AI Consultant & CMO" style={{height:"80px", width:"90px"}}/>
               </div>
               <div className="team-info">
                 <h3>Prajwal Gowda A</h3>

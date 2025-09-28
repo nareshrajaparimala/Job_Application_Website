@@ -141,7 +141,7 @@ function Profile() {
                 {profile.profilePhoto ? (
                   <img 
                     src={profile.profilePhoto} 
-                    alt="Profile" 
+                    alt="User Profile Picture" 
                     onError={(e) => {
                       e.target.style.display = 'none';
                       e.target.nextSibling.style.display = 'flex';

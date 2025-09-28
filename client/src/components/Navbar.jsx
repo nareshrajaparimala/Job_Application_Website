@@ -101,7 +101,7 @@ function Navbar() {
         </div>
         {/* img dev logo */}
         <div className='logo-img-div-nav'>
-          <img src="../assets/logo2.png" alt="" className="logo-img"/>
+          <img src="../assets/logo2.png" alt="MytechZ Logo" className="logo-img"/>
         </div>
         {/* <h3 id="logo-text">Hireloop</h3> */}
       </div>
@@ -138,7 +138,7 @@ function Navbar() {
               <>
                 <img 
                   src={userInfo.profilePhoto} 
-                  alt="Profile" 
+                  alt="User Profile Picture" 
                   className="profile-nav-img"
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -165,7 +165,7 @@ function Navbar() {
               <>
                 <img 
                   src={userInfo.profilePhoto} 
-                  alt="Profile" 
+                  alt="User Profile Picture" 
                   className="sidebar-profile-img"
                   onError={(e) => {
                     e.target.style.display = 'none';
