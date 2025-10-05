@@ -13,5 +13,12 @@ export default defineConfig({
         }
       }
     }
+  },
+  server: {
+    allowedHosts: [
+      'localhost',
+      'ba2ff62747c0.ngrok-free.app',
+      '*' // add your ngrok domain here
+    ]
   }
 })

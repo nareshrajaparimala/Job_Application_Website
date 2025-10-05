@@ -318,6 +318,18 @@
   .highlights-grid {
     grid-template-columns: 1fr;
   }
+
+  .highlight-item {
+    padding: 16px;
+    min-height: 48px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .highlight-item:active {
+    background: #e9ecef;
+    transform: scale(0.98);
+  }
   
   .modal-actions {
     padding: 20px;

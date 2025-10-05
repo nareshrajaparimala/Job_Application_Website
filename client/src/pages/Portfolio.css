@@ -755,6 +755,18 @@
     gap: 1rem;
   }
 
+  .highlight-item {
+    padding: 2.5rem 1.5rem;
+    min-height: 120px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .highlight-item:active {
+    transform: scale(0.95);
+    box-shadow: 0 5px 15px rgba(160, 32, 240, 0.3);
+  }
+
   .pricing-cards {
     grid-template-columns: 1fr;
   }

@@ -172,6 +172,8 @@
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 .price-item {
@@ -278,5 +280,23 @@
   .templates-info {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .template-pricing {
+    padding: 15px;
+  }
+
+  .price-item {
+    margin-bottom: 15px;
+  }
+
+  .price-label,
+  .price-value {
+    font-size: 1rem;
+  }
+
+  .select-template-btn {
+    padding: 18px 20px;
+    font-size: 1.1rem;
   }
 }

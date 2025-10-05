@@ -29,16 +29,16 @@ function Footer() {
         <div className="footer-col">
           <h4>Contact</h4>
           <p>
-            <strong>Email:</strong> <a href="mailto:support@mytechz.com">support@mytechz.com</a><br />
-            <strong>Phone:</strong> <a href="tel:+911234567890">+91 12345 67890</a><br />
+            <strong>Email:</strong> <a href="mailto:support@mytechz.com">naresh@mytechz.in</a><br />
+            <strong>Phone:</strong> <a href="tel:+911234567890">+91 6361718992</a><br />
             <strong>Address:</strong><br />
-            2nd Floor, Tech Park,<br />
+            <br />
             Bangalore, India
           </p>
            <div className="footer-social">
-            <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" aria-label="Twitter">🐦</a>
-            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">📘</a>
-            <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">🔗</a>
+            <a href="https://www.linkedin.com/company/108975050/" target="_blank" rel="noopener noreferrer" aria-label="Twitter">🐦</a>
+            <a href="https://www.linkedin.com/company/108975050/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">📘</a>
+            <a href="https://www.linkedin.com/company/108975050/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">🔗</a>
           </div>
         </div>
       </div>
