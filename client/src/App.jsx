@@ -24,7 +24,29 @@ import UserDashboard from './pages/UserDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginTest from './pages/LoginTest';
 import NotificationSystem from './components/Notification/NotificationSystem';
+import LoadingPage from './components/LoadingPage/LoadingPage';
+import PopupNotification from './components/PopupNotification/PopupNotification';
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [notification, setNotification] = useState({ message: '', type: 'success', isVisible: false });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    window.showPopup = (message, type = 'success') => {
+      setNotification({ message, type, isVisible: true });
+    };
+  }, []);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
   return (
     <Router >
       <Navbar /> {/* Navbar component for navigation */}
@@ -65,6 +87,12 @@ function App() {
       </Routes>
       <Footer /> {/* Footer component for additional information */}
       <NotificationSystem />
+      <PopupNotification 
+        message={notification.message}
+        type={notification.type}
+        isVisible={notification.isVisible}
+        onClose={() => setNotification(prev => ({ ...prev, isVisible: false }))}
+      />
     </Router>
   )
 }

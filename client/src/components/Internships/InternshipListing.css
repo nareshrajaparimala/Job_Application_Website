@@ -298,6 +298,30 @@
   color: #666;
 }
 
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.get-link-btn {
+  padding: 8px 16px;
+  background: #f8f9fa;
+  color: #667eea;
+  border: 1px solid #e1e5e9;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.get-link-btn:hover {
+  background: #667eea;
+  color: white;
+}
+
 .apply-btn {
   padding: 10px 20px;
   background: #667eea;

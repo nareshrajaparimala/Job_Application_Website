@@ -15,8 +15,23 @@ function JobModal({ job, isOpen, onClose }) {
     const user = localStorage.getItem('user');
     
     if (!token || !user) {
-      alert('Please login to apply for this job');
+      if (window.showPopup) {
+        window.showPopup('Please login to apply', 'warning');
+      } else {
+        alert('Please login to apply for this job');
+      }
       navigate('/login');
+      return;
+    }
+
+    // Check if already applied
+    const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs') || '[]');
+    if (appliedJobs.includes(job.id || job._id)) {
+      if (window.showPopup) {
+        window.showPopup('Already applied to this job', 'info');
+      } else {
+        alert('You have already applied to this job');
+      }
       return;
     }
     
@@ -49,25 +64,49 @@ function JobModal({ job, isOpen, onClose }) {
       });
       
       if (response.ok) {
-        alert('Application submitted successfully!');
+        // Mark as applied
+        const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs') || '[]');
+        appliedJobs.push(job.id || job._id);
+        localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
+        
+        if (window.showPopup) {
+          window.showPopup('Applied successfully!', 'success');
+        } else {
+          alert('Application submitted successfully!');
+        }
         onClose();
       } else {
         console.error('Application failed:', response.status);
-        alert('Application submitted! We will contact you soon.');
+        if (window.showPopup) {
+          window.showPopup('Applied! We will contact you.', 'success');
+        } else {
+          alert('Application submitted! We will contact you soon.');
+        }
         onClose();
       }
     } catch (error) {
       console.error('Error applying for job:', error);
-      alert('An error occurred. Please try again.');
+      if (window.showPopup) {
+        window.showPopup('An error occurred. Please try again.', 'error');
+      } else {
+        alert('An error occurred. Please try again.');
+      }
     }
   };
   
   const handleGetLink = (e) => {
     e.stopPropagation();
-    // Copy job link to clipboard or open external link
-    const jobUrl = `${window.location.origin}/jobs/${job.id}`;
-    navigator.clipboard.writeText(jobUrl);
-    alert('Job link copied to clipboard!');
+    if (job.applicationLink) {
+      window.open(job.applicationLink, '_blank');
+    } else {
+      const jobUrl = `${window.location.origin}/jobs/${job.id}`;
+      navigator.clipboard.writeText(jobUrl);
+      if (window.showPopup) {
+        window.showPopup('Link copied!', 'success');
+      } else {
+        alert('Job link copied to clipboard!');
+      }
+    }
   };
 
   const formatSalary = (salary) => {

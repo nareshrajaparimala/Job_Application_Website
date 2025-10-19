@@ -1,0 +1,167 @@
+.popup-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 280px;
+  height: 50px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  transform: translateX(320px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.popup-notification.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.popup-content {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 8px;
+  height: 47px;
+}
+
+.popup-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.popup-message {
+  flex: 1;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  color: #333;
+  font-weight: 500;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popup-close {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.2s;
+  font-size: 0.7rem;
+}
+
+.popup-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.popup-progress {
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 100%;
+  transform: translateX(-100%);
+  animation: progressSlide 4s linear forwards;
+}
+
+.popup-notification.success .popup-icon {
+  background: #e8f5e8;
+  color: #2d7d2d;
+}
+
+.popup-notification.success .progress-bar {
+  background: #2d7d2d;
+}
+
+.popup-notification.error .popup-icon {
+  background: #ffe8e8;
+  color: #d32f2f;
+}
+
+.popup-notification.error .progress-bar {
+  background: #d32f2f;
+}
+
+.popup-notification.info .popup-icon {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.popup-notification.info .progress-bar {
+  background: #1976d2;
+}
+
+.popup-notification.warning .popup-icon {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.popup-notification.warning .progress-bar {
+  background: #f57c00;
+}
+
+@keyframes progressSlide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .popup-notification {
+    top: 10px;
+    right: 10px;
+    width: 260px;
+    height: 45px;
+    transform: translateX(280px);
+    opacity: 0;
+  }
+  
+  .popup-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  .popup-content {
+    padding: 6px 10px;
+    height: 42px;
+  }
+  
+  .popup-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 0.8rem;
+  }
+  
+  .popup-message {
+    font-size: 0.75rem;
+  }
+  
+  .popup-close {
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+  }
+}

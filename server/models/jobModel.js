@@ -13,6 +13,7 @@ const jobSchema = new mongoose.Schema({
   requirements: [String],
   skills: [String],
   deadline: { type: Date, required: true },
+  applicationLink: { type: String, required: false },
   createdAt: { type: Date, default: Date.now }
 });
 

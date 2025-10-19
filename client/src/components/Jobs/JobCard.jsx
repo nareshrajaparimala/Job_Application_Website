@@ -64,7 +64,22 @@ function JobCard({ job, onClick }) {
           Posted {job.postedDate || 'Recently'}
         </div>
         <div className="job-actions">
-          <button className="get-link-btn">
+          <button 
+            className="get-link-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (job.applicationLink) {
+                window.open(job.applicationLink, '_blank');
+              } else {
+                navigator.clipboard.writeText(`${window.location.origin}/jobs/${job.id}`);
+                if (window.showPopup) {
+                  window.showPopup('Link copied!', 'success');
+                } else {
+                  alert('Job link copied to clipboard!');
+                }
+              }
+            }}
+          >
             <i className="ri-external-link-line"></i>
             Get Link
           </button>

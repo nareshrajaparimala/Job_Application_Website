@@ -13,6 +13,7 @@ const internshipSchema = new mongoose.Schema({
   requirements: [String],
   skills: [String],
   benefits: [String],
+  applicationLink: { type: String, required: false },
   datePosted: { type: Date, default: Date.now },
   deadline: { type: Date, default: () => new Date(Date.now() + 30*24*60*60*1000) }
 });

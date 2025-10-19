@@ -10,7 +10,7 @@ function AddContentForm({ type, onClose, onSuccess }) {
         return {
           title: '', company: '', location: '', salary: '', jobType: 'Full-time',
           workMode: 'Remote', category: 'private', shortDescription: '',
-          description: 'Default description', requirements: '', skills: '', deadline: ''
+          description: 'Default description', requirements: '', skills: '', deadline: '', applicationLink: ''
         };
       case 'webinar':
         return {
@@ -22,7 +22,7 @@ function AddContentForm({ type, onClose, onSuccess }) {
         return {
           title: '', company: '', location: '', duration: '', stipend: '',
           workMode: 'Remote', type: 'Full-time', shortDescription: '',
-          description: 'Default description', requirements: '', skills: ''
+          description: 'Default description', requirements: '', skills: '', applicationLink: ''
         };
       case 'college':
         return {
@@ -83,6 +83,7 @@ function AddContentForm({ type, onClose, onSuccess }) {
       <textarea placeholder="Full Description" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} required />
       <textarea placeholder="Requirements (comma separated)" value={formData.requirements} onChange={(e) => setFormData({...formData, requirements: e.target.value})} />
       <textarea placeholder="Skills (comma separated)" value={formData.skills} onChange={(e) => setFormData({...formData, skills: e.target.value})} />
+      <input placeholder="Application Link (URL)" value={formData.applicationLink} onChange={(e) => setFormData({...formData, applicationLink: e.target.value})} />
       <input type="date" value={formData.deadline} onChange={(e) => setFormData({...formData, deadline: e.target.value})} required />
     </>
   );
@@ -121,6 +122,7 @@ function AddContentForm({ type, onClose, onSuccess }) {
       <textarea placeholder="Full Description" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} required />
       <textarea placeholder="Requirements (comma separated)" value={formData.requirements} onChange={(e) => setFormData({...formData, requirements: e.target.value})} />
       <textarea placeholder="Skills (comma separated)" value={formData.skills} onChange={(e) => setFormData({...formData, skills: e.target.value})} />
+      <input placeholder="Application Link (URL)" value={formData.applicationLink} onChange={(e) => setFormData({...formData, applicationLink: e.target.value})} />
     </>
   );
 
