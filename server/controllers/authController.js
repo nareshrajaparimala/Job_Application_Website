@@ -220,11 +220,19 @@ export const resetPassword = async (req, res) => {
 // Email service function
 const sendOTPEmail = async (email, otp, firstName) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
-    }
+    },
+    tls: {
+      rejectUnauthorized: false
+    },
+    connectionTimeout: 60000,
+    greetingTimeout: 30000,
+    socketTimeout: 60000
   });
   
   const mailOptions = {
@@ -270,7 +278,14 @@ const sendOTPEmail = async (email, otp, firstName) => {
     `
   };
   
-  await transporter.sendMail(mailOptions);
+  try {
+    const result = await transporter.sendMail(mailOptions);
+    console.log('✅ OTP email sent successfully:', result.messageId);
+    return result;
+  } catch (error) {
+    console.error('❌ Failed to send OTP email:', error.message);
+    throw new Error('Failed to send OTP email. Please try again.');
+  }
 };
 
 // Get user profile
