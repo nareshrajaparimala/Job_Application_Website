@@ -154,6 +154,10 @@ export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
     
+    console.log('🔍 Forgot password request for:', email);
+    console.log('📧 EMAIL_USER configured:', !!process.env.EMAIL_USER);
+    console.log('🔑 EMAIL_PASS configured:', !!process.env.EMAIL_PASS);
+    
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -161,6 +165,7 @@ export const forgotPassword = async (req, res) => {
     
     // Generate 4-digit OTP
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    console.log('🔢 Generated OTP:', otp);
     
     // Store OTP with expiration (5 minutes)
     otpStore.set(email, {
@@ -168,13 +173,24 @@ export const forgotPassword = async (req, res) => {
       expires: Date.now() + 5 * 60 * 1000
     });
     
-    // Send OTP via email
-    await sendOTPEmail(email, otp, user.firstName);
-    
-    res.status(200).json({ message: 'OTP sent to your email' });
+    try {
+      // Send OTP via email
+      await sendOTPEmail(email, otp, user.firstName);
+      res.status(200).json({ message: 'OTP sent to your email' });
+    } catch (emailError) {
+      console.error('❌ Email sending failed:', emailError.message);
+      // Still return success but log the error
+      res.status(200).json({ 
+        message: 'OTP generated. Check server logs for email status.',
+        debug: process.env.NODE_ENV === 'development' ? `OTP: ${otp}` : undefined
+      });
+    }
   } catch (error) {
-    console.error('Forgot password error:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('❌ Forgot password error:', error);
+    res.status(500).json({ 
+      message: 'Server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 
@@ -219,6 +235,12 @@ export const resetPassword = async (req, res) => {
 
 // Email service function
 const sendOTPEmail = async (email, otp, firstName) => {
+  console.log('📧 Attempting to send OTP email to:', email);
+  
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    throw new Error('Email credentials not configured');
+  }
+  
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -232,7 +254,9 @@ const sendOTPEmail = async (email, otp, firstName) => {
     },
     connectionTimeout: 60000,
     greetingTimeout: 30000,
-    socketTimeout: 60000
+    socketTimeout: 60000,
+    debug: true,
+    logger: true
   });
   
   const mailOptions = {
@@ -279,12 +303,21 @@ const sendOTPEmail = async (email, otp, firstName) => {
   };
   
   try {
+    // Verify connection first
+    await transporter.verify();
+    console.log('✅ SMTP connection verified');
+    
     const result = await transporter.sendMail(mailOptions);
     console.log('✅ OTP email sent successfully:', result.messageId);
     return result;
   } catch (error) {
-    console.error('❌ Failed to send OTP email:', error.message);
-    throw new Error('Failed to send OTP email. Please try again.');
+    console.error('❌ Failed to send OTP email:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response
+    });
+    throw new Error(`Email service error: ${error.message}`);
   }
 };
 
