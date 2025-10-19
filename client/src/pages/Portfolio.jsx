@@ -116,7 +116,12 @@ function Portfolio() {
               <li>📌 Responsive</li>
             </ul>
             <div className="template-buttons">
-              <button className="btn-secondary">View Sample Template</button>
+              <button 
+                className="btn-secondary" 
+                onClick={() => window.open('https://nareshr-code-portfolio.netlify.app', '_blank')}
+              >
+                View Sample Template
+              </button>
               <button className="btn-primary" onClick={() => handleTemplateSelect('predefined')}>
                 Get Started
               </button>
