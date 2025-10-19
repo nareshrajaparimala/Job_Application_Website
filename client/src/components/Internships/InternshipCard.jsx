@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './InternshipListing.css';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 function InternshipCard({ internship, onClick }) {
+  const [isLoading, setIsLoading] = useState(false);
+  
   const handleApply = async (e) => {
     e.stopPropagation();
+    setIsLoading(true);
     
     const token = localStorage.getItem('token');
     if (!token) {
+      setIsLoading(false);
       if (window.showPopup) {
         window.showPopup('Please login to apply', 'warning');
       } else {
@@ -19,6 +24,7 @@ function InternshipCard({ internship, onClick }) {
     // Check if already applied
     const appliedInternships = JSON.parse(localStorage.getItem('appliedInternships') || '[]');
     if (appliedInternships.includes(internship.id || internship._id)) {
+      setIsLoading(false);
       if (window.showPopup) {
         window.showPopup('Already applied to this internship', 'info');
       } else {
@@ -48,7 +54,9 @@ function InternshipCard({ internship, onClick }) {
         } else {
           alert('Application submitted successfully!');
         }
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         if (window.showPopup) {
           window.showPopup('Failed to apply', 'error');
         } else {
@@ -56,6 +64,7 @@ function InternshipCard({ internship, onClick }) {
         }
       }
     } catch (error) {
+      setIsLoading(false);
       if (window.showPopup) {
         window.showPopup('Error applying to internship', 'error');
       } else {
@@ -65,7 +74,9 @@ function InternshipCard({ internship, onClick }) {
   };
 
   return (
-    <div className="internship-card" onClick={() => onClick(internship)}>
+    <>
+      {isLoading && <LoadingSpinner message="Submitting application..." />}
+      <div className="internship-card" onClick={() => onClick(internship)}>
       <div className="card-header">
         <div className="company-info">
           <h3 className="internship-title">{internship.title}</h3>
@@ -137,6 +148,7 @@ function InternshipCard({ internship, onClick }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

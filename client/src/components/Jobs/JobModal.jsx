@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './JobModal.css';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 function JobModal({ job, isOpen, onClose }) {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   
   if (!isOpen || !job) return null;
   
   const handleApply = async (e) => {
     e.stopPropagation();
+    setIsLoading(true);
     
     // Check if user is logged in
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
     
     if (!token || !user) {
+      setIsLoading(false);
       if (window.showPopup) {
         window.showPopup('Please login to apply', 'warning');
       } else {
@@ -27,6 +31,7 @@ function JobModal({ job, isOpen, onClose }) {
     // Check if already applied
     const appliedJobs = JSON.parse(localStorage.getItem('appliedJobs') || '[]');
     if (appliedJobs.includes(job.id || job._id)) {
+      setIsLoading(false);
       if (window.showPopup) {
         window.showPopup('Already applied to this job', 'info');
       } else {
@@ -74,6 +79,7 @@ function JobModal({ job, isOpen, onClose }) {
         } else {
           alert('Application submitted successfully!');
         }
+        setIsLoading(false);
         onClose();
       } else {
         console.error('Application failed:', response.status);
@@ -82,10 +88,12 @@ function JobModal({ job, isOpen, onClose }) {
         } else {
           alert('Application submitted! We will contact you soon.');
         }
+        setIsLoading(false);
         onClose();
       }
     } catch (error) {
       console.error('Error applying for job:', error);
+      setIsLoading(false);
       if (window.showPopup) {
         window.showPopup('An error occurred. Please try again.', 'error');
       } else {
@@ -129,7 +137,9 @@ function JobModal({ job, isOpen, onClose }) {
   };
 
   return (
-    <div className="job-modal-overlay" onClick={onClose}>
+    <>
+      {isLoading && <LoadingSpinner message="Submitting application..." />}
+      <div className="job-modal-overlay" onClick={onClose}>
       <div className="job-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div className="modal-title-section">
@@ -251,6 +261,7 @@ function JobModal({ job, isOpen, onClose }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
