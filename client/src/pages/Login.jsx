@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Login.css';
 
 function Login() {
-  // 🔐 State for form fields and UI control
+  // State for form fields and UI control
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
@@ -11,7 +11,7 @@ function Login() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
 
-  // 🔁 Handle form submission
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -41,7 +41,7 @@ function Login() {
     }
   };
 
-  // ❌ Click outside modal → Go back
+  // Click outside modal to go back
   const handlePageClick = (e) => {
     if (!e.target.closest('.inbox-div')) {
       window.history.back();

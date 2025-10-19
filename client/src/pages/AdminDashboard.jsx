@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './AdminDashboard.css';
 import AddContentForm from '../components/Admin/AddContentForm';
 import TemplateEditModal from '../components/Admin/TemplateEditModal';
+import ContentManager from '../components/Admin/ContentManager';
 
 function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
@@ -251,6 +252,24 @@ function AdminDashboard() {
         >
           Portfolio Requests
         </button>
+        <button 
+          className={activeTab === 'manage-jobs' ? 'active' : ''} 
+          onClick={() => setActiveTab('manage-jobs')}
+        >
+          Manage Jobs
+        </button>
+        <button 
+          className={activeTab === 'manage-internships' ? 'active' : ''} 
+          onClick={() => setActiveTab('manage-internships')}
+        >
+          Manage Internships
+        </button>
+        <button 
+          className={activeTab === 'manage-webinars' ? 'active' : ''} 
+          onClick={() => setActiveTab('manage-webinars')}
+        >
+          Manage Webinars
+        </button>
       </nav>
 
       <main className="dashboard-content">
@@ -496,7 +515,11 @@ function AdminDashboard() {
         <AddContentForm 
           type={showAddForm} 
           onClose={() => setShowAddForm(null)}
-          onSuccess={() => fetchDashboardData()}
+          onSuccess={() => {
+            fetchDashboardData();
+            // Trigger refresh of content lists
+            window.dispatchEvent(new CustomEvent('refreshContent', { detail: { type: showAddForm } }));
+          }}
         />
       )}
       
@@ -506,6 +529,18 @@ function AdminDashboard() {
           onSave={handleTemplateSave}
           onClose={() => setEditingTemplate(null)}
         />
+      )}
+
+      {activeTab === 'manage-jobs' && (
+        <ContentManager type="jobs" />
+      )}
+
+      {activeTab === 'manage-internships' && (
+        <ContentManager type="internships" />
+      )}
+
+      {activeTab === 'manage-webinars' && (
+        <ContentManager type="webinars" />
       )}
     </div>
   );

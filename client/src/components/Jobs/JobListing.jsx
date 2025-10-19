@@ -5,6 +5,12 @@ import JobCard from './JobCard';
 import JobModal from './JobModal';
 import { sampleJobs } from './jobData';
 import './JobListing.css';
+import '../AdminDeleteButton.css';
+
+const isAdmin = () => {
+  const user = localStorage.getItem('user');
+  return user && JSON.parse(user).role === 'admin';
+};
 
 function JobListing({ jobType }) {
   const [jobs, setJobs] = useState([]);
@@ -25,26 +31,48 @@ function JobListing({ jobType }) {
     fetchJobs();
   }, [jobType]);
 
+  useEffect(() => {
+    const handleRefresh = (event) => {
+      if (event.detail.type === 'job') {
+        fetchJobs();
+      }
+    };
+    
+    window.addEventListener('refreshContent', handleRefresh);
+    return () => window.removeEventListener('refreshContent', handleRefresh);
+  }, []);
+
   const fetchJobs = async () => {
     try {
-      console.log('Fetching jobs for type:', jobType);
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/jobs`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/jobs?category=${jobType}`);
       if (response.ok) {
         const data = await response.json();
-        console.log('All jobs from API:', data);
-        const filteredData = data.filter(job => job.category === jobType);
-        console.log('Filtered jobs:', filteredData);
-        setJobs(filteredData);
-        setFilteredJobs(filteredData);
+        if (Array.isArray(data) && data.length > 0) {
+          setJobs(data);
+          setFilteredJobs(data);
+        } else {
+          // If no data from API, use sample data but filter out deleted ones
+          const deletedIds = JSON.parse(localStorage.getItem('deletedJobIds') || '[]');
+          const jobData = (sampleJobs[jobType] || []).filter(job => 
+            !deletedIds.includes(job.id) && !deletedIds.includes(job._id)
+          );
+          setJobs(jobData);
+          setFilteredJobs(jobData);
+        }
       } else {
-        console.log('API failed, using sample data');
-        const jobData = sampleJobs[jobType] || [];
+        const deletedIds = JSON.parse(localStorage.getItem('deletedJobIds') || '[]');
+        const jobData = (sampleJobs[jobType] || []).filter(job => 
+          !deletedIds.includes(job.id) && !deletedIds.includes(job._id)
+        );
         setJobs(jobData);
         setFilteredJobs(jobData);
       }
     } catch (error) {
       console.error('Error fetching jobs:', error);
-      const jobData = sampleJobs[jobType] || [];
+      const deletedIds = JSON.parse(localStorage.getItem('deletedJobIds') || '[]');
+      const jobData = (sampleJobs[jobType] || []).filter(job => 
+        !deletedIds.includes(job.id) && !deletedIds.includes(job._id)
+      );
       setJobs(jobData);
       setFilteredJobs(jobData);
     }
@@ -55,49 +83,50 @@ function JobListing({ jobType }) {
     let filtered = [...jobs];
 
     // Search filter
-    if (searchTerm) {
+    if (searchTerm && searchTerm.trim()) {
       filtered = filtered.filter(job =>
-        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.shortDescription.toLowerCase().includes(searchTerm.toLowerCase())
+        (job.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (job.company || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (job.shortDescription || '').toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     // State filter
-    if (filters.state) {
+    if (filters.state && filters.state.trim()) {
       filtered = filtered.filter(job =>
-        job.location.toLowerCase().includes(filters.state.toLowerCase())
+        (job.location || '').toLowerCase().includes(filters.state.toLowerCase())
       );
     }
 
     // City filter
-    if (filters.city) {
+    if (filters.city && filters.city.trim()) {
       filtered = filtered.filter(job =>
-        job.location.toLowerCase().includes(filters.city.toLowerCase())
+        (job.location || '').toLowerCase().includes(filters.city.toLowerCase())
       );
     }
 
     // Salary filter
-    if (filters.salary) {
+    if (filters.salary && filters.salary.trim()) {
       filtered = filtered.filter(job => {
-        const jobSalary = job.salary.split('-').map(s => parseInt(s.replace(/[^\d]/g, '')));
-        const filterRange = filters.salary.split('-').map(s => parseInt(s.replace(/[^\d]/g, '')));
+        if (!job.salary) return false;
+        const jobSalary = job.salary.split('-').map(s => parseInt(s.replace(/[^\d]/g, '') || '0'));
+        const filterRange = filters.salary.split('-').map(s => parseInt(s.replace(/[^\d]/g, '') || '0'));
         
         if (filters.salary.includes('+')) {
           return jobSalary[0] >= filterRange[0];
         }
         
-        return jobSalary[0] >= filterRange[0] && jobSalary[1] <= filterRange[1];
+        return jobSalary[0] >= filterRange[0] && (jobSalary[1] || jobSalary[0]) <= filterRange[1];
       });
     }
 
     // Job type filter
-    if (filters.jobType) {
+    if (filters.jobType && filters.jobType.trim()) {
       filtered = filtered.filter(job => job.jobType === filters.jobType);
     }
 
     // Work mode filter
-    if (filters.workMode) {
+    if (filters.workMode && filters.workMode.trim()) {
       filtered = filtered.filter(job => job.workMode === filters.workMode);
     }
 
@@ -105,19 +134,19 @@ function JobListing({ jobType }) {
     filtered.sort((a, b) => {
       switch (filters.sortBy) {
         case 'latest':
-          return new Date(b.datePosted) - new Date(a.datePosted);
+          return new Date(b.createdAt || b.datePosted || 0) - new Date(a.createdAt || a.datePosted || 0);
         case 'oldest':
-          return new Date(a.datePosted) - new Date(b.datePosted);
+          return new Date(a.createdAt || a.datePosted || 0) - new Date(b.createdAt || b.datePosted || 0);
         case 'salary-high':
-          const aSalaryHigh = parseInt(a.salary.split('-')[1] || a.salary.split('-')[0]);
-          const bSalaryHigh = parseInt(b.salary.split('-')[1] || b.salary.split('-')[0]);
+          const aSalaryHigh = parseInt((a.salary || '0').split('-')[1] || (a.salary || '0').split('-')[0]);
+          const bSalaryHigh = parseInt((b.salary || '0').split('-')[1] || (b.salary || '0').split('-')[0]);
           return bSalaryHigh - aSalaryHigh;
         case 'salary-low':
-          const aSalaryLow = parseInt(a.salary.split('-')[0]);
-          const bSalaryLow = parseInt(b.salary.split('-')[0]);
+          const aSalaryLow = parseInt((a.salary || '0').split('-')[0]);
+          const bSalaryLow = parseInt((b.salary || '0').split('-')[0]);
           return aSalaryLow - bSalaryLow;
         case 'deadline':
-          return new Date(a.deadline) - new Date(b.deadline);
+          return new Date(a.deadline || 0) - new Date(b.deadline || 0);
         default:
           return 0;
       }
@@ -144,6 +173,36 @@ function JobListing({ jobType }) {
     setSelectedJob(null);
   };
 
+  const handleDeleteJob = async (jobId) => {
+    window.showConfirm('Are you sure you want to delete this job?', async () => {
+    
+    // Store deleted ID in localStorage for permanent deletion of sample data
+    const deletedIds = JSON.parse(localStorage.getItem('deletedJobIds') || '[]');
+    if (!deletedIds.includes(jobId)) {
+      deletedIds.push(jobId);
+      localStorage.setItem('deletedJobIds', JSON.stringify(deletedIds));
+    }
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/jobs/${jobId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      // Remove from current state regardless of API response
+      setJobs(jobs.filter(job => job._id !== jobId && job.id !== jobId));
+      setFilteredJobs(filteredJobs.filter(job => job._id !== jobId && job.id !== jobId));
+      window.showNotification('Job deleted permanently!', 'success');
+    } catch (error) {
+      // Remove from current state even if API fails
+      setJobs(jobs.filter(job => job._id !== jobId && job.id !== jobId));
+      setFilteredJobs(filteredJobs.filter(job => job._id !== jobId && job.id !== jobId));
+      window.showNotification('Job deleted permanently!', 'success');
+    }
+    });
+  };
+
   return (
     <div className="job-listing-container">
       <JobSearch onSearch={handleSearch} jobType={jobType} />
@@ -164,8 +223,20 @@ function JobListing({ jobType }) {
           <div className="jobs-list">
             {filteredJobs.length > 0 ? (
               filteredJobs.map((job, index) => (
-                <div key={job.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                <div key={job._id || job.id} style={{ animationDelay: `${index * 0.1}s` }} className="job-item">
                   <JobCard job={job} onClick={handleJobClick} />
+                  {isAdmin() && (
+                    <button 
+                      className="admin-delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteJob(job._id || job.id);
+                      }}
+                      title="Delete Job"
+                    >
+                      <i className="ri-delete-bin-line"></i>
+                    </button>
+                  )}
                 </div>
               ))
             ) : (

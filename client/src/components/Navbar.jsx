@@ -53,7 +53,7 @@ function Navbar() {
   }, []);
 
   // update the user name
-  const [userInfo, setUserInfo] = useState(null);  // 🆕 New state
+  const [userInfo, setUserInfo] = useState(null);  // New state
   useEffect(() => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
@@ -213,18 +213,18 @@ function Navbar() {
         <div className="sidebar-divider"></div> */}
         <li>
           <button onClick={() => {
-             // 🔐 Clear auth data
+             // Clear auth data
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
 
-                // 🔄 Optional: update login state
+                // Update login state
                 setIsLoggedIn(false);
                 setUserInfo(null);
 
-                // ❌ Close sidebar
+                // Close sidebar
                 handleSidebarClose();
 
-                // 🔁 Redirect to login or homepage
+                // Redirect to login or homepage
             window.location.href = '/login';
           }}>
             Logout

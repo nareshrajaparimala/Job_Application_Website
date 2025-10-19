@@ -5,6 +5,12 @@ import WebinarCard from './WebinarCard';
 import WebinarModal from './WebinarModal';
 import { sampleWebinars } from './webinarData';
 import './WebinarListing.css';
+import '../AdminDeleteButton.css';
+
+const isAdmin = () => {
+  const user = localStorage.getItem('user');
+  return user && JSON.parse(user).role === 'admin';
+};
 
 function WebinarListing() {
   const [webinars, setWebinars] = useState([]);
@@ -25,9 +31,20 @@ function WebinarListing() {
     fetchWebinars();
   }, []);
 
+  useEffect(() => {
+    const handleRefresh = (event) => {
+      if (event.detail.type === 'webinar') {
+        fetchWebinars();
+      }
+    };
+    
+    window.addEventListener('refreshContent', handleRefresh);
+    return () => window.removeEventListener('refreshContent', handleRefresh);
+  }, []);
+
   const fetchWebinars = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/webinars`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/webinars`);
       if (response.ok) {
         const data = await response.json();
         setWebinars(data);
@@ -104,6 +121,26 @@ function WebinarListing() {
     setSelectedWebinar(null);
   };
 
+  const handleDeleteWebinar = async (webinarId) => {
+    window.showConfirm('Are you sure you want to delete this webinar?', async () => {
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/webinars/${webinarId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        setWebinars(webinars.filter(webinar => webinar._id !== webinarId));
+        window.showNotification('Webinar deleted successfully!', 'success');
+      }
+    } catch (error) {
+      window.showNotification('Error deleting webinar', 'error');
+    }
+    });
+  };
+
   return (
     <div className="webinar-listing-container">
       <WebinarSearch onSearch={handleSearch} />
@@ -135,8 +172,20 @@ function WebinarListing() {
           <div className="webinars-list">
             {filteredWebinars.length > 0 ? (
               filteredWebinars.map((webinar, index) => (
-                <div key={webinar.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                <div key={webinar._id || webinar.id} style={{ animationDelay: `${index * 0.1}s` }} className="webinar-item">
                   <WebinarCard webinar={webinar} onClick={handleWebinarClick} />
+                  {isAdmin() && (
+                    <button 
+                      className="admin-delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteWebinar(webinar._id || webinar.id);
+                      }}
+                      title="Delete Webinar"
+                    >
+                      <i className="ri-delete-bin-line"></i>
+                    </button>
+                  )}
                 </div>
               ))
             ) : (

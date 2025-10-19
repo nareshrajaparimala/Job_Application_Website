@@ -14,7 +14,7 @@ function FilterAndCards({ searchQuery, filters, setFilters }) {
   const [selectedCollege, setSelectedCollege] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  // 🔍 Filter & Sort Function
+  // Filter & Sort Function
   const applyFilters = () => {
     let filtered = [...collegeData];
 

@@ -19,4 +19,7 @@ const webinarSchema = new mongoose.Schema({
   datePosted: { type: Date, default: Date.now }
 });
 
+webinarSchema.index({ datePosted: -1 });
+webinarSchema.index({ title: 'text', speaker: 'text' });
+
 export default mongoose.models.Webinar || mongoose.model('Webinar', webinarSchema);

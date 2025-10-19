@@ -16,4 +16,7 @@ const jobSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+jobSchema.index({ category: 1, createdAt: -1 });
+jobSchema.index({ title: 'text', company: 'text' });
+
 export default mongoose.models.Job || mongoose.model('Job', jobSchema);

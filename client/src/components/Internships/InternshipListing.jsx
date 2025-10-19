@@ -5,6 +5,12 @@ import InternshipCard from './InternshipCard';
 import InternshipModal from './InternshipModal';
 import { sampleInternships } from './internshipData';
 import './InternshipListing.css';
+import '../AdminDeleteButton.css';
+
+const isAdmin = () => {
+  const user = localStorage.getItem('user');
+  return user && JSON.parse(user).role === 'admin';
+};
 
 function InternshipListing() {
   const [internships, setInternships] = useState([]);
@@ -25,15 +31,25 @@ function InternshipListing() {
     fetchInternships();
   }, []);
 
+  useEffect(() => {
+    const handleRefresh = (event) => {
+      if (event.detail.type === 'internship') {
+        fetchInternships();
+      }
+    };
+    
+    window.addEventListener('refreshContent', handleRefresh);
+    return () => window.removeEventListener('refreshContent', handleRefresh);
+  }, []);
+
   const fetchInternships = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/internships`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/internships`);
       if (response.ok) {
         const data = await response.json();
         setInternships(data);
         setFilteredInternships(data);
       } else {
-        // Fallback to sample data if API fails
         setInternships(sampleInternships);
         setFilteredInternships(sampleInternships);
       }
@@ -121,6 +137,26 @@ function InternshipListing() {
     setSelectedInternship(null);
   };
 
+  const handleDeleteInternship = async (internshipId) => {
+    window.showConfirm('Are you sure you want to delete this internship?', async () => {
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/internships/${internshipId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        setInternships(internships.filter(internship => internship._id !== internshipId));
+        window.showNotification('Internship deleted successfully!', 'success');
+      }
+    } catch (error) {
+      window.showNotification('Error deleting internship', 'error');
+    }
+    });
+  };
+
   return (
     <div className="internship-listing-container">
       <InternshipSearch onSearch={handleSearch} />
@@ -139,8 +175,20 @@ function InternshipListing() {
           <div className="internships-list">
             {filteredInternships.length > 0 ? (
               filteredInternships.map((internship, index) => (
-                <div key={internship.id} style={{ animationDelay: `${index * 0.1}s` }}>
+                <div key={internship._id || internship.id} style={{ animationDelay: `${index * 0.1}s` }} className="internship-item">
                   <InternshipCard internship={internship} onClick={handleInternshipClick} />
+                  {isAdmin() && (
+                    <button 
+                      className="admin-delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteInternship(internship._id || internship.id);
+                      }}
+                      title="Delete Internship"
+                    >
+                      <i className="ri-delete-bin-line"></i>
+                    </button>
+                  )}
                 </div>
               ))
             ) : (

@@ -23,6 +23,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginTest from './pages/LoginTest';
+import NotificationSystem from './components/Notification/NotificationSystem';
 function App() {
   return (
     <Router >
@@ -63,6 +64,7 @@ function App() {
         <Route path="/settings" element={<div>Settings Page</div>} />
       </Routes>
       <Footer /> {/* Footer component for additional information */}
+      <NotificationSystem />
     </Router>
   )
 }

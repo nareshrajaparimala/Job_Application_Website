@@ -283,7 +283,7 @@ function UserDashboard() {
               .map(app => (
                 <div key={app._id} className="notification-item">
                   <div className="notification-icon">
-                    {app.status === 'approved' ? '✅' : app.status === 'interview' ? '📞' : '❌'}
+                    {app.status === 'approved' ? <i className="ri-check-line"></i> : app.status === 'interview' ? <i className="ri-phone-line"></i> : <i className="ri-close-line"></i>}
                   </div>
                   <div className="notification-content">
                     <p>Your job application for <strong>{app.jobTitle}</strong> at <strong>{app.company}</strong> has been {app.status}</p>
@@ -299,7 +299,7 @@ function UserDashboard() {
               .map(app => (
                 <div key={app._id} className="notification-item">
                   <div className="notification-icon">
-                    {app.status === 'approved' ? '✅' : '❌'}
+                    {app.status === 'approved' ? <i className="ri-check-line"></i> : <i className="ri-close-line"></i>}
                   </div>
                   <div className="notification-content">
                     <p>Your application to <strong>{app.collegeName}</strong> has been {app.status}</p>

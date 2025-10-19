@@ -55,7 +55,7 @@ function Portfolio() {
       <div className="portfolio-header">
         <div className="header-content">
           <h1 className="portfolio-title animated-title">
-            Build Your Professional Portfolio With Us 🚀
+            Build Your Professional Portfolio With Us <i className="ri-rocket-line"></i>
           </h1>
           <p className="portfolio-subtitle">
             Showcase your skills, projects, and achievements with stunning portfolio templates.
@@ -66,10 +66,10 @@ function Portfolio() {
         </div>
         <div className="header-animation">
           <div className="floating-elements">
-            <div className="float-item">💼</div>
-            <div className="float-item">🎨</div>
-            <div className="float-item">💻</div>
-            <div className="float-item">🚀</div>
+            <div className="float-item"><i className="ri-briefcase-line"></i></div>
+            <div className="float-item"><i className="ri-palette-line"></i></div>
+            <div className="float-item"><i className="ri-computer-line"></i></div>
+            <div className="float-item"><i className="ri-rocket-line"></i></div>
           </div>
         </div>
       </div>
@@ -147,19 +147,19 @@ function Portfolio() {
         <h2 className="section-title">Why Choose Our Service?</h2>
         <div className="highlights-grid">
           <div className="highlight-item">
-            <div className="highlight-icon">🎨</div>
+            <div className="highlight-icon"><i className="ri-palette-line"></i></div>
             <p>Modern and Responsive Design</p>
           </div>
           <div className="highlight-item">
-            <div className="highlight-icon">⚡</div>
+            <div className="highlight-icon"><i className="ri-flashlight-line"></i></div>
             <p>Easy to Update and Maintain</p>
           </div>
           <div className="highlight-item">
-            <div className="highlight-icon">🔍</div>
+            <div className="highlight-icon"><i className="ri-search-line"></i></div>
             <p>SEO Optimized for Better Reach</p>
           </div>
           <div className="highlight-item">
-            <div className="highlight-icon">💰</div>
+            <div className="highlight-icon"><i className="ri-money-dollar-circle-line"></i></div>
             <p>Affordable Pricing</p>
           </div>
           <div className="highlight-item">
@@ -284,7 +284,7 @@ function Portfolio() {
                 <div className="icon-fix"></div>
               </div>
             </div>
-            <h2>Congratulations! 🎉</h2>
+            <h2>Congratulations! <i className="ri-trophy-line"></i></h2>
             <p>Your application has been submitted successfully!</p>
             <p>We will contact you soon.</p>
           </div>

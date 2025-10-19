@@ -17,4 +17,7 @@ const internshipSchema = new mongoose.Schema({
   deadline: { type: Date, default: () => new Date(Date.now() + 30*24*60*60*1000) }
 });
 
+internshipSchema.index({ datePosted: -1 });
+internshipSchema.index({ title: 'text', company: 'text' });
+
 export default mongoose.models.Internship || mongoose.model('Internship', internshipSchema);

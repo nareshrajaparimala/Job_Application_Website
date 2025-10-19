@@ -16,7 +16,7 @@ function SearchSection({ searchQuery, setSearchQuery }) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button className="search-button" aria-label="Search">
-            🔍
+            <i className="ri-search-line"></i>
           </button>
         </div>
       </div>

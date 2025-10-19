@@ -46,23 +46,23 @@ function AddContentForm({ type, onClose, onSuccess }) {
         processedData.skills = processedData.skills.split(',').map(item => item.trim());
       }
 
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/content`, {
+      const endpoint = type === 'college' ? 'colleges' : `${type}s`;
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/admin/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ type, data: processedData }),
+        body: JSON.stringify(processedData),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+      if (result.success) {
         alert(`${type} added successfully!`);
-        // Force page refresh to show new content
-        window.location.reload();
         onSuccess();
         onClose();
       } else {
-        alert('Failed to add content');
+        alert(result.message || 'Failed to add content');
       }
     } catch (error) {
       alert('Error adding content');

@@ -125,7 +125,7 @@ export default function Home() {
                     onClick={() => handleSuggestionClick(suggestion.url)}
                   >
                     <div className="suggestion-icon">
-                      {suggestion.type === 'job' ? '💼' : '📄'}
+                      {suggestion.type === 'job' ? <i className="ri-briefcase-line"></i> : <i className="ri-file-text-line"></i>}
                     </div>
                     <div className="suggestion-content">
                       <div className="suggestion-title">{suggestion.title}</div>
@@ -149,8 +149,8 @@ export default function Home() {
             Government & Private Jobs • Admit Cards • Results • Internships — All in One Place
           </p>
           <div className="hero-buttons">
-            <button className="resume-btn">📩 Post Your Resume</button>
-            <button className="explore-btn" onClick={handleScrollToSearch}>🔍 Explore Jobs</button>
+            <button className="resume-btn"><i className="ri-mail-line"></i> Post Your Resume</button>
+            <button className="explore-btn" onClick={handleScrollToSearch}><i className="ri-search-line"></i> Explore Jobs</button>
           </div>
         </div>
         <div className="hero-image" ref={useScrollAnimation('move-in-right')}>
@@ -213,19 +213,19 @@ export default function Home() {
         <h2 className="quick-links-title">Fast Access to Resources</h2>
         <div className="quick-links-list "  ref={useScrollAnimation('move-in-bottom')}  >
           {[
-            { href: "/jobs/government", label: "Government Jobs", icon: "🏛️" },
-            { href: "/jobs/private", label: "Private Jobs", icon: "🏢" },
+            { href: "/jobs/government", label: "Government Jobs", icon: "ri-government-line" },
+            { href: "/jobs/private", label: "Private Jobs", icon: "ri-building-line" },
             // { href: "/results", label: "Results", icon: "📢" },
-            // { href: "/admit-card", label: "Admit Cards", icon: "📄" },
-            // { href: "/answer-keys", label: "Answer Keys", icon: "✅" },
-            { href: "/admissions", label: "College Admissions", icon: "🏫" },
-            { href: "/documents", label: "Resume Creation", icon: "📑" },
+            // { href: "/admit-card", label: "Admit Cards", icon: "ri-file-text-line" },
+            // { href: "/answer-keys", label: "Answer Keys", icon: "ri-check-line" },
+            { href: "/admissions", label: "College Admissions", icon: "ri-school-line" },
+            { href: "/documents", label: "Resume Creation", icon: "ri-file-text-line" },
             // { href: "/mentorship", label: "Mentorship Programs", icon: "🤝" },
-            { href: "/webinars", label: "Webinars & Workshops", icon: "🎓" },
-            { href: "/internships", label: "Internship Listings", icon: "🌐" },
+            { href: "/webinars", label: "Webinars & Workshops", icon: "ri-graduation-cap-line" },
+            { href: "/internships", label: "Internship Listings", icon: "ri-global-line" },
           ].slice(0, window.innerWidth <= 768 ? 6 : 10).map(link => (
             <a href={link.href} className="quick-link-card" key={link.href}>
-              {link.icon}<span>{link.label}</span>
+              {link.icon.startsWith('ri-') ? <i className={link.icon}></i> : link.icon}<span>{link.label}</span>
             </a>
           ))}
         </div>
@@ -284,12 +284,24 @@ export default function Home() {
       <div className="service-highlights-section "  >
         <h2 className="service-highlights-title">We Offer More Than Just Jobs</h2>
         <div className="service-highlights-list" ref={useScrollAnimation('move-in-right')}>
-          <div className="service-card">🧠<span>Career Guidance</span></div>
-          <div className="service-card">📋<span>Resume Writing</span></div>
-          <div className="service-card">🗣<span>Interview Preparation</span></div>
-          <div className="service-card">🧾<span>Document Services<br/>(PAN, Aadhaar, etc.)</span></div>
-          <div className="service-card">🏫<span>College Admission Help</span></div>
-          <div className="service-card">🌍<span>Webinars & Events</span></div>
+          <div className="service-card" onClick={() => window.showNotification('Career guidance service coming soon!', 'info')}>
+            <i className="ri-lightbulb-line"></i><span>Career Guidance</span>
+          </div>
+          <div className="service-card" onClick={() => window.location.href = '/documents'}>
+            <i className="ri-file-text-line"></i><span>Resume Writing</span>
+          </div>
+          <div className="service-card" onClick={() => window.showNotification('Interview preparation service coming soon!', 'info')}>
+            <i className="ri-mic-line"></i><span>Interview Preparation</span>
+          </div>
+          <div className="service-card" onClick={() => window.showNotification('Document services coming soon!', 'info')}>
+            <i className="ri-file-list-line"></i><span>Document Services<br/>(PAN, Aadhaar, etc.)</span>
+          </div>
+          <div className="service-card" onClick={() => window.location.href = '/admissions'}>
+            <i className="ri-school-line"></i><span>College Admission Help</span>
+          </div>
+          <div className="service-card" onClick={() => window.location.href = '/webinars'}>
+            <i className="ri-global-line"></i><span>Webinars & Events</span>
+          </div>
         </div>
       </div>
 
@@ -297,12 +309,12 @@ export default function Home() {
       <div className="categories-section">
         <h2 className="categories-title">Explore Job Sectors</h2>
         <ul className="categories-list" ref={useScrollAnimation('move-in-left')}>
-          <li>🏛 Government Jobs</li>
-          <li>💼 Private Company Roles</li>
-          <li>💻 IT & Software</li>
-          <li>📚 Education & Teaching</li>
-          <li>⚙️ Engineering</li>
-          <li>🏥 Healthcare</li>
+          <li><i className="ri-government-line"></i> Government Jobs</li>
+          <li><i className="ri-briefcase-line"></i> Private Company Roles</li>
+          <li><i className="ri-computer-line"></i> IT & Software</li>
+          <li><i className="ri-book-line"></i> Education & Teaching</li>
+          <li><i className="ri-settings-line"></i> Engineering</li>
+          <li><i className="ri-hospital-line"></i> Healthcare</li>
         </ul>
         <a href="/categories" className="view-all-categories">→ View All Categories</a>
       </div>

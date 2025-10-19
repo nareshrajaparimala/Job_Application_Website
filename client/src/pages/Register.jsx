@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Register.css';
 
 function Register() {
-  // 👤 Form State
+  // Form State
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -69,7 +69,7 @@ function Register() {
             <form className="sector2-job-text register-form" onSubmit={handleSubmit}>
               <h1>Sign up as candidate</h1>
 
-              {/* 👤 Name Inputs */}
+              {/* Name Inputs */}
               <div className="input-row">
                 {[['firstName', 'First Name'], ['lastName', 'Last Name']].map(([name, label]) => (
                   <div
@@ -90,7 +90,7 @@ function Register() {
                 ))}
               </div>
 
-              {/* 📧 Email */}
+              {/* Email */}
               <div className={`inputR-group ${focused.email ? 'focused' : ''}`}>
                 <input
                   type="email"
@@ -153,7 +153,7 @@ function Register() {
                 </div>
               ))}
 
-              {/* ✅ Checkboxes */}
+              {/* Checkboxes */}
               <div className="checkbox-row">
                 <label>
                   <input type="checkbox" required /> I agree to the <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Use</a>
@@ -166,7 +166,7 @@ function Register() {
                 </label>
               </div>
 
-              {/* 🚀 Submit */}
+              {/* Submit */}
               <button className="loginR-btn" type="submit">Sign Up</button>
 
               <div className="signup-text">

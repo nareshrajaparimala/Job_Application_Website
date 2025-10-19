@@ -3,6 +3,7 @@ import './JobCard.css';
 
 function JobCard({ job, onClick }) {
   const formatSalary = (salary) => {
+    if (!salary) return 'Not disclosed';
     if (salary.includes('-')) {
       return `₹${salary.replace('-', ' - ₹')}`;
     }
@@ -10,6 +11,7 @@ function JobCard({ job, onClick }) {
   };
 
   const getDaysLeft = (deadline) => {
+    if (!deadline) return 'No deadline';
     const today = new Date();
     const deadlineDate = new Date(deadline);
     const diffTime = deadlineDate - today;
@@ -25,8 +27,8 @@ function JobCard({ job, onClick }) {
     <div className="job-card" onClick={() => onClick(job)}>
       <div className="job-card-header">
         <div className="job-title-section">
-          <h3 className="job-title">{job.title}</h3>
-          <p className="company-name">{job.company}</p>
+          <h3 className="job-title">{job.title || 'Job Title'}</h3>
+          <p className="company-name">{job.company || 'Company'}</p>
         </div>
         <div className="deadline-badge">
           <span className={`deadline ${getDaysLeft(job.deadline).includes('Expired') ? 'expired' : ''}`}>
@@ -36,18 +38,18 @@ function JobCard({ job, onClick }) {
       </div>
 
       <div className="job-description">
-        <p>{job.shortDescription}</p>
+        <p>{job.shortDescription || 'No description available'}</p>
       </div>
 
       <div className="job-details">
         <div className="job-meta">
           <span className="job-type">
             <i className="ri-briefcase-line"></i>
-            {job.jobType}
+            {job.jobType || 'Full-time'}
           </span>
           <span className="job-location">
             <i className="ri-map-pin-line"></i>
-            {job.location}
+            {job.location || 'Location not specified'}
           </span>
           <span className="job-salary">
             <i className="ri-money-dollar-circle-line"></i>
@@ -59,7 +61,7 @@ function JobCard({ job, onClick }) {
       <div className="job-card-footer">
         <div className="job-posted">
           <i className="ri-time-line"></i>
-          Posted {job.postedDate}
+          Posted {job.postedDate || 'Recently'}
         </div>
         <div className="job-actions">
           <button className="get-link-btn">

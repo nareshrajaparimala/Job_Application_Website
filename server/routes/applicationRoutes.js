@@ -4,11 +4,19 @@ import {
   applyForJob, 
   updateApplicationStatus, 
   getAllApplications,
-  deleteApplication
+  deleteApplication,
+  getJobs,
+  getInternships,
+  getWebinars
 } from '../controllers/applicationController.js';
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
+
+// Public routes for fetching content
+router.get('/jobs', getJobs);
+router.get('/internships', getInternships);
+router.get('/webinars', getWebinars);
 
 // User routes
 router.get('/my-applications', protect, getMyApplications);

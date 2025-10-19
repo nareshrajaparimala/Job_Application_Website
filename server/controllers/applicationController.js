@@ -1,5 +1,8 @@
 import Application from '../models/applicationModel.js';
 import User from '../models/userModel.js';
+import Job from '../models/jobModel.js';
+import Internship from '../models/internshipModel.js';
+import Webinar from '../models/webinarModel.js';
 
 // Get user's applications
 export const getMyApplications = async (req, res) => {
@@ -84,16 +87,16 @@ export const applyForJob = async (req, res) => {
         }
       });
 
-      const emailSubject = `🔔 New Job Application - ${jobDetails.title}`;
+      const emailSubject = `New Job Application - ${jobDetails.title}`;
       const emailBody = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">🚀 New Job Application</h1>
+            <h1 style="margin: 0; font-size: 24px;">New Job Application</h1>
             <p style="margin: 5px 0 0 0; opacity: 0.9;">MytechZ Job Portal</p>
           </div>
           
           <div style="padding: 30px; background: #f9f9f9;">
-            <h2 style="color: #333; margin-bottom: 20px;">📋 Job Details</h2>
+            <h2 style="color: #333; margin-bottom: 20px;">Job Details</h2>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
               <tr style="background: white;">
                 <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Job Title:</td>
@@ -121,7 +124,7 @@ export const applyForJob = async (req, res) => {
               </tr>
             </table>
             
-            <h2 style="color: #333; margin-bottom: 20px;">👤 Applicant Details</h2>
+            <h2 style="color: #333; margin-bottom: 20px;">Applicant Details</h2>
             <table style="width: 100%; border-collapse: collapse;">
               <tr style="background: white;">
                 <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; width: 30%;">Name:</td>
@@ -143,7 +146,7 @@ export const applyForJob = async (req, res) => {
           </div>
           
           <div style="background: #667eea; color: white; padding: 15px; text-align: center; border-radius: 0 0 10px 10px;">
-            <p style="margin: 0; font-size: 14px;">📧 This application was submitted through MytechZ Job Portal</p>
+            <p style="margin: 0; font-size: 14px;">This application was submitted through MytechZ Job Portal</p>
             <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.8;">Please review and update the application status in the admin dashboard</p>
           </div>
         </div>
@@ -250,6 +253,41 @@ export const deleteApplication = async (req, res) => {
     res.status(200).json({ message: 'Application deleted successfully' });
   } catch (error) {
     console.error('Error deleting application:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get jobs for public access
+export const getJobs = async (req, res) => {
+  try {
+    const { category } = req.query;
+    const query = category ? { category } : {};
+    const jobs = await Job.find(query).sort({ createdAt: -1 }).lean();
+    res.json(jobs);
+  } catch (error) {
+    console.error('Error fetching jobs:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get internships for public access
+export const getInternships = async (req, res) => {
+  try {
+    const internships = await Internship.find().sort({ datePosted: -1 }).lean();
+    res.json(internships);
+  } catch (error) {
+    console.error('Error fetching internships:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get webinars for public access
+export const getWebinars = async (req, res) => {
+  try {
+    const webinars = await Webinar.find().sort({ datePosted: -1 }).lean();
+    res.json(webinars);
+  } catch (error) {
+    console.error('Error fetching webinars:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
