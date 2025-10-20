@@ -38,12 +38,16 @@ function Navbar() {
     if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       handleSidebarClose();
     }
+    // Close mobile menu when clicking outside on mobile/tablet
+    if (mobileMenuOpen && !event.target.closest('.menu')) {
+      handleMobileMenuClose();
+    }
   }
   document.addEventListener("mousedown", handleClickOutside);
   return () => {
     document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [sidebarOpen]);
+  }, [sidebarOpen, mobileMenuOpen]);
 
   // login check
   const [isLoggedIn, setIsLoggedIn] = useState(false);
