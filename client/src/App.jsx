@@ -4,7 +4,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import JobsP from './pages/JobsP';
-import JobsG from './pages/JobsG';
+import GovExams from './pages/GovExams';
+
 import AdmitCard from './pages/AdmitCard';
 import Results from './pages/Results';
 import Documents from './pages/Documents';
@@ -53,7 +54,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/jobs/private" element={<JobsP />} />
-        <Route path="/jobs/government" element={<JobsG />} />
+        <Route path="/gov-exams" element={<GovExams />} />
+
         <Route path="/admit-card" element={<AdmitCard />} />
         <Route path="/results" element={<Results />} />
         <Route path="/documents" element={<Documents />} />

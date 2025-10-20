@@ -84,7 +84,7 @@ function Navbar() {
               <span className="dropbtn-hidden" onClick={handleJobDropdownToggle}>Jobs <i className="ri-arrow-down-s-line"></i></span>
               <ul className={`dropdown-content-hidden ${jobDropdownOpen ? 'show' : ''}`}>
                 <li><Link to="/jobs/private" onClick={handleMobileMenuClose}><i className="ri-briefcase-line"></i> Private Jobs</Link></li>
-                <li><Link to="/jobs/government" onClick={handleMobileMenuClose}><i className="ri-government-line"></i> Government Jobs</Link></li>
+                <li><Link to="/gov-exams" onClick={handleMobileMenuClose}><i className="ri-government-line"></i> Government Exams</Link></li>
               </ul>
             </li>
             {/* <li className='color-subnav-box admitcard-nav-h'><Link to="/admit-card" onClick={handleMobileMenuClose}>Admit Card</Link></li> */}
@@ -113,7 +113,7 @@ function Navbar() {
           <span className="dropbtn color-nav-box">Jobs</span>
           <ul className="dropdown-content">
             <li className='color-subnav-box'><Link to="/jobs/private">Private Jobs</Link></li>
-            <li className='color-subnav-box'><Link to="/jobs/government">Government Jobs</Link></li>
+            <li className='color-subnav-box'><Link to="/gov-exams">Government Exams</Link></li>
           </ul>
         </li>
         {/* <li className="color-nav-box admitcard-nav"><Link to="/admit-card">Admit Card</Link></li>

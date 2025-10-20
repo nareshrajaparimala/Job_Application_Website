@@ -4,6 +4,7 @@ import './UserDashboard.css';
 function UserDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
   const [portfolioRequests, setPortfolioRequests] = useState([]);
+  const [govExamApplications, setGovExamApplications] = useState([]);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -11,6 +12,19 @@ function UserDashboard() {
     setUser(userData);
     fetchDashboardData();
     fetchPortfolioRequests();
+    fetchGovExamApplications();
+    
+    // Listen for government exam application updates
+    const handleGovExamUpdate = () => {
+      fetchGovExamApplications();
+      fetchDashboardData();
+    };
+    
+    window.addEventListener('govExamApplicationUpdate', handleGovExamUpdate);
+    
+    return () => {
+      window.removeEventListener('govExamApplicationUpdate', handleGovExamUpdate);
+    };
   }, []);
 
   const fetchDashboardData = async () => {
@@ -55,10 +69,28 @@ function UserDashboard() {
     }
   };
 
+  const fetchGovExamApplications = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/gov-exams/my-applications`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setGovExamApplications(data.applications);
+      }
+    } catch (error) {
+      console.error('Error fetching gov exam applications:', error);
+    }
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
-      case 'approved': return '#4CAF50';
-      case 'rejected': return '#f44336';
+      case 'approved':
+      case 'completed': return '#4CAF50';
+      case 'rejected':
+      case 'cancelled': return '#f44336';
+      case 'in-progress': return '#2196F3';
       default: return '#ff9800';
     }
   };
@@ -237,6 +269,44 @@ function UserDashboard() {
                     <p><strong>Last Updated:</strong> {new Date(app.updatedAt).toLocaleDateString()}</p>
                     {app.collegeData && app.collegeData.courses && (
                       <p><strong>Courses:</strong> {app.collegeData.courses.join(', ')}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="gov-exam-applications">
+          <h2>Government Exam Applications</h2>
+          {govExamApplications.length === 0 ? (
+            <div className="no-applications">
+              <p>No government exam applications yet.</p>
+              <a href="/gov-exams" className="apply-btn">Browse Government Exams</a>
+            </div>
+          ) : (
+            <div className="applications-grid">
+              {govExamApplications.map(app => (
+                <div key={app._id} className="application-card">
+                  <div className="card-header">
+                    <h3>{app.examName}</h3>
+                    <div className="card-actions">
+                      <span 
+                        className={`status-badge ${app.status}`}
+                        style={{ backgroundColor: getStatusColor(app.status) }}
+                      >
+                        {app.status.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <p><strong>Exam Date:</strong> {app.examDetails.examDate}</p>
+                    <p><strong>Total Posts:</strong> {app.examDetails.totalPosts}</p>
+                    <p><strong>Age Limit:</strong> {app.examDetails.ageLimit}</p>
+                    <p><strong>Applied:</strong> {new Date(app.appliedAt).toLocaleDateString()}</p>
+                    <p><strong>Last Updated:</strong> {new Date(app.updatedAt).toLocaleDateString()}</p>
+                    {app.notes && (
+                      <p><strong>Admin Note:</strong> {app.notes}</p>
                     )}
                   </div>
                 </div>

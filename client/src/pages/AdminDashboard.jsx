@@ -11,12 +11,26 @@ function AdminDashboard() {
   const [applicationType, setApplicationType] = useState('general');
   const [templates, setTemplates] = useState([]);
   const [portfolioRequests, setPortfolioRequests] = useState([]);
+  const [govExamApplications, setGovExamApplications] = useState([]);
   const [editingTemplate, setEditingTemplate] = useState(null);
 
   useEffect(() => {
     fetchDashboardData();
     fetchTemplates();
     fetchPortfolioRequests();
+    fetchGovExamApplications();
+    
+    // Listen for government exam application updates
+    const handleGovExamUpdate = () => {
+      fetchGovExamApplications();
+      fetchDashboardData();
+    };
+    
+    window.addEventListener('govExamApplicationUpdate', handleGovExamUpdate);
+    
+    return () => {
+      window.removeEventListener('govExamApplicationUpdate', handleGovExamUpdate);
+    };
   }, []);
 
   const fetchDashboardData = async () => {
@@ -143,6 +157,41 @@ function AdminDashboard() {
     }
   };
 
+  const fetchGovExamApplications = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/gov-exams/all-applications`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setGovExamApplications(data.applications);
+      }
+    } catch (error) {
+      console.error('Error fetching gov exam applications:', error);
+    }
+  };
+
+  const updateGovExamStatus = async (applicationId, status, notes = '') => {
+    try {
+      const token = localStorage.getItem('token');
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/gov-exams/update-status/${applicationId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ status, notes })
+      });
+      fetchGovExamApplications();
+      fetchDashboardData();
+      // Trigger global update event
+      window.dispatchEvent(new CustomEvent('govExamApplicationUpdate'));
+    } catch (error) {
+      console.error('Error updating gov exam status:', error);
+    }
+  };
+
   const updatePortfolioStatus = async (requestId, status) => {
     try {
       const token = localStorage.getItem('token');
@@ -218,6 +267,10 @@ function AdminDashboard() {
             <h3>{portfolioRequests.length}</h3>
             <p>Portfolio Requests</p>
           </div>
+          <div className="stat-card">
+            <h3>{govExamApplications.length}</h3>
+            <p>Gov Exam Applications</p>
+          </div>
         </div>
       </header>
 
@@ -269,6 +322,12 @@ function AdminDashboard() {
           onClick={() => setActiveTab('manage-webinars')}
         >
           Manage Webinars
+        </button>
+        <button 
+          className={activeTab === 'gov-exams' ? 'active' : ''} 
+          onClick={() => setActiveTab('gov-exams')}
+        >
+          Gov Exam Applications
         </button>
       </nav>
 
@@ -541,6 +600,70 @@ function AdminDashboard() {
 
       {activeTab === 'manage-webinars' && (
         <ContentManager type="webinars" />
+      )}
+
+      {activeTab === 'gov-exams' && (
+        <div className="gov-exams-section">
+          <h2>Government Exam Applications Management</h2>
+          <div className="gov-exams-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Exam Name</th>
+                  <th>Exam Date</th>
+                  <th>Applied Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {govExamApplications.map(app => (
+                  <tr key={app._id}>
+                    <td>
+                      <div>
+                        <strong>{app.userDetails.name}</strong>
+                        <br />
+                        <small>{app.userDetails.email}</small>
+                        <br />
+                        <small>{app.userDetails.phone}</small>
+                      </div>
+                    </td>
+                    <td>{app.examName}</td>
+                    <td>{app.examDetails.examDate}</td>
+                    <td>{new Date(app.appliedAt).toLocaleDateString()}</td>
+                    <td>
+                      <span className={`status ${app.status}`}>{app.status}</span>
+                    </td>
+                    <td>
+                      <div className="admin-actions">
+                        <select 
+                          value={app.status} 
+                          onChange={(e) => updateGovExamStatus(app._id, e.target.value)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                        <button 
+                          className="view-details-btn"
+                          onClick={() => {
+                            const details = `Exam: ${app.examName}\nUser: ${app.userDetails.name}\nEmail: ${app.userDetails.email}\nPhone: ${app.userDetails.phone}\nExam Date: ${app.examDetails.examDate}\nTotal Posts: ${app.examDetails.totalPosts}\nAge Limit: ${app.examDetails.ageLimit}\nApplication Fee: ${app.examDetails.applicationFee}\nApplied: ${new Date(app.appliedAt).toLocaleDateString()}\nStatus: ${app.status}\nNotes: ${app.notes || 'No notes'}`;
+                            alert(details);
+                          }}
+                          title="View Details"
+                        >
+                          <i className="ri-eye-line"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import User from '../models/userModel.js';
 import Application from '../models/applicationModel.js';
 import ResumeApplication from '../models/resumeApplicationModel.js';
+import GovExamApplication from '../models/govExamApplicationModel.js';
 
 // Admin Dashboard Data
 export const getAdminDashboard = async (req, res) => {
@@ -23,16 +24,24 @@ export const getAdminDashboard = async (req, res) => {
     } catch (resumeError) {
       console.log('Resume applications not available:', resumeError.message);
     }
+    
+    let govExamApplications = [];
+    try {
+      govExamApplications = await GovExamApplication.find().sort({ appliedAt: -1 });
+    } catch (govExamError) {
+      console.log('Government exam applications not available:', govExamError.message);
+    }
 
     res.json({
       stats: { 
         totalUsers, 
-        totalApplications: totalApplications + resumeApplications.length, 
-        pendingApplications: pendingApplications + resumeApplications.filter(app => app.status === 'pending').length
+        totalApplications: totalApplications + resumeApplications.length + govExamApplications.length, 
+        pendingApplications: pendingApplications + resumeApplications.filter(app => app.status === 'pending').length + govExamApplications.filter(app => app.status === 'pending').length
       },
       users,
       applications,
-      resumeApplications
+      resumeApplications,
+      govExamApplications
     });
   } catch (error) {
     console.error('Admin dashboard error:', error);
@@ -56,18 +65,26 @@ export const getUserDashboard = async (req, res) => {
       applicationType: 'job'
     });
     
-    const allApplications = [...collegeApplications, ...jobApplications];
+    let govExamApplications = [];
+    try {
+      govExamApplications = await GovExamApplication.find({ userId }).sort({ appliedAt: -1 });
+    } catch (govExamError) {
+      console.log('Government exam applications not available:', govExamError.message);
+    }
+    
+    const allApplications = [...collegeApplications, ...jobApplications, ...govExamApplications];
     
     const stats = {
       total: allApplications.length,
       pending: allApplications.filter(app => app.status === 'pending').length,
-      approved: allApplications.filter(app => app.status === 'approved').length,
-      rejected: allApplications.filter(app => app.status === 'rejected').length
+      approved: allApplications.filter(app => app.status === 'approved' || app.status === 'completed').length,
+      rejected: allApplications.filter(app => app.status === 'rejected' || app.status === 'cancelled').length
     };
 
     res.json({ 
       applications: collegeApplications, // Keep college applications for backward compatibility
       jobApplications,
+      govExamApplications,
       stats 
     });
   } catch (error) {

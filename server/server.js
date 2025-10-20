@@ -15,6 +15,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
 import portfolioRoutes from './routes/portfolioRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
+import govExamRoutes from './routes/govExamRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -55,6 +56,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/gov-exams', govExamRoutes);
 
 // Start the server
 const PORT = process.env.PORT ;

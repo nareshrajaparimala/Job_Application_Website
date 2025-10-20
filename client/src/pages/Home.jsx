@@ -213,8 +213,8 @@ export default function Home() {
         <h2 className="quick-links-title">Fast Access to Resources</h2>
         <div className="quick-links-list "  ref={useScrollAnimation('move-in-bottom')}  >
           {[
-            { href: "/jobs/government", label: "Government Jobs", icon: "ri-government-line" },
             { href: "/jobs/private", label: "Private Jobs", icon: "ri-building-line" },
+            { href: "/gov-exams", label: "Government Exams", icon: "ri-government-line" },
             // { href: "/results", label: "Results", icon: "📢" },
             // { href: "/admit-card", label: "Admit Cards", icon: "ri-file-text-line" },
             // { href: "/answer-keys", label: "Answer Keys", icon: "ri-check-line" },
@@ -309,7 +309,6 @@ export default function Home() {
       <div className="categories-section">
         <h2 className="categories-title">Explore Job Sectors</h2>
         <ul className="categories-list" ref={useScrollAnimation('move-in-left')}>
-          <li><i className="ri-government-line"></i> Government Jobs</li>
           <li><i className="ri-briefcase-line"></i> Private Company Roles</li>
           <li><i className="ri-computer-line"></i> IT & Software</li>
           <li><i className="ri-book-line"></i> Education & Teaching</li>
