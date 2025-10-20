@@ -191,6 +191,23 @@ function AdminDashboard() {
       console.error('Error updating gov exam status:', error);
     }
   };
+  
+  const updateResumeAppStatus = async (applicationId, status) => {
+    try {
+      const token = localStorage.getItem('token');
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/resume/applications/${applicationId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ status })
+      });
+      fetchDashboardData();
+    } catch (error) {
+      console.error('Error updating resume app status:', error);
+    }
+  };
 
   const updatePortfolioStatus = async (requestId, status) => {
     try {
@@ -328,6 +345,12 @@ function AdminDashboard() {
           onClick={() => setActiveTab('gov-exams')}
         >
           Gov Exam Applications
+        </button>
+        <button 
+          className={activeTab === 'resume-apps' ? 'active' : ''} 
+          onClick={() => setActiveTab('resume-apps')}
+        >
+          Resume Applications
         </button>
       </nav>
 
@@ -650,6 +673,70 @@ function AdminDashboard() {
                           className="view-details-btn"
                           onClick={() => {
                             const details = `Exam: ${app.examName}\nUser: ${app.userDetails.name}\nEmail: ${app.userDetails.email}\nPhone: ${app.userDetails.phone}\nExam Date: ${app.examDetails.examDate}\nTotal Posts: ${app.examDetails.totalPosts}\nAge Limit: ${app.examDetails.ageLimit}\nApplication Fee: ${app.examDetails.applicationFee}\nApplied: ${new Date(app.appliedAt).toLocaleDateString()}\nStatus: ${app.status}\nNotes: ${app.notes || 'No notes'}`;
+                            alert(details);
+                          }}
+                          title="View Details"
+                        >
+                          <i className="ri-eye-line"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+      
+      {activeTab === 'resume-apps' && (
+        <div className="resume-apps-section">
+          <h2>Resume Applications Management</h2>
+          <div className="resume-apps-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Template</th>
+                  <th>Amount</th>
+                  <th>Applied Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dashboardData.resumeApplications?.map(app => (
+                  <tr key={app._id}>
+                    <td>
+                      <div>
+                        <strong>{app.userId?.firstName} {app.userId?.lastName}</strong>
+                        <br />
+                        <small>{app.userId?.email}</small>
+                        <br />
+                        <small>{app.userId?.phone}</small>
+                      </div>
+                    </td>
+                    <td>{app.templateId?.name || 'Template'}</td>
+                    <td>₹{app.totalAmount}</td>
+                    <td>{new Date(app.appliedAt).toLocaleDateString()}</td>
+                    <td>
+                      <span className={`status ${app.status}`}>{app.status}</span>
+                    </td>
+                    <td>
+                      <div className="admin-actions">
+                        <select 
+                          value={app.status} 
+                          onChange={(e) => updateResumeAppStatus(app._id, e.target.value)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="completed">Completed</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                        <button 
+                          className="view-details-btn"
+                          onClick={() => {
+                            const details = `Template: ${app.templateId?.name}\nUser: ${app.userId?.firstName} ${app.userId?.lastName}\nEmail: ${app.userId?.email}\nPhone: ${app.userId?.phone}\nAmount: ₹${app.totalAmount}\nApplied: ${new Date(app.appliedAt).toLocaleDateString()}\nStatus: ${app.status}\nUser Details: ${JSON.stringify(app.userDetails, null, 2)}`;
                             alert(details);
                           }}
                           title="View Details"

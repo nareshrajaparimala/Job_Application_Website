@@ -4,7 +4,7 @@ import { sendEmail } from '../utils/emailService.js';
 // Submit portfolio request
 const submitPortfolioRequest = async (req, res) => {
   try {
-    const { name, mobile, email, templateType, theme, reason } = req.body;
+    const { name, mobile, email, templateType, theme, reason, userDetails } = req.body;
     
     // Create new portfolio request
     const portfolioRequest = new PortfolioRequest({
@@ -14,26 +14,48 @@ const submitPortfolioRequest = async (req, res) => {
       templateType,
       theme,
       reason,
-      userId: req.user?.id || null
+      userId: req.user?.id || null,
+      userDetails: userDetails || {}
     });
 
     await portfolioRequest.save();
 
     // Send email to admin
     const adminEmailContent = `
-      <h2>New Portfolio Request Received</h2>
-      <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3>Request Details:</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Mobile:</strong> ${mobile}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Template Type:</strong> ${templateType === 'predefined' ? 'Predefined Template (₹500/year)' : 'Customized Template (₹1500/year)'}</p>
-        <p><strong>Theme/Field:</strong> ${theme}</p>
-        <p><strong>Reason:</strong> ${reason}</p>
-        <p><strong>Submitted At:</strong> ${new Date().toLocaleString()}</p>
-        <p><strong>Request ID:</strong> ${portfolioRequest._id}</p>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
+          <h1 style="color: white; margin: 0;">New Portfolio Request</h1>
+        </div>
+        
+        <div style="background: white; padding: 30px; border: 1px solid #e1e5e9; border-radius: 0 0 10px 10px;">
+          <h2 style="color: #333; margin-bottom: 20px;">Portfolio Request Details</h2>
+          
+          <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #667eea; margin-top: 0;">Customer Information:</h3>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Mobile:</strong> ${mobile}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            ${userDetails?.id ? `<p><strong>User ID:</strong> ${userDetails.id}</p>` : ''}
+            ${userDetails?.gender ? `<p><strong>Gender:</strong> ${userDetails.gender}</p>` : ''}
+            ${userDetails?.dateOfBirth ? `<p><strong>Date of Birth:</strong> ${userDetails.dateOfBirth}</p>` : ''}
+          </div>
+          
+          <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #28a745; margin-top: 0;">Request Details:</h3>
+            <p><strong>Template Type:</strong> ${templateType === 'predefined' ? 'Predefined Template (₹500/year)' : 'Customized Template (₹1500/year)'}</p>
+            <p><strong>Theme/Field:</strong> ${theme}</p>
+            <p><strong>Reason:</strong> ${reason}</p>
+            <p><strong>Request ID:</strong> ${portfolioRequest._id}</p>
+            <p><strong>Submitted At:</strong> ${new Date().toLocaleString()}</p>
+          </div>
+          
+          <div style="background: #fff3cd; padding: 15px; border-radius: 8px;">
+            <p style="margin: 0; color: #856404;">
+              <strong>Action Required:</strong> Please contact the customer within 24-48 hours to discuss requirements and next steps.
+            </p>
+          </div>
+        </div>
       </div>
-      <p>Please review and contact the customer soon.</p>
     `;
 
     await sendEmail(

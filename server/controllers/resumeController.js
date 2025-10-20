@@ -1,7 +1,7 @@
 import ResumeTemplate from '../models/resumeTemplateModel.js';
 import ResumeApplication from '../models/resumeApplicationModel.js';
 import User from '../models/userModel.js';
-import { sendApplicationEmail } from '../utils/emailService.js';
+import { sendEmail } from '../utils/emailService.js';
 
 // Get all active templates
 export const getTemplates = async (req, res) => {
@@ -42,9 +42,93 @@ export const submitResumeApplication = async (req, res) => {
 
     await application.save();
 
-    // Send email notification
+    // Send detailed email to admin
+    const adminEmailContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
+          <h1 style="color: white; margin: 0;">New Resume Application</h1>
+        </div>
+        
+        <div style="background: white; padding: 30px; border: 1px solid #e1e5e9; border-radius: 0 0 10px 10px;">
+          <h2 style="color: #333; margin-bottom: 20px;">Resume Application Details</h2>
+          
+          <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #667eea; margin-top: 0;">Customer Information:</h3>
+            <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Phone:</strong> ${user.phone || userDetails.phone}</p>
+            <p><strong>User ID:</strong> ${user._id}</p>
+            <p><strong>Gender:</strong> ${user.gender || 'Not specified'}</p>
+            ${user.dateOfBirth ? `<p><strong>Date of Birth:</strong> ${user.dateOfBirth}</p>` : ''}
+          </div>
+          
+          <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #28a745; margin-top: 0;">Application Details:</h3>
+            <p><strong>Template:</strong> ${template.name}</p>
+            <p><strong>Template Price:</strong> ₹${template.price}</p>
+            <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+            <p><strong>Application ID:</strong> ${application._id}</p>
+            <p><strong>Applied At:</strong> ${new Date().toLocaleString()}</p>
+          </div>
+          
+          <div style="background: #fff3e0; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: #f57c00; margin-top: 0;">User Provided Details:</h3>
+            <p><strong>Full Name:</strong> ${userDetails.fullName}</p>
+            <p><strong>Email:</strong> ${userDetails.email}</p>
+            <p><strong>Phone:</strong> ${userDetails.phone}</p>
+            <p><strong>Address:</strong> ${userDetails.address || 'Not provided'}</p>
+            <p><strong>Experience:</strong> ${userDetails.experience}</p>
+            <p><strong>Education:</strong> ${userDetails.education}</p>
+            <p><strong>Skills:</strong> ${userDetails.skills}</p>
+            ${userDetails.customizations ? `<p><strong>Customizations:</strong> ${userDetails.customizations}</p>` : ''}
+          </div>
+          
+          <div style="background: #fff3cd; padding: 15px; border-radius: 8px;">
+            <p style="margin: 0; color: #856404;">
+              <strong>Action Required:</strong> Please contact the customer to discuss resume requirements and timeline.
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+    
     try {
-      await sendApplicationEmail(user, { name: template.name, ...userDetails, totalAmount }, 'Resume');
+      await sendEmail(
+        process.env.ADMIN_EMAIL || 'admin@mytechz.in',
+        `New Resume Application - ${template.name}`,
+        adminEmailContent
+      );
+      
+      // Send confirmation email to user
+      const userEmailContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
+            <h1 style="color: white; margin: 0;">Resume Application Received</h1>
+          </div>
+          
+          <div style="background: white; padding: 30px; border: 1px solid #e1e5e9; border-radius: 0 0 10px 10px;">
+            <h2 style="color: #333;">Dear ${userDetails.fullName},</h2>
+            <p>Thank you for your resume application! We have received your request and will contact you soon.</p>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #667eea; margin-top: 0;">Your Application Summary:</h3>
+              <p><strong>Template:</strong> ${template.name}</p>
+              <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+              <p><strong>Application ID:</strong> ${application._id}</p>
+              <p><strong>Status:</strong> Pending Review</p>
+            </div>
+            
+            <p>Our team will review your requirements and contact you within 24-48 hours to discuss the next steps.</p>
+            <p>Best regards,<br>MytechZ Team</p>
+          </div>
+        </div>
+      `;
+      
+      await sendEmail(
+        userDetails.email,
+        'Resume Application Confirmation - We\'ll Contact You Soon!',
+        userEmailContent
+      );
     } catch (emailError) {
       console.log('Email failed:', emailError.message);
     }

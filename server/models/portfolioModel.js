@@ -41,6 +41,10 @@ const portfolioRequestSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  userDetails: {
+    type: Object,
+    default: {}
+  },
   submittedAt: {
     type: Date,
     default: Date.now

@@ -342,6 +342,43 @@ function UserDashboard() {
             </div>
           )}
         </section>
+        
+        <section className="resume-applications">
+          <h2>Resume Applications</h2>
+          {dashboardData.resumeApplications?.length === 0 ? (
+            <div className="no-applications">
+              <p>No resume applications yet.</p>
+              <a href="/documents" className="apply-btn">Browse Resume Templates</a>
+            </div>
+          ) : (
+            <div className="applications-grid">
+              {dashboardData.resumeApplications?.map(app => (
+                <div key={app._id} className="application-card">
+                  <div className="card-header">
+                    <h3>{app.templateId?.name || 'Resume Template'}</h3>
+                    <div className="card-actions">
+                      <span 
+                        className={`status-badge ${app.status}`}
+                        style={{ backgroundColor: getStatusColor(app.status) }}
+                      >
+                        {app.status.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <p><strong>Template:</strong> {app.templateId?.name}</p>
+                    <p><strong>Amount:</strong> ₹{app.totalAmount}</p>
+                    <p><strong>Applied:</strong> {new Date(app.appliedAt).toLocaleDateString()}</p>
+                    <p><strong>Last Updated:</strong> {new Date(app.updatedAt || app.appliedAt).toLocaleDateString()}</p>
+                    {app.notes && (
+                      <p><strong>Admin Note:</strong> {app.notes}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         <section className="notifications">
           <h2>Notifications</h2>
