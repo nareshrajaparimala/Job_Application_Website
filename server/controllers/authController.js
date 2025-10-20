@@ -2,6 +2,7 @@ import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
+import { sendOTPEmailAlternative, sendSimpleOTP } from '../utils/alternativeEmail.js';
 
 // Store OTPs temporarily (in production, use Redis or database)
 const otpStore = new Map();
@@ -174,16 +175,34 @@ export const forgotPassword = async (req, res) => {
     });
     
     try {
-      // Send OTP via email
+      // Try primary Gmail service first
       await sendOTPEmail(email, otp, user.firstName);
       res.status(200).json({ message: 'OTP sent to your email' });
     } catch (emailError) {
-      console.error('❌ Email sending failed:', emailError.message);
-      // Still return success but log the error
-      res.status(200).json({ 
-        message: 'OTP generated. Check server logs for email status.',
-        debug: process.env.NODE_ENV === 'development' ? `OTP: ${otp}` : undefined
-      });
+      console.error('❌ Primary email service failed:', emailError.message);
+
+      try {
+        // Fallback to alternative email service
+        console.log('🔄 Attempting fallback email service...');
+        await sendOTPEmailAlternative(email, otp, user.firstName);
+        res.status(200).json({ message: 'OTP sent to your email (via fallback service)' });
+      } catch (fallbackError) {
+        console.error('❌ Fallback email service also failed:', fallbackError.message);
+
+        // Last resort: simplified OTP email
+        try {
+          console.log('🔄 Attempting simplified OTP email...');
+          await sendSimpleOTP(email, otp);
+          res.status(200).json({ message: 'OTP sent to your email (simplified)' });
+        } catch (simpleError) {
+          console.error('❌ All email services failed:', simpleError.message);
+          // Still return success but log the error and provide OTP in debug mode
+          res.status(200).json({
+            message: 'OTP generated. Check server logs for email status.',
+            debug: process.env.NODE_ENV === 'development' ? `OTP: ${otp}` : undefined
+          });
+        }
+      }
     }
   } catch (error) {
     console.error('❌ Forgot password error:', error);
