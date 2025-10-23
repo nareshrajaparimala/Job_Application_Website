@@ -36,13 +36,39 @@ function JobListing({ jobType }) {
 
   useEffect(() => {
     if (id && jobs.length > 0) {
-      const job = jobs.find(j => (j.id || j._id) === id);
+      const job = jobs.find(j => (j.id || j._id) == id);
       if (job) {
         setSelectedJob(job);
         setIsModalOpen(true);
+      } else {
+        // If job not found in local data, try to fetch it from API
+        fetchJobById(id);
       }
     }
   }, [id, jobs]);
+
+  const fetchJobById = async (jobId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/jobs/${jobId}`);
+      if (response.ok) {
+        const job = await response.json();
+        setSelectedJob(job);
+        setIsModalOpen(true);
+      } else {
+        // If API fails, show error message
+        if (window.showPopup) {
+          window.showPopup('Job not found', 'error');
+        }
+        navigate(jobType === 'government' ? '/gov-exams' : '/jobs/private');
+      }
+    } catch (error) {
+      console.error('Error fetching job by ID:', error);
+      if (window.showPopup) {
+        window.showPopup('Job not found', 'error');
+      }
+      navigate(jobType === 'government' ? '/gov-exams' : '/jobs/private');
+    }
+  };
 
   useEffect(() => {
     const handleRefresh = (event) => {

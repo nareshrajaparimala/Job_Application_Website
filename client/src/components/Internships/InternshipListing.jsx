@@ -36,13 +36,39 @@ function InternshipListing() {
 
   useEffect(() => {
     if (id && internships.length > 0) {
-      const internship = internships.find(i => (i.id || i._id) === id);
+      const internship = internships.find(i => (i.id || i._id) == id);
       if (internship) {
         setSelectedInternship(internship);
         setIsModalOpen(true);
+      } else {
+        // If internship not found in local data, try to fetch it from API
+        fetchInternshipById(id);
       }
     }
   }, [id, internships]);
+
+  const fetchInternshipById = async (internshipId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/internships/${internshipId}`);
+      if (response.ok) {
+        const internship = await response.json();
+        setSelectedInternship(internship);
+        setIsModalOpen(true);
+      } else {
+        // If API fails, show error message
+        if (window.showPopup) {
+          window.showPopup('Internship not found', 'error');
+        }
+        navigate('/internships');
+      }
+    } catch (error) {
+      console.error('Error fetching internship by ID:', error);
+      if (window.showPopup) {
+        window.showPopup('Internship not found', 'error');
+      }
+      navigate('/internships');
+    }
+  };
 
   useEffect(() => {
     const handleRefresh = (event) => {

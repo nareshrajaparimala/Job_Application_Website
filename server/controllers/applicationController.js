@@ -291,3 +291,37 @@ export const getWebinars = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+// Get specific job by ID
+export const getJobById = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+    const job = await Job.findById(jobId).lean();
+    
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+    
+    res.json(job);
+  } catch (error) {
+    console.error('Error fetching job by ID:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get specific internship by ID
+export const getInternshipById = async (req, res) => {
+  try {
+    const { internshipId } = req.params;
+    const internship = await Internship.findById(internshipId).lean();
+    
+    if (!internship) {
+      return res.status(404).json({ message: 'Internship not found' });
+    }
+    
+    res.json(internship);
+  } catch (error) {
+    console.error('Error fetching internship by ID:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

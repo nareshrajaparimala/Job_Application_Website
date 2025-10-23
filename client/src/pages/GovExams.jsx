@@ -58,13 +58,39 @@ function GovExams() {
 
   useEffect(() => {
     if (id && exams.length > 0) {
-      const exam = exams.find(e => e.id === parseInt(id));
+      const exam = exams.find(e => e.id == id || e._id === id);
       if (exam) {
         setSelectedExam(exam);
         setShowModal(true);
+      } else {
+        // If exam not found in local data, try to fetch it from API
+        fetchExamById(id);
       }
     }
   }, [id, exams]);
+
+  const fetchExamById = async (examId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/gov-exams/detail/${examId}`);
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          setSelectedExam(result.exam);
+          setShowModal(true);
+        } else {
+          throw new Error('Exam not found');
+        }
+      } else {
+        throw new Error('Exam not found');
+      }
+    } catch (error) {
+      console.error('Error fetching exam by ID:', error);
+      if (window.showPopup) {
+        window.showPopup('Government exam not found', 'error');
+      }
+      navigate('/gov-exams');
+    }
+  };
   
   const fetchExams = async () => {
     try {

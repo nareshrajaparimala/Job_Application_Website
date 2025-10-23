@@ -7,7 +7,9 @@ import {
   deleteApplication,
   getJobs,
   getInternships,
-  getWebinars
+  getWebinars,
+  getJobById,
+  getInternshipById
 } from '../controllers/applicationController.js';
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
@@ -15,7 +17,9 @@ const router = express.Router();
 
 // Public routes for fetching content
 router.get('/jobs', getJobs);
+router.get('/jobs/:jobId', getJobById);
 router.get('/internships', getInternships);
+router.get('/internships/:internshipId', getInternshipById);
 router.get('/webinars', getWebinars);
 
 // User routes
