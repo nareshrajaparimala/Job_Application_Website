@@ -109,7 +109,7 @@ function JobModal({ job, isOpen, onClose }) {
     if (job.applicationLink) {
       window.open(job.applicationLink, '_blank');
     } else {
-      const jobUrl = `${window.location.origin}/jobs/${job.id}`;
+      const jobUrl = `${window.location.origin}/jobs/private/${job.id || job._id}`;
       navigator.clipboard.writeText(jobUrl);
       if (window.showPopup) {
         window.showPopup('Link copied!', 'success');
@@ -283,7 +283,7 @@ function JobModal({ job, isOpen, onClose }) {
     <ShareModal
       isOpen={showShareModal}
       onClose={() => setShowShareModal(false)}
-      shareUrl={`${window.location.origin}/job/${job.id}`}
+      shareUrl={`${window.location.origin}/jobs/private/${job.id || job._id}`}
       title={job.title}
       type="Job"
     />

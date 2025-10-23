@@ -54,7 +54,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/jobs/private" element={<JobsP />} />
+        <Route path="/jobs/private/:id" element={<JobsP />} />
+        <Route path="/jobs/government/:id" element={<JobsP />} />
         <Route path="/gov-exams" element={<GovExams />} />
+        <Route path="/gov-exams/:id" element={<GovExams />} />
+        <Route path="/internships/:id" element={<Internships />} />
 
         <Route path="/admit-card" element={<AdmitCard />} />
         <Route path="/results" element={<Results />} />

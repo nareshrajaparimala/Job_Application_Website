@@ -240,6 +240,11 @@
   }
 }
 
+.job-card .share-btn,
+.job-card .get-link-btn {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .job-card {
     padding: 16px;

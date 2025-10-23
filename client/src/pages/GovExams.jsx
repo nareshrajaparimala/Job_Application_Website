@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import ShareModal from '../components/ShareModal/ShareModal';
 import './GovExams.css';
 
 function GovExams() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [exams, setExams] = useState([]);
   const [filteredExams, setFilteredExams] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,6 +55,16 @@ function GovExams() {
     setIsAdmin(user.role === 'admin');
     fetchExams();
   }, []);
+
+  useEffect(() => {
+    if (id && exams.length > 0) {
+      const exam = exams.find(e => e.id === parseInt(id));
+      if (exam) {
+        setSelectedExam(exam);
+        setShowModal(true);
+      }
+    }
+  }, [id, exams]);
   
   const fetchExams = async () => {
     try {
@@ -515,11 +528,17 @@ function GovExams() {
 
       {/* Exam Details Modal */}
       {showModal && selectedExam && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+        <div className="modal-overlay" onClick={() => {
+          setShowModal(false);
+          if (id) navigate('/gov-exams');
+        }}>
           <div className="exam-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{selectedExam.postName}</h2>
-              <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
+              <button className="close-btn" onClick={() => {
+                setShowModal(false);
+                if (id) navigate('/gov-exams');
+              }}>×</button>
             </div>
             
             <div className="modal-content">
@@ -585,7 +604,7 @@ function GovExams() {
       <ShareModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        shareUrl={`${window.location.origin}/gov-exam/${selectedExam?.id}`}
+        shareUrl={`${window.location.origin}/gov-exams/${selectedExam?.id}`}
         title={selectedExam?.postName}
         type="Government Exam"
       />

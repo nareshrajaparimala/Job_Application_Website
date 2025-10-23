@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ShareModal from '../ShareModal/ShareModal';
 
 function InternshipModal({ internship, isOpen, onClose }) {
+  const [showShareModal, setShowShareModal] = useState(false);
+  
   if (!isOpen || !internship) return null;
 
   const handleApply = async () => {
@@ -115,12 +118,27 @@ function InternshipModal({ internship, isOpen, onClose }) {
         </div>
 
         <div className="modal-footer">
+          <button 
+            className="share-btn-modal" 
+            onClick={() => setShowShareModal(true)}
+          >
+            <i className="ri-share-line"></i>
+            Share
+          </button>
           <button className="apply-btn-modal" onClick={handleApply}>
             <i className="ri-send-plane-line"></i>
             Apply for this Internship
           </button>
         </div>
       </div>
+      
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        shareUrl={`${window.location.origin}/internships/${internship.id || internship._id}`}
+        title={internship.title}
+        type="Internship"
+      />
     </div>
   );
 }

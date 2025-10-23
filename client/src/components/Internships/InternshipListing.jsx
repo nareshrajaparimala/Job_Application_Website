@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import InternshipSearch from './InternshipSearch';
 import InternshipFilters from './InternshipFilters';
 import InternshipCard from './InternshipCard';
@@ -13,6 +14,8 @@ const isAdmin = () => {
 };
 
 function InternshipListing() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [internships, setInternships] = useState([]);
   const [filteredInternships, setFilteredInternships] = useState([]);
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -30,6 +33,16 @@ function InternshipListing() {
   useEffect(() => {
     fetchInternships();
   }, []);
+
+  useEffect(() => {
+    if (id && internships.length > 0) {
+      const internship = internships.find(i => (i.id || i._id) === id);
+      if (internship) {
+        setSelectedInternship(internship);
+        setIsModalOpen(true);
+      }
+    }
+  }, [id, internships]);
 
   useEffect(() => {
     const handleRefresh = (event) => {
@@ -135,6 +148,9 @@ function InternshipListing() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedInternship(null);
+    if (id) {
+      navigate('/internships');
+    }
   };
 
   const handleDeleteInternship = async (internshipId) => {

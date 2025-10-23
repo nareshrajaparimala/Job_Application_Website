@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import JobSearch from './JobSearch';
 import JobFilters from './JobFilters';
 import JobCard from './JobCard';
@@ -13,6 +14,8 @@ const isAdmin = () => {
 };
 
 function JobListing({ jobType }) {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -30,6 +33,16 @@ function JobListing({ jobType }) {
   useEffect(() => {
     fetchJobs();
   }, [jobType]);
+
+  useEffect(() => {
+    if (id && jobs.length > 0) {
+      const job = jobs.find(j => (j.id || j._id) === id);
+      if (job) {
+        setSelectedJob(job);
+        setIsModalOpen(true);
+      }
+    }
+  }, [id, jobs]);
 
   useEffect(() => {
     const handleRefresh = (event) => {
@@ -171,6 +184,9 @@ function JobListing({ jobType }) {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedJob(null);
+    if (id) {
+      navigate(jobType === 'government' ? '/gov-exams' : '/jobs/private');
+    }
   };
 
   const handleDeleteJob = async (jobId) => {
