@@ -300,21 +300,38 @@
 
 .action-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
-.get-link-btn {
+.share-btn,
+.get-link-btn,
+.apply-btn {
   padding: 8px 16px;
-  background: #f8f9fa;
-  color: #667eea;
-  border: 1px solid #e1e5e9;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+}
+
+.share-btn {
+  background: #ff6b6b;
+  color: white;
+}
+
+.share-btn:hover {
+  background: #ee5a24;
+  transform: translateY(-1px);
+}
+
+.get-link-btn {
+  background: #f8f9fa;
+  color: #667eea;
+  border: 1px solid #e1e5e9;
 }
 
 .get-link-btn:hover {
@@ -326,13 +343,7 @@
   padding: 10px 20px;
   background: #667eea;
   color: white;
-  border: none;
   border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .apply-btn:hover {

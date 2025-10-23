@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ShareModal from '../ShareModal/ShareModal';
 import './JobModal.css';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 function JobModal({ job, isOpen, onClose }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   
   if (!isOpen || !job) return null;
   
@@ -142,6 +144,17 @@ function JobModal({ job, isOpen, onClose }) {
       <div className="job-modal-overlay" onClick={onClose}>
       <div className="job-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
+          <div className="modal-logo-section">
+            <div className="modal-company-logo">
+              {job.companyLogo ? (
+                <img src={job.companyLogo} alt={`${job.company} logo`} />
+              ) : (
+                <div className="modal-default-logo">
+                  <i className="ri-building-line"></i>
+                </div>
+              )}
+            </div>
+          </div>
           <div className="modal-title-section">
             <h2>{job.title}</h2>
             <p className="modal-company">{job.company}</p>
@@ -164,11 +177,6 @@ function JobModal({ job, isOpen, onClose }) {
                 <li key={index}>{req}</li>
               ))}
             </ul>
-          </div>
-
-          <div className="job-skills">
-            <h3>Skills & Experience</h3>
-            <p>{job.skillsExperience}</p>
           </div>
 
           <div className="job-highlights">
@@ -249,6 +257,16 @@ function JobModal({ job, isOpen, onClose }) {
             </span>
           </div>
           <div className="action-buttons">
+            <button 
+              className="share-btn-modal" 
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowShareModal(true);
+              }}
+            >
+              <i className="ri-share-line"></i>
+              Share
+            </button>
             <button className="get-link-btn-modal" onClick={handleGetLink}>
               <i className="ri-external-link-line"></i>
               Get Link
@@ -261,6 +279,14 @@ function JobModal({ job, isOpen, onClose }) {
         </div>
       </div>
     </div>
+    
+    <ShareModal
+      isOpen={showShareModal}
+      onClose={() => setShowShareModal(false)}
+      shareUrl={`${window.location.origin}/job/${job.id}`}
+      title={job.title}
+      type="Job"
+    />
     </>
   );
 }

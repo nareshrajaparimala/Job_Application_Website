@@ -314,7 +314,7 @@ mark {
   border-top: 1px solid #f0f0f0;
 }
 
-.official-link-btn, .help-apply-btn {
+.share-btn, .official-link-btn, .help-apply-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -324,6 +324,11 @@ mark {
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
+}
+
+.share-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  color: white;
 }
 
 .official-link-btn {
@@ -350,7 +355,7 @@ mark {
   to { transform: rotate(360deg); }
 }
 
-.official-link-btn:hover, .help-apply-btn:hover {
+.share-btn:hover, .official-link-btn:hover, .help-apply-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }

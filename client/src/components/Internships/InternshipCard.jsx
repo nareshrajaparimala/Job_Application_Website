@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import ShareModal from '../ShareModal/ShareModal';
 import './InternshipListing.css';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 function InternshipCard({ internship, onClick }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   
   const handleApply = async (e) => {
     e.stopPropagation();
@@ -123,6 +125,16 @@ function InternshipCard({ internship, onClick }) {
         </div>
         <div className="action-buttons">
           <button 
+            className="share-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowShareModal(true);
+            }}
+          >
+            <i className="ri-share-line"></i>
+            Share
+          </button>
+          <button 
             className="get-link-btn"
             onClick={(e) => {
               e.stopPropagation();
@@ -148,6 +160,14 @@ function InternshipCard({ internship, onClick }) {
         </div>
       </div>
     </div>
+      
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        shareUrl={`${window.location.origin}/internship/${internship.id || internship._id}`}
+        title={internship.title}
+        type="Internship"
+      />
     </>
   );
 }

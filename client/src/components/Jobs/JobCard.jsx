@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ShareModal from '../ShareModal/ShareModal';
 import './JobCard.css';
 
 function JobCard({ job, onClick }) {
+  const [showShareModal, setShowShareModal] = useState(false);
   const formatSalary = (salary) => {
     if (!salary) return 'Not disclosed';
     if (salary.includes('-')) {
@@ -24,8 +26,20 @@ function JobCard({ job, onClick }) {
   };
 
   return (
+    <>
     <div className="job-card" onClick={() => onClick(job)}>
       <div className="job-card-header">
+        <div className="company-logo-section">
+          <div className="company-logo">
+            {job.companyLogo ? (
+              <img src={job.companyLogo} alt={`${job.company} logo`} />
+            ) : (
+              <div className="default-logo">
+                <i className="ri-building-line"></i>
+              </div>
+            )}
+          </div>
+        </div>
         <div className="job-title-section">
           <h3 className="job-title">{job.title || 'Job Title'}</h3>
           <p className="company-name">{job.company || 'Company'}</p>
@@ -65,6 +79,16 @@ function JobCard({ job, onClick }) {
         </div>
         <div className="job-actions">
           <button 
+            className="share-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowShareModal(true);
+            }}
+          >
+            <i className="ri-share-line"></i>
+            Share
+          </button>
+          <button 
             className="get-link-btn"
             onClick={(e) => {
               e.stopPropagation();
@@ -90,6 +114,15 @@ function JobCard({ job, onClick }) {
         </div>
       </div>
     </div>
+    
+    <ShareModal
+      isOpen={showShareModal}
+      onClose={() => setShowShareModal(false)}
+      shareUrl={`${window.location.origin}/job/${job.id}`}
+      title={job.title}
+      type="Job"
+    />
+    </>
   );
 }
 

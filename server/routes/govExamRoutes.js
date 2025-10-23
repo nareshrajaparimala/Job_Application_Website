@@ -208,6 +208,20 @@ router.get('/all', async (req, res) => {
   }
 });
 
+// Get single government exam by ID
+router.get('/detail/:id', async (req, res) => {
+  try {
+    const exam = await GovExam.findOne({ id: req.params.id, isActive: true });
+    if (!exam) {
+      return res.status(404).json({ success: false, message: 'Exam not found' });
+    }
+    res.status(200).json({ success: true, exam });
+  } catch (error) {
+    console.error('Get exam detail error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch exam details' });
+  }
+});
+
 // Delete government exam (admin only)
 router.delete('/delete/:id', authenticateToken, async (req, res) => {
   try {

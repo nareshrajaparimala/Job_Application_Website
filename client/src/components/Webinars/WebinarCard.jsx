@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ShareModal from '../ShareModal/ShareModal';
 
 function WebinarCard({ webinar, onClick }) {
+  const [showShareModal, setShowShareModal] = useState(false);
   const handleRegister = async (e) => {
     e.stopPropagation();
     
@@ -31,6 +33,7 @@ function WebinarCard({ webinar, onClick }) {
   };
 
   return (
+    <>
     <div className="webinar-card" onClick={() => onClick(webinar)}>
       <div className="card-header">
         <div className="webinar-info">
@@ -77,16 +80,37 @@ function WebinarCard({ webinar, onClick }) {
             {new Date(webinar.date) > new Date() ? 'Upcoming Event' : 'Past Event'}
           </span>
         </div>
-        <button 
-          className="register-btn" 
-          onClick={handleRegister}
-          disabled={new Date(webinar.date) < new Date()}
-        >
-          <i className="ri-calendar-check-line"></i>
-          {new Date(webinar.date) > new Date() ? 'Register Now' : 'Event Ended'}
-        </button>
+        <div className="webinar-actions">
+          <button 
+            className="share-btn" 
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowShareModal(true);
+            }}
+          >
+            <i className="ri-share-line"></i>
+            Share
+          </button>
+          <button 
+            className="register-btn" 
+            onClick={handleRegister}
+            disabled={new Date(webinar.date) < new Date()}
+          >
+            <i className="ri-calendar-check-line"></i>
+            {new Date(webinar.date) > new Date() ? 'Register Now' : 'Event Ended'}
+          </button>
+        </div>
       </div>
     </div>
+    
+    <ShareModal
+      isOpen={showShareModal}
+      onClose={() => setShowShareModal(false)}
+      shareUrl={`${window.location.origin}/webinar/${webinar.id}`}
+      title={webinar.title}
+      type="Webinar"
+    />
+    </>
   );
 }
 

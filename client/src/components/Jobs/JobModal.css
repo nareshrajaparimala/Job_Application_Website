@@ -41,6 +41,38 @@
   border-radius: 16px 16px 0 0;
 }
 
+.modal-logo-section {
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.modal-company-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-company-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-default-logo {
+  color: #667eea;
+  font-size: 2rem;
+}
+
+.modal-title-section {
+  flex: 1;
+}
+
 .modal-title-section h2 {
   margin: 0 0 8px 0;
   font-size: 1.8rem;
@@ -250,6 +282,7 @@
   gap: 15px;
 }
 
+.share-btn-modal,
 .get-link-btn-modal,
 .apply-btn-modal {
   display: flex;
@@ -262,6 +295,16 @@
   transition: all 0.3s ease;
   border: none;
   font-size: 1rem;
+}
+
+.share-btn-modal {
+  background: #ff6b6b;
+  color: white;
+}
+
+.share-btn-modal:hover {
+  background: #ee5a24;
+  transform: translateY(-2px);
 }
 
 .get-link-btn-modal {
@@ -416,6 +459,7 @@
     gap: 12px;
   }
   
+  .share-btn-modal,
   .get-link-btn-modal,
   .apply-btn-modal {
     flex: 1;

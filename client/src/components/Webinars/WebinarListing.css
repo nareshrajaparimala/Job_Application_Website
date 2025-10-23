@@ -300,10 +300,14 @@
   font-weight: 600;
 }
 
+.webinar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.share-btn,
 .register-btn {
   padding: 10px 20px;
-  background: #667eea;
-  color: white;
   border: none;
   border-radius: 25px;
   cursor: pointer;
@@ -311,6 +315,23 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.share-btn {
+  background: #ff6b6b;
+  color: white;
+}
+
+.share-btn:hover {
+  background: #ee5a24;
+  transform: translateY(-2px);
+}
+
+.register-btn {
+  background: #667eea;
+  color: white;
 }
 
 .register-btn:hover:not(:disabled) {
@@ -568,5 +589,16 @@
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
+  }
+  
+  .webinar-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .share-btn,
+  .register-btn {
+    flex: 1;
+    justify-content: center;
   }
 }

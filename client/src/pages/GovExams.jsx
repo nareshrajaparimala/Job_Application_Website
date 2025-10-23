@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ShareModal from '../components/ShareModal/ShareModal';
 import './GovExams.css';
 
 function GovExams() {
@@ -25,6 +26,7 @@ function GovExams() {
     selectionMode: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   // Sample data
   const sampleExams = [
@@ -553,6 +555,13 @@ function GovExams() {
 
               <div className="modal-actions">
                 <button 
+                  className="share-btn"
+                  onClick={() => setShowShareModal(true)}
+                >
+                  <i className="ri-share-line"></i>
+                  Share
+                </button>
+                <button 
                   className="official-link-btn"
                   onClick={() => window.open(selectedExam.applyLink, '_blank')}
                 >
@@ -572,6 +581,14 @@ function GovExams() {
           </div>
         </div>
       )}
+      
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        shareUrl={`${window.location.origin}/gov-exam/${selectedExam?.id}`}
+        title={selectedExam?.postName}
+        type="Government Exam"
+      />
     </div>
   );
 }
