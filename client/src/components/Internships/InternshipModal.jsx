@@ -6,6 +6,30 @@ function InternshipModal({ internship, isOpen, onClose }) {
   
   if (!isOpen || !internship) return null;
 
+  const handleShare = async (platform) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/internships/share`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          internshipId: internship.internshipId || internship._id,
+          platform
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (window.showPopup) {
+          window.showPopup('Internship shared successfully!', 'success');
+        }
+      }
+    } catch (error) {
+      console.error('Error sharing internship:', error);
+    }
+  };
+
   const handleApply = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -135,9 +159,10 @@ function InternshipModal({ internship, isOpen, onClose }) {
       <ShareModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        shareUrl={`${window.location.origin}/internships/${internship.id || internship._id}`}
+        shareUrl={`${window.location.origin}/internships/${internship.internshipId || internship._id}`}
         title={internship.title}
         type="Internship"
+        onShare={handleShare}
       />
     </div>
   );

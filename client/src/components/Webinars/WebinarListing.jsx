@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import WebinarSearch from './WebinarSearch';
 import WebinarFilters from './WebinarFilters';
 import WebinarCard from './WebinarCard';
@@ -13,6 +14,8 @@ const isAdmin = () => {
 };
 
 function WebinarListing() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [webinars, setWebinars] = useState([]);
   const [filteredWebinars, setFilteredWebinars] = useState([]);
   const [selectedWebinar, setSelectedWebinar] = useState(null);
@@ -30,6 +33,48 @@ function WebinarListing() {
   useEffect(() => {
     fetchWebinars();
   }, []);
+
+  useEffect(() => {
+    if (id && webinars.length > 0) {
+      const webinar = webinars.find(w => (w.webinarId || w._id) == id);
+      if (webinar) {
+        setSelectedWebinar(webinar);
+        setIsModalOpen(true);
+      } else {
+        fetchWebinarById(id);
+      }
+    }
+  }, [id, webinars]);
+
+  const fetchWebinarById = async (webinarId) => {
+    try {
+      // First try to fetch by share ID
+      let response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/webinars/share/${webinarId}`);
+      
+      if (!response.ok) {
+        // If share ID fails, try regular API
+        response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/webinars/${webinarId}`);
+      }
+      
+      if (response.ok) {
+        const result = await response.json();
+        const webinar = result.webinar || result;
+        setSelectedWebinar(webinar);
+        setIsModalOpen(true);
+      } else {
+        if (window.showPopup) {
+          window.showPopup('Webinar not found', 'error');
+        }
+        navigate('/webinars');
+      }
+    } catch (error) {
+      console.error('Error fetching webinar by ID:', error);
+      if (window.showPopup) {
+        window.showPopup('Webinar not found', 'error');
+      }
+      navigate('/webinars');
+    }
+  };
 
   useEffect(() => {
     const handleRefresh = (event) => {
@@ -119,6 +164,9 @@ function WebinarListing() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedWebinar(null);
+    if (id) {
+      navigate('/webinars');
+    }
   };
 
   const handleDeleteWebinar = async (webinarId) => {

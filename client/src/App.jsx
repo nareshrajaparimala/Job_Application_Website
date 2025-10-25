@@ -12,6 +12,8 @@ import Documents from './pages/Documents';
 import Admissions from './pages/Admissions';
 import Webinars from './pages/Webinars';  
 import Internships from './pages/Internships';
+import AdmissionCards from './pages/AdmissionCards';
+import TestShare from './pages/TestShare';
 import Mentorship from './pages/Mentorship';
 import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
@@ -65,7 +67,12 @@ function App() {
         <Route path="/documents" element={<Documents />} />
         <Route path="/admissions" element={<Admissions />} />
         <Route path="/webinars" element={<Webinars />} />
+        <Route path="/webinars/:id" element={<Webinars />} />
         <Route path="/internships" element={<Internships />} />
+        <Route path="/admission-cards" element={<AdmissionCards />} />
+        <Route path="/admission-cards/:shareId" element={<AdmissionCards />} />
+        <Route path="/test-share" element={<TestShare />} />
+        <Route path="/test-share/:shareId" element={<TestShare />} />
         <Route path="/mentorship" element={<Mentorship />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/contact" element={<Contact />} />

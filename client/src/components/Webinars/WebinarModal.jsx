@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ShareModal from '../ShareModal/ShareModal';
 
 function WebinarModal({ webinar, isOpen, onClose }) {
+  const [showShareModal, setShowShareModal] = useState(false);
+  
   if (!isOpen || !webinar) return null;
+
+  const handleShare = async (platform) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/webinars/share`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          webinarId: webinar.webinarId || webinar._id,
+          platform
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (window.showPopup) {
+          window.showPopup('Webinar shared successfully!', 'success');
+        }
+      }
+    } catch (error) {
+      console.error('Error sharing webinar:', error);
+    }
+  };
 
   const handleRegister = async () => {
     const token = localStorage.getItem('token');
@@ -115,6 +142,13 @@ function WebinarModal({ webinar, isOpen, onClose }) {
 
         <div className="modal-footer">
           <button 
+            className="share-btn-modal" 
+            onClick={() => setShowShareModal(true)}
+          >
+            <i className="ri-share-line"></i>
+            Share
+          </button>
+          <button 
             className="register-btn-modal" 
             onClick={handleRegister}
             disabled={!isUpcoming}
@@ -124,6 +158,15 @@ function WebinarModal({ webinar, isOpen, onClose }) {
           </button>
         </div>
       </div>
+      
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        shareUrl={`${window.location.origin}/webinars/${webinar.webinarId || webinar._id}`}
+        title={webinar.title}
+        type="Webinar"
+        onShare={handleShare}
+      />
     </div>
   );
 }

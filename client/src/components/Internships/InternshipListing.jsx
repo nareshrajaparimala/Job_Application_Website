@@ -36,7 +36,7 @@ function InternshipListing() {
 
   useEffect(() => {
     if (id && internships.length > 0) {
-      const internship = internships.find(i => (i.id || i._id) == id);
+      const internship = internships.find(i => (i.internshipId === id || i.id == id || i._id == id));
       if (internship) {
         setSelectedInternship(internship);
         setIsModalOpen(true);
@@ -49,13 +49,20 @@ function InternshipListing() {
 
   const fetchInternshipById = async (internshipId) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/internships/${internshipId}`);
+      // First try to fetch by share ID
+      let response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/internships/share/${internshipId}`);
+      
+      if (!response.ok) {
+        // If share ID fails, try regular API
+        response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/applications/internships/${internshipId}`);
+      }
+      
       if (response.ok) {
-        const internship = await response.json();
+        const result = await response.json();
+        const internship = result.internship || result;
         setSelectedInternship(internship);
         setIsModalOpen(true);
       } else {
-        // If API fails, show error message
         if (window.showPopup) {
           window.showPopup('Internship not found', 'error');
         }

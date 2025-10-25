@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ShareModal.css';
 
-function ShareModal({ isOpen, onClose, shareUrl, title, type }) {
+function ShareModal({ isOpen, onClose, shareUrl, title, type, onShare }) {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen) return null;
@@ -26,19 +26,23 @@ function ShareModal({ isOpen, onClose, shareUrl, title, type }) {
   const shareToWhatsApp = () => {
     const message = `Check out this ${type}: ${title}\n${shareUrl}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+    if (onShare) onShare('whatsapp');
   };
 
   const shareToLinkedIn = () => {
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank');
+    if (onShare) onShare('linkedin');
   };
 
   const shareToTwitter = () => {
     const text = `Check out this ${type}: ${title}`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+    if (onShare) onShare('twitter');
   };
 
   const shareToFacebook = () => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+    if (onShare) onShare('facebook');
   };
 
   return (
