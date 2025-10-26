@@ -31,6 +31,7 @@ nav{
 }
 .logo-img{
     background-image: url();
+   
 }
 .logo-img-div-nav{
   padding-left: 25px;
@@ -42,7 +43,7 @@ nav{
 }
 .logo-img {
   /* width: 60px; */
-  height: 40px;
+  height: 110px;
   /* background-image: url('../assets/logo2.png'); */
   background-size: contain;
   background-repeat: no-repeat;
@@ -90,14 +91,14 @@ nav{
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, #7fa3ff 0%, #2a42f8 100%);
+    background: linear-gradient(235deg, #7fa3ff 29.41%, #2a42f8 64.29%);
     color: white;
-    box-shadow: 0 2px 8px rgba(255, 0, 255, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 85, 255, 0.3);
 }
 
 .menu-icondiv:hover{
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 0, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(51, 88, 253, 0.4);
 }
 
 .menu-icondiv i{
@@ -110,7 +111,7 @@ nav{
     transition: all 0.3s ease;
 }
 .color-nav-box:hover{
-    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(255, 0, 255, 0.2);
@@ -123,7 +124,7 @@ nav{
 }
 
 .color-subnav-box:hover{
-    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
     transform: translateX(4px);
 }
 
@@ -154,7 +155,7 @@ nav{
 }
 
 .dropdown-content li:hover {
-  background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+  background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   transform: translateX(4px);
 }
 
@@ -264,7 +265,7 @@ nav{
     box-shadow: 0 2px 8px rgba(115, 0, 255, 0.15); 
 }
 .register-link:hover, .login-link:hover {
-    background: linear-gradient(180deg, rgb(255, 0, 255), rgb(115, 0, 255));
+    background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
    
 }
 @media(min-width: 1200px) {
@@ -383,7 +384,7 @@ nav{
     }
     
     .dropdown-content-hidden li:hover {
-        background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+        background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
         transform: none;
     }
     
@@ -397,7 +398,7 @@ nav{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+  background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   color: white;
   padding: 20px;
   margin: -1rem -0rem 1rem -0rem;
@@ -486,7 +487,7 @@ nav{
 }
 
 .sidebar li:hover {
-    background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+    background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
     transform: translateX(5px);
 }
 

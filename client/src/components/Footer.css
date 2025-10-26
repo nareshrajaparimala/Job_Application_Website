@@ -24,7 +24,7 @@
 .footer-logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #a020f0;
+  color: #262ce4;
   margin-bottom: 0.5rem;
 }
 
@@ -36,7 +36,7 @@
 
 .footer-col h4 {
   font-size: 1.1rem;
-  color: #a020f0;
+  color: #262ce4;
   margin-bottom: 0.7rem;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .footer-col ul li a:hover {
-  color: #a020f0;
+  color: #262ce4;
   text-decoration: underline;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .footer-social a:hover {
-  color: #a020f0;
+  color: #262ce4;
 }
 
 .footer-bottom {
@@ -86,14 +86,14 @@
 }
 
 .footer-bottom a {
-  color: #a020f0;
+  color: #262ce4;
   margin-left: 10px;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .footer-bottom a:hover {
-  color: #ff69b4;
+  color: #262ce4;
 }
 
 @media (max-width: 800px) {

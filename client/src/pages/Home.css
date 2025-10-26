@@ -24,7 +24,7 @@
 }
 
 .hero-text span {
-  color: #a212fc;
+  color: #262ce4;
 }
 
 .hero-subtext {
@@ -47,15 +47,15 @@
 }
 
 .hero-buttons .search-btn {
-  background: linear-gradient(90deg, #a020f0, #ff69b4);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   color: #fff;
   border: none;
 }
 
 .hero-buttons .resume-btn {
   background: #fff;
-  color: #a020f0;
-  border: 2px solid #a020f0;
+  color:#262ce4;
+  border: 2px solid #262ce4;
 }
 
 .hero-image {
@@ -107,7 +107,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: #a020f0;
+  color: #262ce4;
   letter-spacing: 0.5px;
 }
 
@@ -130,7 +130,7 @@
   min-width: 140px;
   min-height: 110px;
   font-size: 2rem;
-  color: #a020f0;
+  color: #262ce4;
   text-decoration: none;
   font-weight: 500;
   transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
@@ -147,7 +147,7 @@
   box-shadow: 0 4px 16px rgba(255, 105, 180, 0.13);
   background: linear-gradient(135deg, #ffe6fa 60%, #f7f2ff 100%);
   transform: translateY(-4px) scale(1.04);
-  color: #ff69b4;
+  color: #262ce4;
 }
 
 @media (max-width: 900px) {
@@ -182,7 +182,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: #a020f0;
+  color: #262ce4;
   letter-spacing: 0.5px;
 }
 
@@ -217,7 +217,7 @@
 }
 
 .job-search-input:focus {
-  border-color: #ff00ff;
+  border-color: #262ce4;
   box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.2);
   transform: scale(1.02);
   background: #fafafa;
@@ -228,7 +228,7 @@
 }
 
 .search-input-container:focus-within .job-search-icon {
-  background: linear-gradient(135deg, #ff69b4 0%, #ff00ff 100%);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 4px 12px rgba(255, 0, 255, 0.3);
 }
@@ -238,7 +238,7 @@
   right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, #ff00ff 0%, #8000ff 100%);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -274,7 +274,7 @@
 }
 
 .filter-select:focus {
-  border-color: #ff00ff;
+  border-color: #4e54f0;
   outline: none;
 }
 
@@ -290,7 +290,7 @@
 }
 
 .no-jobs-msg {
-  color: #a020f0;
+  color: #262ce4;
   font-size: 1.1rem;
   margin-top: 2rem;
   grid-column: 1 / -1;
@@ -314,7 +314,7 @@
   width: 20px;
   height: 20px;
   border: 2px solid #f3f3f3;
-  border-top: 2px solid #a020f0;
+  border-top: 2px solid #262ce4;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -366,7 +366,7 @@
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, #ff69b4 0%, #ff00ff 100%);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   color: white;
   border: none;
   border-radius: 50%;
@@ -438,7 +438,7 @@
 }
 
 .suggestion-arrow {
-  color: #ff00ff;
+  color: #4045eb;
   font-size: 16px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -450,8 +450,8 @@
 
 .explore-btn {
   background: #fff;
-  color: #a020f0;
-  border: 2px solid #a020f0;
+  color: #262ce4;
+  border: 2px solid #262ce4;
 }
 
 @media (max-width: 1024px) {
@@ -594,7 +594,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: #a020f0;
+  color: #262ce4;
   letter-spacing: 0.5px;
 }
 
@@ -617,7 +617,7 @@
   min-width: 140px;
   min-height: 110px;
   font-size: 2rem;
-  color: #a020f0;
+  color: #262ce4;
   font-weight: 500;
   transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
   cursor: pointer;
@@ -635,7 +635,7 @@
   box-shadow: 0 4px 16px rgba(160,32,240,0.13);
   background: linear-gradient(135deg, #e6f7ff 60%, #f7f2ff 100%);
   transform: translateY(-4px) scale(1.04);
-  color: #ff69b4;
+  color: #474ce3;
 }
 
 @media (max-width: 900px) {
@@ -670,7 +670,7 @@
   font-size: 1.7rem;
   font-weight: bold;
   /* margin-bottom: 1.5rem; */
-  color: #a020f0;
+  color: #262ce4;
   letter-spacing: 0.5px;
 }
 
@@ -700,7 +700,7 @@
 .view-all-categories {
   display: inline-block;
   margin-top: 0.5rem;
-  color: #a020f0;
+  color: #262ce4;
   font-weight: 500;
   text-decoration: none;
   font-size: 1.1rem;
@@ -708,7 +708,7 @@
 }
 
 .view-all-categories:hover {
-  color: #ff69b4;
+  color: #4f54ea;
 }
 
 @media (max-width: 768px) {
@@ -741,7 +741,7 @@
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: #a020f0;
+  color: #262ce4;
   letter-spacing: 0.5px;
 }
 
@@ -769,7 +769,7 @@
 .testimonial-quote {
   font-style: italic;
   margin-bottom: 0.7rem;
-  color: #a020f0;
+  color: #262ce4;
 }
 
 .testimonial-user {
@@ -805,7 +805,7 @@
 
 .portfolio-maker-icon {
   font-size: 4rem;
-  color: #a020f0;
+  color: #262ce4;
   margin-bottom: 1.5rem;
 }
 
@@ -829,7 +829,7 @@
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #a020f0;
+  color: #262ce4;
   letter-spacing: 0.5px;
 }
 
@@ -841,7 +841,7 @@
 }
 
 .portfolio-cta-btn {
-  background: linear-gradient(135deg, #a020f0 0%, #ff69b4 100%);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -859,7 +859,7 @@
 .portfolio-cta-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(160, 32, 240, 0.4);
-  background: linear-gradient(135deg, #ff69b4 0%, #a020f0 100%);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
 }
 
 @media (max-width: 768px) {
@@ -901,7 +901,7 @@
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 1.2rem;
-  color: #a020f0;
+  color: #262ce4;
   letter-spacing: 0.5px;
 }
 
@@ -916,7 +916,7 @@
 .newsletter-input {
   padding: 0.7rem 1.2rem;
   border-radius: 8px;
-  border: 1px solid #a020f0;
+  border: 1px solid #262ce4;
   font-size: 1rem;
   width: 250px;
   max-width: 100%;
@@ -929,14 +929,14 @@
   font-size: 1rem;
   cursor: pointer;
   border: none;
-  background: linear-gradient(90deg, #a020f0, #ff69b4);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
   color: #fff;
   font-weight: 500;
   transition: background 0.2s;
 }
 
 .newsletter-btn:hover {
-  background: linear-gradient(90deg, #ff69b4, #a020f0);
+  background:  linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
 }
 
 @media (max-width: 600px) {
