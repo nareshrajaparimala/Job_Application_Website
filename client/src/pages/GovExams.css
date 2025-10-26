@@ -6,12 +6,17 @@
 
 .page-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin: 0 auto 40px auto;
   padding: 40px 20px;
   background: white;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   position: relative;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .page-header h1 {
@@ -539,7 +544,23 @@ mark {
   }
   
   .page-header {
-    padding: 20px 10px;
+    padding: 20px 15px;
+    margin: 0 10px 30px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .page-header h1,
+  .page-header p {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .add-exam-btn {
+    align-self: center;
   }
   
   .page-header h1 {
@@ -553,8 +574,11 @@ mark {
   }
   
   .search-section {
-    margin: 15px 0;
+    margin: 15px auto;
     padding: 0 5px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
   }
   
   .search-container {

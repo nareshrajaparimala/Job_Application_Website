@@ -52,25 +52,27 @@ export const shareInternship = async (req, res) => {
     const { internshipId, platform } = req.body;
     const userId = req.user?.id;
 
-    const internship = await Internship.findOne({ 
-      $or: [{ _id: internshipId }, { internshipId: internshipId }] 
+    // Try to find in database first
+    let internship = await Internship.findOne({ 
+      $or: [{ _id: internshipId }, { internshipId: internshipId }, { id: internshipId }] 
     });
 
-    if (!internship) {
-      return res.status(404).json({ message: 'Internship not found' });
+    if (internship) {
+      // Update share count and tracking for database internships
+      internship.shareCount += 1;
+      if (userId) {
+        internship.sharedBy.push({ userId, platform });
+      }
+      await internship.save();
     }
 
-    // Update share count and tracking
-    internship.shareCount += 1;
-    if (userId) {
-      internship.sharedBy.push({ userId, platform });
-    }
-    await internship.save();
+    // Generate share URL using the provided ID
+    const shareUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}/internships/${internshipId}`;
 
     res.json({ 
       message: 'Internship shared successfully',
-      shareCount: internship.shareCount,
-      shareUrl: `${process.env.CLIENT_URL || 'http://localhost:5173'}/internships/${internship.internshipId}`
+      shareCount: internship?.shareCount || 1,
+      shareUrl
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -81,7 +83,10 @@ export const getInternshipByShareId = async (req, res) => {
   try {
     const { shareId } = req.params;
     
-    const internship = await Internship.findOne({ internshipId: shareId });
+    // Try to find by various ID formats
+    const internship = await Internship.findOne({ 
+      $or: [{ internshipId: shareId }, { _id: shareId }, { id: shareId }]
+    });
     
     if (!internship) {
       return res.status(404).json({ message: 'Internship not found' });

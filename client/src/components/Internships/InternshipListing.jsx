@@ -35,17 +35,21 @@ function InternshipListing() {
   }, []);
 
   useEffect(() => {
-    if (id && internships.length > 0) {
+    if (id) {
+      // Always try to fetch by ID first, regardless of local data
+      fetchInternshipById(id);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id && internships.length > 0 && !selectedInternship) {
       const internship = internships.find(i => (i.internshipId === id || i.id == id || i._id == id));
       if (internship) {
         setSelectedInternship(internship);
         setIsModalOpen(true);
-      } else {
-        // If internship not found in local data, try to fetch it from API
-        fetchInternshipById(id);
       }
     }
-  }, [id, internships]);
+  }, [id, internships, selectedInternship]);
 
   const fetchInternshipById = async (internshipId) => {
     try {

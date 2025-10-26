@@ -14,6 +14,8 @@ import Webinars from './pages/Webinars';
 import Internships from './pages/Internships';
 import AdmissionCards from './pages/AdmissionCards';
 import TestShare from './pages/TestShare';
+import FacilityManagement from './pages/FacilityManagement';
+import ServiceDetail from './pages/ServiceDetail';
 import Mentorship from './pages/Mentorship';
 import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
@@ -73,6 +75,8 @@ function App() {
         <Route path="/admission-cards/:shareId" element={<AdmissionCards />} />
         <Route path="/test-share" element={<TestShare />} />
         <Route path="/test-share/:shareId" element={<TestShare />} />
+        <Route path="/facility-management" element={<FacilityManagement />} />
+        <Route path="/facility-management/:serviceId" element={<ServiceDetail />} />
         <Route path="/mentorship" element={<Mentorship />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/contact" element={<Contact />} />

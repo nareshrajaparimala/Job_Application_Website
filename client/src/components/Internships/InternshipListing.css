@@ -154,8 +154,10 @@
 .internships-section {
   background: white;
   border-radius: 15px;
-  padding: 10px;
+  padding: 25px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .internships-header {
@@ -175,6 +177,14 @@
 .internships-list {
   display: grid;
   gap: 20px;
+}
+
+@media (max-width: 700px) {
+  .internships-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 .internship-card {
@@ -319,13 +329,7 @@
 }
 
 .share-btn {
-  background: #ff6b6b;
-  color: white;
-}
-
-.share-btn:hover {
-  background: #ee5a24;
-  transform: translateY(-1px);
+  display: none;
 }
 
 .get-link-btn {
@@ -502,6 +506,54 @@
 @media (max-width: 768px) {
   .internship-content {
     grid-template-columns: 1fr;
+    padding: 15px 10px;
+    gap: 20px;
+  }
+  
+  .internships-section {
+    padding: 15px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  
+  .internships-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .internships-header {
+    margin-bottom: 20px;
+  }
+  
+  .internships-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .internship-card {
+    padding: 15px;
+    margin-bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+  
+  .internship-title {
+    font-size: 1.1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .internship-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
   
   .search-form {
@@ -510,14 +562,21 @@
   }
   
   .search-btn {
-    /* margin-left: -10px; */
     width: 100%;
     justify-content: center;
   }
   
   .search-section {
-    /* background-color: #1976d2; */
     padding: 30px 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .search-header {
+    text-align: center;
+    width: 100%;
   }
   
   .search-header h1 {
@@ -539,7 +598,8 @@
     padding: 12px 40px 12px 40px;
     font-size: 0.9rem;
   }
-  .search-icon{
+  
+  .search-icon {
     margin-left: -40px;
   }
   

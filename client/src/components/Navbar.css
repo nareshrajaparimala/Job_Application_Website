@@ -305,7 +305,7 @@ nav{
     }
 }
 @media (max-width: 800px) {
-    .admitcard-nav,.job-nav,.home-nav,.portfolio-nav{
+    .admitcard-nav,.job-nav,.home-nav,.portfolio-nav,.facility-nav{
         display: none !important;
     }
     .admitcard-nav-h,.job-nav-h,.home-nav-h{

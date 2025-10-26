@@ -98,7 +98,7 @@ function Navbar() {
             <li className='color-subnav-box webinar-nav-h'><Link to="/webinars" onClick={handleMobileMenuClose}>Webinars</Link></li>
             <li className='color-subnav-box'><Link to="/internships" onClick={handleMobileMenuClose}>Internships</Link></li>
             <li className='color-subnav-box'><Link to="/portfolio" onClick={handleMobileMenuClose}>Portfolio</Link></li>
-            {/* <li className='color-subnav-box'><Link to="/mentorship" onClick={handleMobileMenuClose}>Mentorship</Link></li> */}
+            <li className='color-subnav-box'><Link to="/facility-management" onClick={handleMobileMenuClose}>Facility Management</Link></li>
             <li className='color-subnav-box'><Link to="/contact" onClick={handleMobileMenuClose}>Contact</Link></li>
           </ul>
 
@@ -126,6 +126,7 @@ function Navbar() {
         <li className="color-nav-box document-nav"><Link to="/documents">Resume</Link></li>
         <li className="color-nav-box admission-nav"><Link to="/admissions">Admissions</Link></li>
         <li className="color-nav-box webinar-nav"><Link to="/webinars">Webinars</Link></li>
+        <li className="color-nav-box facility-nav"><Link to="/facility-management">Facility</Link></li>
         
       </ul>
       <div className="log-div">
