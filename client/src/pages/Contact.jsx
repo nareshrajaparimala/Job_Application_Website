@@ -75,10 +75,7 @@ function Contact() {
                 <h3>Ravi Kumar HS</h3>
                 <p className="team-role">Founder & MD</p>
                 <div className="team-contact">
-                  <a href="tel:6361718992" className="contact-link">
-                    <i className="ri-phone-line"></i>
-                    +91 6361718992
-                  </a>
+                  
                   <a href="mailto:ravikumarsamyak@gmail.com" className="contact-link">
                     <i className="ri-mail-line"></i>
                     ravikumarsamyak@gmail.com
@@ -96,13 +93,10 @@ function Contact() {
                 <h3>Naresh R</h3>
                 <p className="team-role">Co-Founder & CEO</p>
                 <div className="team-contact">
-                  <a href="tel:8884509528" className="contact-link">
-                    <i className="ri-phone-line"></i>
-                    +91 8884509528
-                  </a>
+                  
                   <a href="mailto:nareshrajaparimala000@gmail.com" className="contact-link">
                     <i className="ri-mail-line"></i>
-                    nareshrajaparimala000@gmail.com
+                    nareshr182004@gmail.com
                   </a>
                 </div>
               </div>
@@ -245,7 +239,7 @@ function Contact() {
                   </div>
                 </div>
 
-                <div className="info-item">
+                {/* <div className="info-item">
                   <div className="info-icon">
                     <i className="ri-phone-line"></i>
                   </div>
@@ -257,7 +251,7 @@ function Contact() {
                       <a href="tel:8310541180">+91 8310541180</a> (Prajwal Gowda)
                     </p>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="info-item">
                   <div className="info-icon">
@@ -266,8 +260,10 @@ function Contact() {
                   <div className="info-content">
                     <h4>Email Addresses</h4>
                     <p>
-                      <a href="mailto:ravikumarsamyak@gmail.com">ravikumarsamyak@gmail.com</a><br />
-                      <a href="mailto:nareshrajaparimala000@gmail.com">nareshrajaparimala000@gmail.com</a>
+                      <a href="mailto:ravikumar@mytechz.in">ravikumar@mytechz.in</a><br />
+                      <a href="mailto:nareshr182004@gmail.com">nareshr182004@gmail.com</a><br />
+                      <a href="mailto:admin@mytechz.in">admin@mytechz.in</a>
+                      <a href="mailto:contact@mytechz.in">contact@mytechz.in</a>
                     </p>
                   </div>
                 </div>

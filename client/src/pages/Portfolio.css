@@ -202,6 +202,7 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   animation: slideInUp 1s ease-out;
+  border: 2px solid #0080ff;
 }
 
 .template-card:hover {
@@ -210,7 +211,7 @@
 }
 
 .template-card.featured {
-  border: 3px solid #a020f0;
+  border: 2px solid #006eff;
   position: relative;
 }
 

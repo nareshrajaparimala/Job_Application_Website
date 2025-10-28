@@ -579,10 +579,13 @@ mark {
     text-align: center;
     display: flex;
     justify-content: center;
+    
   }
   
   .search-container {
     max-width: 100%;
+
+    margin-left: 20px;
   }
   
   .search-input {
@@ -594,6 +597,7 @@ mark {
   .search-icon {
     left: 15px;
     font-size: 1.1rem;
+    margin-left: -30px;
   }
   
   .clear-search {

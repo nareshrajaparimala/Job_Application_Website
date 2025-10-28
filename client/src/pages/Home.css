@@ -885,6 +885,112 @@
   }
 }
 
+/* Facility Management Section */
+
+.facility-section {
+  margin: .1rem auto 0 auto;
+  max-width: auto;
+  background: linear-gradient(135deg, #fff0ff 0%, #f7f2ff 100%);
+  box-shadow: 0 2px 16px rgba(160,32,240,0.07);
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.facility-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.facility-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #262ce4;
+  letter-spacing: 0.5px;
+}
+
+.facility-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.facility-features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.facility-features .feature-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #262ce4;
+}
+
+.facility-features .feature-icon i {
+  font-size: 2rem;
+}
+
+.facility-features .feature-icon span {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.facility-cta-btn {
+  background: linear-gradient(235deg, #2a42f8 26.05%, #7fa3ff 72.27%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(160, 32, 240, 0.3);
+}
+
+.facility-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(160, 32, 240, 0.4);
+}
+
+@media (max-width: 768px) {
+  .facility-section {
+    padding: 2rem 1rem;
+  }
+  
+  .facility-title {
+    font-size: 1.5rem;
+  }
+  
+  .facility-description {
+    font-size: 1rem;
+  }
+  
+  .facility-features {
+    gap: 1rem;
+  }
+  
+  .facility-features .feature-icon i {
+    font-size: 1.5rem;
+  }
+  
+  .facility-cta-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
 /* Newsletter Signup Section  */
 
 .newsletter-section {

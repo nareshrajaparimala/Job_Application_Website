@@ -37,17 +37,23 @@
   color: white;
 }
 
-.header-content h1 {
+.my-applications .applications-header .header-content h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  color: #ffffff !important;
+}
+
+.my-applications .applications-header .header-content h1 i {
+  color: #ffffff !important;
 }
 
 .header-content p {
   opacity: 0.9;
   font-size: 1.1rem;
+  color: #ffffff;
 }
 
 .applications-stats {

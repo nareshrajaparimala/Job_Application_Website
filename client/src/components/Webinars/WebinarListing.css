@@ -576,8 +576,13 @@
   }
   
   .search-input {
-    padding: 12px 40px 12px 40px;
+    padding: 12px 45px 12px 45px;
     font-size: 0.9rem;
+  }
+  
+  .search-icon {
+    left: 15px;
+    padding-left: 10px;
   }
   
   .webinar-details {

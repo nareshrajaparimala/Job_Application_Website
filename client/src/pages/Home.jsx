@@ -208,6 +208,37 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Facility Management Section */}
+      <div className="facility-section" ref={useScrollAnimation('move-in-left')}>
+        <div className="facility-content">
+          <h2 className="facility-title">Professional Facility Management</h2>
+          <p className="facility-description">
+            "Excellence in facility management is not just about maintaining spaces, it's about creating environments where success thrives."
+          </p>
+          <div className="facility-features">
+            <div className="feature-icon">
+              <i className="ri-building-line"></i>
+              <span>Infrastructure Management</span>
+            </div>
+            <div className="feature-icon">
+              <i className="ri-shield-check-line"></i>
+              <span>Security & Safety</span>
+            </div>
+            <div className="feature-icon">
+              <i className="ri-tools-line"></i>
+              <span>Maintenance Services</span>
+            </div>
+          </div>
+          <button 
+            className="facility-cta-btn"
+            onClick={() => window.location.href = '/facility-management'}
+          >
+            <i className="ri-building-4-line"></i>
+            Explore Our Services
+          </button>
+        </div>
+      </div>
+
       {/* Quick Links Section */}
       <div className="quick-links-section">
         <h2 className="quick-links-title">Fast Access to Resources</h2>

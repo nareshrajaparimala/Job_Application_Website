@@ -85,7 +85,7 @@ function MyApplications() {
     <div className="my-applications">
       <div className="applications-header">
         <div className="header-content">
-          <h1><i className="ri-file-list-3-line"></i> My Applications</h1>
+          <h1 style={{color: '#ffffff'}}><i className="ri-file-list-3-line" style={{color: '#ffffff'}}></i> My Applications</h1>
           <p>Track your job applications and their current status</p>
         </div>
         <div className="applications-stats">

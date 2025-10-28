@@ -7,12 +7,13 @@
   transition: all 0.3s ease;
   border: 2px solid transparent;
   animation: fadeInUp 0.6s ease-out;
-  height: 340px;
+  height: 380px;
   display: flex;
   flex-direction: column;
   position: relative;
   width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .job-card:hover {
@@ -144,6 +145,10 @@
   background: #f8f9fa;
   padding: 6px 12px;
   border-radius: 6px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .job-meta i {

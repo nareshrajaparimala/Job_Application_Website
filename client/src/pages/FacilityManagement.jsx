@@ -13,7 +13,7 @@ const services = [
   {
     id: 2,
     title: 'Housekeeping & Environment',
-    icon: 'ri-broom-line',
+    icon: 'ri-home-smile-line',
     description: 'Professional cleaning services, hygiene maintenance, and environmental management',
     color: '#28a745'
   },

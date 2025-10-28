@@ -28,7 +28,7 @@
   background: linear-gradient(90deg, #667eea, #764ba2, #28a745, #dc3545, #ffc107);
 }
 
-.header-content h1 {
+.facility-management-page .header-content h1 {
   font-size: 3rem;
   color: #333;
   margin-bottom: 15px;

@@ -25,7 +25,8 @@
 }
 .inbox-div{
     width:650px;
-    height:60%;
+    min-height: 500px;
+    height: auto;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
