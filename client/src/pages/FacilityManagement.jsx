@@ -52,7 +52,7 @@ function FacilityManagement() {
     <div className="facility-management-page">
       <div className="facility-header">
         <div className="header-content">
-          <h1>Facility Management Services</h1>
+          <h1>Tech-Driven Facility Management Services</h1>
           <p>Comprehensive solutions for all your facility management needs</p>
         </div>
         <div className="header-animation">

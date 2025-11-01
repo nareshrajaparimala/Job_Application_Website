@@ -38,11 +38,15 @@ export const applyForJob = async (req, res) => {
   try {
     const { jobId, jobTitle, company, location, salary } = req.body;
     const userId = req.user.id;
+    
+    console.log('Job application request:', { jobId, jobTitle, company, location, salary, userId });
 
-    // Check if user already applied
-    const existingApplication = await Application.findOne({ userId, jobId, applicationType: 'job' });
-    if (existingApplication) {
-      return res.status(400).json({ message: 'You have already applied for this job' });
+    // Check if user already applied (only if jobId is provided)
+    if (jobId) {
+      const existingApplication = await Application.findOne({ userId, jobId, applicationType: 'job' });
+      if (existingApplication) {
+        return res.status(400).json({ message: 'You have already applied for this job' });
+      }
     }
 
     // Get user details
@@ -54,17 +58,22 @@ export const applyForJob = async (req, res) => {
 
     // Use job details from frontend request or set defaults
     const jobDetails = {
-      title: jobTitle || 'Job Title',
-      company: company || 'Company',
+      title: jobTitle || 'Job Application',
+      company: company || 'Company Not Specified',
       location: location || 'Location Not Specified',
-      salary: salary || 'Not Disclosed'
+      salary: salary || 'Salary Not Disclosed'
     };
+    
+    // Validate required fields
+    if (!jobDetails.title || !jobDetails.company) {
+      return res.status(400).json({ message: 'Job title and company are required' });
+    }
     
     console.log('Applying for job with details:', jobDetails);
 
     const application = new Application({
       userId,
-      jobId,
+      jobId: jobId || `job_${Date.now()}`,
       jobTitle: jobDetails.title,
       company: jobDetails.company,
       location: jobDetails.location,
@@ -78,15 +87,8 @@ export const applyForJob = async (req, res) => {
 
     // Send email notification
     try {
-      const nodemailer = (await import('nodemailer')).default;
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      });
-
+      const { sendEmail } = await import('../utils/emailService.js');
+      
       const emailSubject = `New Job Application - ${jobDetails.title}`;
       const emailBody = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
@@ -152,12 +154,11 @@ export const applyForJob = async (req, res) => {
         </div>
       `;
 
-      await transporter.sendMail({
-        from: `"MytechZ.in" <${process.env.EMAIL_USER}>`,
-        to: process.env.ADMIN_EMAIL || 'admin@mytechz.in',
-        subject: emailSubject,
-        html: emailBody
-      });
+      await sendEmail(
+        process.env.ADMIN_EMAIL || 'admin@mytechz.in',
+        emailSubject,
+        emailBody
+      );
     } catch (emailError) {
       console.error('Email sending failed:', emailError);
     }
@@ -168,7 +169,16 @@ export const applyForJob = async (req, res) => {
     });
   } catch (error) {
     console.error('Error applying for job:', error);
-    res.status(500).json({ message: 'Server error' });
+    
+    // Send more specific error messages
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: 'Validation error', details: error.message });
+    }
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'Duplicate application detected' });
+    }
+    
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 

@@ -37,6 +37,12 @@ function ResumeBuilder({ template, onBack }) {
         return;
       }
 
+      console.log('Submitting resume application:', {
+        templateId: template._id,
+        userDetails: formData,
+        totalAmount: calculateTotal()
+      });
+
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/resume/apply`, {
         method: 'POST',
         headers: {
@@ -44,7 +50,7 @@ function ResumeBuilder({ template, onBack }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          templateId: template._id,
+          templateId: template._id || template.id,
           userDetails: formData,
           totalAmount: calculateTotal()
         }),
@@ -55,6 +61,7 @@ function ResumeBuilder({ template, onBack }) {
         onBack();
       } else {
         const error = await response.json();
+        console.error('Resume application error:', error);
         alert(error.message || 'Failed to submit application');
       }
     } catch (error) {
@@ -103,13 +110,12 @@ function ResumeBuilder({ template, onBack }) {
                 />
               </div>
               <div className="form-group">
-                <label>Phone Number *</label>
+                <label>Phone Number</label>
                 <input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="form-group full-width">
@@ -127,36 +133,33 @@ function ResumeBuilder({ template, onBack }) {
           <div className="form-section">
             <h2>Professional Details</h2>
             <div className="form-group">
-              <label>Work Experience *</label>
+              <label>Work Experience</label>
               <textarea
                 name="experience"
                 value={formData.experience}
                 onChange={handleInputChange}
                 placeholder="Describe your work experience, job titles, companies, and achievements..."
                 rows="4"
-                required
               />
             </div>
             <div className="form-group">
-              <label>Education *</label>
+              <label>Education</label>
               <textarea
                 name="education"
                 value={formData.education}
                 onChange={handleInputChange}
                 placeholder="List your educational qualifications, degrees, institutions..."
                 rows="3"
-                required
               />
             </div>
             <div className="form-group">
-              <label>Skills *</label>
+              <label>Skills</label>
               <textarea
                 name="skills"
                 value={formData.skills}
                 onChange={handleInputChange}
                 placeholder="List your technical and soft skills..."
                 rows="3"
-                required
               />
             </div>
           </div>

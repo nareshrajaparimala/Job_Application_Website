@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
+import ResumeManager from '../components/Resume/ResumeManager';
 
 function Profile() {
   const [profile, setProfile] = useState({
@@ -30,9 +31,12 @@ function Profile() {
   const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState('personal');
   const [newSkill, setNewSkill] = useState('');
+  const [showResumeManager, setShowResumeManager] = useState(false);
+  const [resumeInfo, setResumeInfo] = useState(null);
 
   useEffect(() => {
     fetchProfile();
+    fetchResumeInfo();
   }, []);
 
   const fetchProfile = async () => {
@@ -46,6 +50,18 @@ function Profile() {
       console.error('Error fetching profile:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchResumeInfo = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/resume-upload/info`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setResumeInfo(response.data);
+    } catch (error) {
+      console.error('Error fetching resume info:', error);
     }
   };
 
@@ -214,6 +230,12 @@ function Profile() {
             onClick={() => setActiveTab('social')}
           >
             <i className="ri-links-line"></i> Social Links
+          </button>
+          <button 
+            className={`tab ${activeTab === 'resume' ? 'active' : ''}`}
+            onClick={() => setActiveTab('resume')}
+          >
+            <i className="ri-file-text-line"></i> Resume
           </button>
         </div>
 
@@ -444,8 +466,75 @@ function Profile() {
               </div>
             </div>
           )}
+
+          {activeTab === 'resume' && (
+            <div className="tab-content resume-info">
+              <div className="resume-section">
+                <div className="resume-header">
+                  <h3><i className="ri-file-text-line"></i> Resume Management</h3>
+                  <p>Upload and manage your resume for job applications</p>
+                </div>
+                
+                {resumeInfo?.hasResume ? (
+                  <div className="resume-card">
+                    <div className="resume-details">
+                      <div className="resume-icon">
+                        <i className="ri-file-text-line"></i>
+                      </div>
+                      <div className="resume-info-text">
+                        <h4>{resumeInfo.fileName}</h4>
+                        <p>Uploaded on {new Date(resumeInfo.uploadedAt).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <div className="resume-actions">
+                      <button 
+                        className="manage-resume-btn"
+                        onClick={() => setShowResumeManager(true)}
+                      >
+                        <i className="ri-settings-line"></i> Manage Resume
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="no-resume-card">
+                    <div className="no-resume-icon">
+                      <i className="ri-file-add-line"></i>
+                    </div>
+                    <h4>No Resume Uploaded</h4>
+                    <p>Upload your resume to apply for jobs and showcase your skills</p>
+                    <button 
+                      className="upload-resume-btn"
+                      onClick={() => setShowResumeManager(true)}
+                    >
+                      <i className="ri-upload-line"></i> Upload Resume
+                    </button>
+                  </div>
+                )}
+                
+                <div className="resume-tips">
+                  <h4><i className="ri-lightbulb-line"></i> Resume Tips</h4>
+                  <ul>
+                    <li>Keep your resume updated with latest experience</li>
+                    <li>Use PDF format for better compatibility</li>
+                    <li>Ensure file size is under 5MB</li>
+                    <li>Include relevant keywords for your industry</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+      
+      {/* Resume Manager Modal */}
+      {showResumeManager && (
+        <ResumeManager 
+          onClose={() => {
+            setShowResumeManager(false);
+            fetchResumeInfo(); // Refresh resume info after closing
+          }} 
+        />
+      )}
     </div>
   );
 }

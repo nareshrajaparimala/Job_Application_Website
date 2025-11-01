@@ -100,10 +100,29 @@ export const sendApplicationEmail = async (userDetails, applicationData, applica
 export const sendEmail = async (to, subject, html) => {
   try {
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"MytechZ.in" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       html
+    };
+
+    const result = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', result.messageId);
+    return result;
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw error;
+  }
+};
+
+// Alternative function signature for object parameter
+export const sendEmailWithOptions = async (options) => {
+  try {
+    const mailOptions = {
+      from: `"MytechZ.in" <${process.env.EMAIL_USER}>`,
+      to: options.to,
+      subject: options.subject,
+      html: options.html
     };
 
     const result = await transporter.sendMail(mailOptions);

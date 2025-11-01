@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema({
   github: { type: String, default: '' },
   portfolio: { type: String, default: '' },
   
+  // Resume fields
+  resumeFile: { type: String, default: '' }, // Path to uploaded resume file
+  resumeFileName: { type: String, default: '' }, // Original filename
+  resumeUploadedAt: { type: Date },
+  
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

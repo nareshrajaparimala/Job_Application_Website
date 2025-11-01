@@ -590,3 +590,255 @@
     font-size: 0.85rem;
   }
 }
+
+/* Resume Section Styles */
+.resume-info {
+  background: #f8fafc;
+  border-radius: 15px;
+  padding: 2rem;
+}
+
+.resume-section {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.resume-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.resume-header h3 {
+  color: #374151;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.resume-header h3 i {
+  color: #667eea;
+}
+
+.resume-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.resume-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+.resume-details {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.resume-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.resume-info-text h4 {
+  color: #374151;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.resume-info-text p {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.resume-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.manage-resume-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.manage-resume-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.no-resume-card {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 2px dashed #d1d5db;
+  margin-bottom: 2rem;
+}
+
+.no-resume-icon {
+  font-size: 4rem;
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+.no-resume-card h4 {
+  color: #374151;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.no-resume-card p {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.upload-resume-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.upload-resume-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.resume-tips {
+  background: #fef3c7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid #f59e0b;
+}
+
+.resume-tips h4 {
+  color: #92400e;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.resume-tips h4 i {
+  color: #f59e0b;
+}
+
+.resume-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resume-tips li {
+  color: #92400e;
+  padding: 0.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.resume-tips li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #f59e0b;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .resume-info {
+    padding: 1rem;
+  }
+  
+  .resume-section {
+    max-width: 100%;
+  }
+  
+  .resume-header h3 {
+    font-size: 1.4rem;
+  }
+  
+  .resume-header p {
+    font-size: 1rem;
+  }
+  
+  .resume-card {
+    padding: 1.5rem;
+  }
+  
+  .resume-details {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .resume-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .no-resume-card {
+    padding: 2rem 1rem;
+  }
+  
+  .no-resume-icon {
+    font-size: 3rem;
+  }
+  
+  .no-resume-card h4 {
+    font-size: 1.2rem;
+  }
+  
+  .upload-resume-btn,
+  .manage-resume-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .resume-tips {
+    padding: 1rem;
+  }
+  
+  .resume-tips h4 {
+    font-size: 1rem;
+  }
+}

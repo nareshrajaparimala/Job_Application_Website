@@ -13,12 +13,14 @@ function AdminDashboard() {
   const [portfolioRequests, setPortfolioRequests] = useState([]);
   const [govExamApplications, setGovExamApplications] = useState([]);
   const [editingTemplate, setEditingTemplate] = useState(null);
+  const [usersWithResumes, setUsersWithResumes] = useState([]);
 
   useEffect(() => {
     fetchDashboardData();
     fetchTemplates();
     fetchPortfolioRequests();
     fetchGovExamApplications();
+    fetchUsersWithResumes();
     
     // Listen for government exam application updates
     const handleGovExamUpdate = () => {
@@ -172,6 +174,21 @@ function AdminDashboard() {
     }
   };
 
+  const fetchUsersWithResumes = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5010'}/api/resume-upload/admin/all-users`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUsersWithResumes(data.users);
+      }
+    } catch (error) {
+      console.error('Error fetching users with resumes:', error);
+    }
+  };
+
   const updateGovExamStatus = async (applicationId, status, notes = '') => {
     try {
       const token = localStorage.getItem('token');
@@ -288,6 +305,10 @@ function AdminDashboard() {
             <h3>{govExamApplications.length}</h3>
             <p>Gov Exam Applications</p>
           </div>
+          <div className="stat-card">
+            <h3>{usersWithResumes.length}</h3>
+            <p>Users with Resumes</p>
+          </div>
         </div>
       </header>
 
@@ -351,6 +372,12 @@ function AdminDashboard() {
           onClick={() => setActiveTab('resume-apps')}
         >
           Resume Applications
+        </button>
+        <button 
+          className={activeTab === 'user-resumes' ? 'active' : ''} 
+          onClick={() => setActiveTab('user-resumes')}
+        >
+          User Resumes
         </button>
       </nav>
 
@@ -742,6 +769,102 @@ function AdminDashboard() {
                           title="View Details"
                         >
                           <i className="ri-eye-line"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+      
+      {activeTab === 'user-resumes' && (
+        <div className="user-resumes-section">
+          <h2>User Resumes Management</h2>
+          <div className="user-resumes-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>User Details</th>
+                  <th>Resume File</th>
+                  <th>Uploaded Date</th>
+                  <th>Profile Info</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usersWithResumes.map(user => (
+                  <tr key={user._id}>
+                    <td>
+                      <div className="user-info">
+                        <strong>{user.firstName} {user.lastName}</strong>
+                        <br />
+                        <small>{user.email}</small>
+                        <br />
+                        <small>{user.phone}</small>
+                        <br />
+                        <small>Gender: {user.gender}</small>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="resume-file-info">
+                        <i className="ri-file-text-line"></i>
+                        <span>{user.resumeFileName}</span>
+                      </div>
+                    </td>
+                    <td>{new Date(user.resumeUploadedAt).toLocaleDateString()}</td>
+                    <td>
+                      <div className="profile-info">
+                        {user.address && <div><strong>Address:</strong> {user.address}, {user.city}, {user.state}</div>}
+                        {user.skills && user.skills.length > 0 && <div><strong>Skills:</strong> {user.skills.join(', ')}</div>}
+                        {user.experience && <div><strong>Experience:</strong> {user.experience}</div>}
+                        {user.education && <div><strong>Education:</strong> {user.education}</div>}
+                        <div><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="admin-actions">
+                        <button 
+                          className="download-resume-btn"
+                          onClick={async () => {
+                            try {
+                              const token = localStorage.getItem('token');
+                              const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/resume-upload/admin/download/${user._id}`, {
+                                headers: { Authorization: `Bearer ${token}` }
+                              });
+                              
+                              if (response.ok) {
+                                const blob = await response.blob();
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `${user.firstName}_${user.lastName}_Resume.pdf`;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                                document.body.removeChild(a);
+                              } else {
+                                alert('Download failed');
+                              }
+                            } catch (error) {
+                              alert('Download failed');
+                            }
+                          }}
+                          title="Download Resume"
+                        >
+                          <i className="ri-download-line"></i> Download
+                        </button>
+                        <button 
+                          className="view-profile-btn"
+                          onClick={() => {
+                            const profileDetails = `Name: ${user.firstName} ${user.lastName}\nEmail: ${user.email}\nPhone: ${user.phone}\nGender: ${user.gender}\nAddress: ${user.address || 'Not provided'}, ${user.city || ''}, ${user.state || ''}\nSkills: ${user.skills?.join(', ') || 'Not provided'}\nExperience: ${user.experience || 'Not provided'}\nEducation: ${user.education || 'Not provided'}\nResume: ${user.resumeFileName}\nUploaded: ${new Date(user.resumeUploadedAt).toLocaleDateString()}\nJoined: ${new Date(user.createdAt).toLocaleDateString()}`;
+                            alert(profileDetails);
+                          }}
+                          title="View Full Profile"
+                        >
+                          <i className="ri-eye-line"></i> View
                         </button>
                       </div>
                     </td>

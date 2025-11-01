@@ -18,6 +18,17 @@ export const submitResumeApplication = async (req, res) => {
   try {
     const { templateId, userDetails, totalAmount } = req.body;
     const userId = req.user.id;
+    
+    console.log('Resume application request:', { templateId, userDetails, totalAmount, userId });
+
+    // Validate required fields
+    if (!templateId || !userDetails || !totalAmount) {
+      return res.status(400).json({ message: 'Missing required fields: templateId, userDetails, totalAmount' });
+    }
+    
+    if (!userDetails.fullName || !userDetails.email) {
+      return res.status(400).json({ message: 'Missing required user details: fullName, email' });
+    }
 
     if (userId === 'admin') {
       return res.status(403).json({ message: 'Admin cannot submit resume applications' });
@@ -28,14 +39,41 @@ export const submitResumeApplication = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const template = await ResumeTemplate.findById(templateId);
-    if (!template) {
-      return res.status(404).json({ message: 'Template not found' });
+    // Find template by ID or other identifiers
+    let template;
+    
+    console.log('Looking for template with ID:', templateId);
+    
+    // First, get all templates to see what's available
+    const allTemplates = await ResumeTemplate.find({ isActive: true });
+    console.log('Available templates:', allTemplates.map(t => ({ _id: t._id, name: t.name })));
+    
+    // Check if templateId is a valid ObjectId format
+    const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(templateId);
+    
+    if (isValidObjectId) {
+      template = await ResumeTemplate.findById(templateId);
+    } else {
+      // For simple numeric IDs, try to find by array index or create a mapping
+      const templateIndex = parseInt(templateId) - 1; // Convert "2" to index 1
+      if (templateIndex >= 0 && templateIndex < allTemplates.length) {
+        template = allTemplates[templateIndex];
+      }
     }
+    
+    if (!template) {
+      console.log('Template not found for ID:', templateId);
+      return res.status(404).json({ 
+        message: 'Template not found',
+        availableTemplates: allTemplates.map(t => ({ _id: t._id, name: t.name }))
+      });
+    }
+    
+    console.log('Found template:', { _id: template._id, name: template.name });
 
     const application = new ResumeApplication({
       userId,
-      templateId,
+      templateId: template._id, // Use the actual MongoDB ObjectId
       userDetails,
       totalAmount
     });
@@ -135,6 +173,15 @@ export const submitResumeApplication = async (req, res) => {
 
     res.json({ message: 'Resume application submitted successfully', application });
   } catch (error) {
+    console.error('Resume application error:', error);
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: 'Validation error', details: error.message });
+    }
+    if (error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid ID format', details: error.message });
+    }
+    
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

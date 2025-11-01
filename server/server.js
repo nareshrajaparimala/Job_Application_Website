@@ -13,6 +13,7 @@ import internshipRoutes from './routes/internshipRoutes.js';
 import webinarRoutes from './routes/webinarRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
+import resumeUploadRoutes from './routes/resumeUploadRoutes.js';
 import portfolioRoutes from './routes/portfolioRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
 import govExamRoutes from './routes/govExamRoutes.js';
@@ -47,6 +48,11 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+// Handle favicon.ico requests
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end();
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/colleges', collegeRoutes);
@@ -56,6 +62,7 @@ app.use('/api/internships', internshipRoutes);
 app.use('/api/webinars', webinarRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/resume', resumeRoutes);
+app.use('/api/resume-upload', resumeUploadRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/gov-exams', govExamRoutes);

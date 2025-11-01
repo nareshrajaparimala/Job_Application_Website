@@ -7,6 +7,7 @@ import '../components/ScrollAnimations.css';
 import { useScrollAnimation } from '../components/useScrollAnimation';
 import JobCard from '../components/Jobs/JobCard';
 import { sampleJobs } from '../components/Jobs/jobData';
+import ResumeManager from '../components/Resume/ResumeManager';
 
 
 
@@ -23,6 +24,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [globalSearch, setGlobalSearch] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showResumeManager, setShowResumeManager] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   const searchSuggestions = [
     { title: "Government Jobs", url: "/jobs/government", type: "page", description: "Browse all government job openings" },
@@ -53,6 +56,10 @@ export default function Home() {
     setGlobalSearch("");
   };
   useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+    
     setLoading(true);
     
     // Combine government and private jobs, sort by datePosted (most recent first) and take only latest 6
@@ -149,7 +156,18 @@ export default function Home() {
             Government & Private Jobs • Admit Cards • Results • Internships — All in One Place
           </p>
           <div className="hero-buttons">
-            <button className="resume-btn"><i className="ri-mail-line"></i> Post Your Resume</button>
+            <button 
+              className="resume-btn" 
+              onClick={() => {
+                if (isLoggedIn) {
+                  setShowResumeManager(true);
+                } else {
+                  window.location.href = '/login';
+                }
+              }}
+            >
+              <i className="ri-mail-line"></i> Post Your Resume
+            </button>
             <button className="explore-btn" onClick={handleScrollToSearch}><i className="ri-search-line"></i> Explore Jobs</button>
           </div>
         </div>
@@ -386,6 +404,11 @@ export default function Home() {
           </button>
         </form>
       </div>
+      
+      {/* Resume Manager Modal */}
+      {showResumeManager && (
+        <ResumeManager onClose={() => setShowResumeManager(false)} />
+      )}
     </div>
   );
 }

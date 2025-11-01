@@ -64,6 +64,13 @@ router.post('/help-apply', authenticateToken, async (req, res) => {
   try {
     const { examDetails, userDetails } = req.body;
     
+    // Get user from database to ensure we have complete details
+    const User = (await import('../models/userModel.js')).default;
+    const dbUser = await User.findById(req.user.id);
+    if (!dbUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    
     // Check if user has already applied for this exam
     const existingApplication = await GovExamApplication.findOne({
       userId: req.user.id,
@@ -77,6 +84,14 @@ router.post('/help-apply', authenticateToken, async (req, res) => {
       });
     }
     
+    // Use database user details with fallback to request data
+    const finalUserDetails = {
+      name: userDetails.name || `${dbUser.firstName} ${dbUser.lastName}`,
+      email: userDetails.email || dbUser.email,
+      phone: userDetails.phone || dbUser.phone || 'Not provided',
+      id: req.user.id
+    };
+    
     const emailContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
@@ -88,10 +103,10 @@ router.post('/help-apply', authenticateToken, async (req, res) => {
           
           <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h3 style="color: #667eea; margin-top: 0;">User Details:</h3>
-            <p><strong>Name:</strong> ${userDetails.name}</p>
-            <p><strong>Email:</strong> ${userDetails.email}</p>
-            <p><strong>Phone:</strong> ${userDetails.phone || 'Not provided'}</p>
-            <p><strong>User ID:</strong> ${userDetails.id}</p>
+            <p><strong>Name:</strong> ${finalUserDetails.name}</p>
+            <p><strong>Email:</strong> ${finalUserDetails.email}</p>
+            <p><strong>Phone:</strong> ${finalUserDetails.phone}</p>
+            <p><strong>User ID:</strong> ${finalUserDetails.id}</p>
           </div>
           
           <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
@@ -125,9 +140,9 @@ router.post('/help-apply', authenticateToken, async (req, res) => {
       examId: examDetails.id,
       examName: examDetails.postName,
       userDetails: {
-        name: userDetails.name,
-        email: userDetails.email,
-        phone: userDetails.phone
+        name: finalUserDetails.name,
+        email: finalUserDetails.email,
+        phone: finalUserDetails.phone
       },
       examDetails: {
         postName: examDetails.postName,

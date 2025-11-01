@@ -1,6 +1,6 @@
 import FacilityRequest from '../models/facilityRequestModel.js';
 import User from '../models/userModel.js';
-import { sendEmail } from '../utils/sendEmail.js';
+import { sendEmailWithOptions } from '../utils/emailService.js';
 
 export const submitFacilityRequest = async (req, res) => {
   try {
@@ -87,7 +87,7 @@ export const submitFacilityRequest = async (req, res) => {
     `;
 
     try {
-      await sendEmail({
+      await sendEmailWithOptions({
         to: process.env.ADMIN_EMAIL || 'admin@mytechz.in',
         subject: emailSubject,
         html: emailBody

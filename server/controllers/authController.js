@@ -97,7 +97,7 @@ export const loginUser = async (req, res) => {
       const token = jwt.sign(
         { id: 'admin', role: 'admin' },
         process.env.JWT_SECRET,
-        { expiresIn: '7d' }
+        { expiresIn: '100d' }
       );
       return res.status(200).json({
         message: 'Authenticated',
@@ -128,7 +128,7 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '100d' }
     );
     console.log('User authenticated:', user.email);
     console.log('Generated token:', token);

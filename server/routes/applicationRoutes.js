@@ -11,7 +11,7 @@ import {
   getJobById,
   getInternshipById
 } from '../controllers/applicationController.js';
-import { protect, adminOnly } from '../middleware/authMiddleware.js';
+import { authenticateToken, requireAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -23,14 +23,14 @@ router.get('/internships/:internshipId', getInternshipById);
 router.get('/webinars', getWebinars);
 
 // User routes
-router.get('/my-applications', protect, getMyApplications);
-router.post('/apply', protect, applyForJob);
+router.get('/my-applications', authenticateToken, getMyApplications);
+router.post('/apply', authenticateToken, applyForJob);
 
 // Admin routes
-router.get('/all', protect, adminOnly, getAllApplications);
-router.put('/:applicationId/status', protect, adminOnly, updateApplicationStatus);
+router.get('/all', authenticateToken, requireAdmin, getAllApplications);
+router.put('/:applicationId/status', authenticateToken, requireAdmin, updateApplicationStatus);
 
 // Delete route (both user and admin)
-router.delete('/:applicationId', protect, deleteApplication);
+router.delete('/:applicationId', authenticateToken, deleteApplication);
 
 export default router;
