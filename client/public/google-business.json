@@ -1,0 +1,102 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "MytechZ.in",
+  "alternateName": "MytechZ",
+  "description": "Premier technology solutions and job portal company founded by CEO Naresh R, specializing in connecting top talent with leading technology companies across India.",
+  "url": "https://mytechz.in",
+  "logo": "https://mytechz.in/logo.png",
+  "image": "https://mytechz.in/logo.png",
+  "founder": {
+    "@type": "Person",
+    "name": "Naresh R",
+    "jobTitle": "Chief Executive Officer",
+    "description": "Visionary leader and founder of MytechZ.in, driving innovation in technology solutions and career development.",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "MytechZ.in"
+    }
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "IN",
+    "addressRegion": "India"
+  },
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "email": "contact@mytechz.in",
+      "availableLanguage": ["English", "Hindi"]
+    },
+    {
+      "@type": "ContactPoint",
+      "contactType": "business inquiries",
+      "email": "business@mytechz.in"
+    }
+  ],
+  "sameAs": [
+    "https://www.mytechz.in",
+    "https://mytechz.in"
+  ],
+  "keywords": [
+    "MytechZ",
+    "Naresh R CEO",
+    "technology solutions",
+    "job portal",
+    "software development",
+    "IT careers",
+    "tech recruitment",
+    "technology company India",
+    "software jobs",
+    "tech careers",
+    "programming jobs",
+    "developer positions"
+  ],
+  "industry": "Technology",
+  "foundingDate": "2024",
+  "numberOfEmployees": "10-50",
+  "serviceArea": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "areaServed": "India",
+  "knowsAbout": [
+    "Software Development",
+    "Technology Recruitment",
+    "IT Solutions",
+    "Career Development",
+    "Job Placement",
+    "Technology Consulting"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Technology Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Job Portal Services",
+          "description": "Premium job placement and career opportunities in technology sector"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Technology Solutions",
+          "description": "Comprehensive technology consulting and development services"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Career Mentorship",
+          "description": "Professional mentorship and career guidance for tech professionals"
+        }
+      }
+    ]
+  }
+}

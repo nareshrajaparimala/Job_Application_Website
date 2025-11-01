@@ -1,8 +1,16 @@
 {
-  "name": "client",
+  "name": "mytechz-client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "MytechZ.in - Premier Technology Solutions & Job Portal by CEO Naresh R",
+  "keywords": ["MytechZ", "Naresh R", "CEO", "technology", "job portal", "IT careers", "software development"],
+  "author": "Naresh R - CEO, MytechZ.in",
+  "homepage": "https://mytechz.in",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mytechz/website"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

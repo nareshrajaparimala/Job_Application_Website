@@ -5,30 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- SEO Meta Tags -->
-    <title>MytechZ.in - Premier Technology Solutions & Job Portal</title>
-    <meta name="description" content="Find the latest private jobs, internships, and career opportunities on MyTechz.in. Apply today and boost your career.">
-    <meta name="keywords" content="MytechZ, technology jobs, software developer jobs, IT careers, tech recruitment, job portal, programming jobs, developer positions, tech companies, career opportunities" />
-    <meta name="author" content="MytechZ.in" />
+    <title>mytechz | MytechZ.in - Premier Technology Solutions & Job Portal | CEO Naresh R</title>
+    <meta name="description" content="mytechz (MytechZ.in) - India's leading technology solutions company founded by CEO Naresh R. Official website for mytechz job portal, tech careers, software development opportunities, and premium IT services.">
+    <meta name="keywords" content="mytechz, MytechZ, mytechz.in, MytechZ.in, mytechz website, mytechz company, mytechz job portal, mytechz technology, Naresh R CEO, CEO Naresh R, mytechz CEO, technology jobs, software developer jobs, IT careers, tech recruitment, job portal, programming jobs, developer positions, tech companies, career opportunities, technology solutions, IT services, software development, mytechz india, mytechz tech solutions" />
+    <meta name="author" content="Naresh R - CEO, MytechZ.in" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
-    <meta name="revisit-after" content="7 days" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="company" content="MytechZ.in" />
+    <meta name="founder" content="Naresh R" />
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.country" content="India" />
     
     <!-- microsoft sop -->
      <meta name="msvalidate.01" content="BF22DC8D05563BE1966F0F9BB16EBD83" />
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="MytechZ.in - Premier Technology Solutions & Job Portal" />
-    <meta property="og:description" content="Find your dream tech career with MytechZ.in. Connect with top technology companies and explore exciting opportunities in software development, AI, and more." />
+    <meta property="og:title" content="MytechZ.in - Premier Technology Solutions & Job Portal | CEO Naresh R" />
+    <meta property="og:description" content="MytechZ.in, founded by CEO Naresh R, is India's leading technology solutions company. Find premium tech careers, connect with top companies, and explore opportunities in software development, AI, and emerging technologies." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://MytechZ.in" />
+    <meta property="og:url" content="https://mytechz.in" />
     <meta property="og:site_name" content="MytechZ.in" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://mytechz.in/logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MytechZ.in - Premier Technology Solutions & Job Portal" />
-    <meta name="twitter:description" content="Discover top technology careers and connect with leading tech companies at MytechZ.in" />
+    <meta name="twitter:title" content="MytechZ.in - Premier Technology Solutions | CEO Naresh R" />
+    <meta name="twitter:description" content="Leading technology company by CEO Naresh R. Discover premium tech careers and innovative solutions at MytechZ.in" />
     <meta name="twitter:site" content="@MytechZ" />
+    <meta name="twitter:image" content="https://mytechz.in/logo.png" />
     
     <!-- Canonical URL -->
     <!-- <link rel="canonical" href="https://MytechZ.in" /> -->
@@ -43,6 +51,13 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Additional SEO Links -->
+    <link rel="alternate" type="application/json" href="/google-business.json" title="Business Information" />
+    <link rel="alternate" type="application/json" href="/mytechz-brand.json" title="mytechz Brand Information" />
+    
     <!-- DNS Prefetch -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
@@ -52,13 +67,60 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "MytechZ.in",
+      "name": "mytechz",
+      "alternateName": ["MytechZ", "MytechZ.in", "mytechz.in", "mytechz website", "mytechz company"],
       "url": "https://mytechz.in",
       "logo": "https://mytechz.in/logo.png",
-      "description": "Premier technology solutions and job portal connecting talent with top tech companies",
+      "description": "Premier technology solutions and job portal founded by CEO Naresh R, connecting talent with top tech companies across India",
+      "founder": {
+        "@type": "Person",
+        "name": "Naresh R",
+        "jobTitle": "CEO",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "MytechZ.in"
+        }
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "contact@mytechz.in"
+      },
       "sameAs": [
         "https://www.mytechz.in"
-      ]
+      ],
+      "keywords": "technology solutions, job portal, software development, IT careers, tech recruitment, Naresh R CEO",
+      "industry": "Technology",
+      "numberOfEmployees": "10-50"
+    }
+    </script>
+    
+    <!-- Additional Structured Data for Job Portal -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "MytechZ.in",
+      "url": "https://mytechz.in",
+      "description": "India's premier technology job portal and solutions company",
+      "publisher": {
+        "@type": "Organization",
+        "name": "MytechZ.in",
+        "founder": {
+          "@type": "Person",
+          "name": "Naresh R",
+          "jobTitle": "CEO"
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://mytechz.in/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
     
@@ -68,7 +130,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.css" integrity="sha512-kJlvECunwXftkPwyvHbclArO8wszgBGisiLeuDFwNM8ws+wKIw0sv1os3ClWZOcrEB2eRXULYUsm8OVRGJKwGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
-    <h1 style="display: none;"> MytechZ </h1>
+    <h1 style="display: none;">mytechz | MytechZ.in - Premier Technology Solutions by CEO Naresh R</h1>
+    <h2 style="display: none;">mytechz website - Official site of MytechZ.in founded by CEO Naresh R</h2>
+    <h3 style="display: none;">mytechz company - Leading Technology Innovation and Job Portal</h3>
+    <div style="display: none;">
+      <p>mytechz official website</p>
+      <p>mytechz job portal</p>
+      <p>mytechz technology solutions</p>
+      <p>mytechz CEO Naresh R</p>
+      <p>mytechz.in company</p>
+    </div>
     <div id="root" ></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

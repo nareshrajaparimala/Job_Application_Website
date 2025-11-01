@@ -1,4 +1,44 @@
 User-agent: *
 Allow: /
+Allow: /jobs/
+Allow: /internships/
+Allow: /webinars/
+Allow: /admissions/
+Allow: /portfolio/
+Allow: /mentorship/
+Allow: /contact/
+Allow: /about/
+Allow: /ceo-naresh-r/
 
+# Disallow private areas
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /uploads/
+Disallow: /test-login
+Disallow: /settings
+
+# Allow important files
+Allow: /google-business.json
+Allow: /mytechz-brand.json
+Allow: /logo.png
+Allow: /favicon.ico
+Allow: /mytechz
+Allow: /mytechz-company
+
+# Crawl delay
+Crawl-delay: 1
+
+# Sitemaps
 Sitemap: https://mytechz.in/sitemap.xml
+Sitemap: https://mytechz.in/google-business.json
+Sitemap: https://mytechz.in/mytechz-brand.json
+
+# Additional directives for better SEO
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

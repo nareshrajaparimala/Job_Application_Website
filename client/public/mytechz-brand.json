@@ -1,0 +1,41 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Brand",
+  "name": "mytechz",
+  "alternateName": [
+    "MytechZ",
+    "MytechZ.in", 
+    "mytechz.in",
+    "mytechz website",
+    "mytechz company",
+    "mytechz job portal"
+  ],
+  "description": "mytechz is India's premier technology solutions and job portal company founded by CEO Naresh R",
+  "url": "https://mytechz.in",
+  "logo": "https://mytechz.in/logo.png",
+  "founder": {
+    "@type": "Person",
+    "name": "Naresh R",
+    "jobTitle": "CEO and Founder"
+  },
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "MytechZ.in",
+    "url": "https://mytechz.in"
+  },
+  "keywords": [
+    "mytechz",
+    "mytechz website", 
+    "mytechz company",
+    "mytechz job portal",
+    "mytechz technology",
+    "mytechz CEO",
+    "mytechz india"
+  ],
+  "slogan": "Premier Technology Solutions & Job Portal",
+  "foundingDate": "2024",
+  "foundingLocation": {
+    "@type": "Country",
+    "name": "India"
+  }
+}

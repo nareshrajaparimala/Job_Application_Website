@@ -1,0 +1,32 @@
+{
+  "name": "MytechZ.in - Premier Technology Solutions by CEO Naresh R",
+  "short_name": "MytechZ",
+  "description": "India's leading technology job portal and solutions company founded by CEO Naresh R",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "categories": ["business", "productivity", "education"],
+  "lang": "en-US",
+  "scope": "/",
+  "related_applications": [],
+  "prefer_related_applications": false
+}
